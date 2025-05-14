@@ -12,7 +12,7 @@ const SecondaryDropDownMenu = () => {
             redirect: "notification",
         },
         {
-            title: "Sell on Shop200",
+            title: "Sell on RedCart24X7",
             icon: <BusinessCenterIcon sx={{ fontSize: "18px" }} />,
             redirect: "/seller/home",
         },

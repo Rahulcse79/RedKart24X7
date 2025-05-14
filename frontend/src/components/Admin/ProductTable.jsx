@@ -161,7 +161,7 @@ const ProductTable = () => {
 
     return (
         <>
-            <MetaData title="Admin Products | Shop200" />
+            <MetaData title="Admin Products | RedCart24X7" />
 
             {loading && <BackdropLoader />}
 

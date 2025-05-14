@@ -49,7 +49,7 @@ const sendEmail = async (options) => {
     });
 
     const mailOptions = {
-        from: `"Shop200" <${MailUser}>`,
+        from: `"RedCart24X7" <${MailUser}>`,
         to: options.email,
         subject: options.subject,
         html: options.message,
@@ -102,11 +102,11 @@ const generateRandomOTP = () => {
 const SendOTP = async (email, UseFor) => {
 
     const otp = generateRandomOTP();
-    const MailSubject = "Your Shop200 OTP Code";
+    const MailSubject = "Your RedCart24X7 OTP Code";
     const MailText = `
 Dear ${UseFor},
 
-Thank you for using Shop200. Your One-Time Password (OTP) is:
+Thank you for using RedCart24X7. Your One-Time Password (OTP) is:
 
 ${otp}
 
@@ -115,7 +115,7 @@ This OTP is valid for 5 minutes. Please do not share it with anyone.
 If you did not request this OTP, you can ignore this message.
 
 Best regards,
-Shop200 Team
+RedCart24X7 Team
   `;
 
     const result = await SendmailTootp(email, MailSubject, MailText);

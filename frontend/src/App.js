@@ -45,7 +45,7 @@ function App() {
         <Imports.Route path="/giftCards" element={<Imports.GiftCards />} />
         <Imports.Route path="/helpCenter" element={<Imports.HelpCenter />} />
 
-        <Imports.Route path="/seller/home" element={<Imports.SellOnShop200 />} />
+        <Imports.Route path="/seller/home" element={<Imports.SellOnRedCart24X7 />} />
         <Imports.Route path="/seller/login" element={<Imports.SellerLogin />} />
         <Imports.Route path="/seller/otp/based/login" element={<Imports.SellerOTPBasedLogin />} />
         <Imports.Route path="/seller/register" element={<Imports.SellerRegister />} />

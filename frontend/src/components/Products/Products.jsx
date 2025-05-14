@@ -61,7 +61,7 @@ const Products = () => {
 
     return (
         <>
-            <MetaData title="All Products | Shop200" />
+            <MetaData title="All Products | RedCart24X7" />
 
             <MinCategory />
             <main className="w-full mt-14 sm:mt-0">

@@ -82,4 +82,4 @@ export { default as ReviewsTable } from './components/Admin/ReviewsTable';
 export { default as DownloadAppPage } from './components/Temp_pages/DownloadAPPPage';
 export { default as GiftCards } from './components/Temp_pages/GiftCards';
 export { default as HelpCenter } from './components/Temp_pages/HelpCenter';
-export { default as SellOnShop200 } from './components/Seller/SellOnShop200';
+export { default as SellOnRedCart24X7 } from './components/Seller/SellOnRedCart24X7';

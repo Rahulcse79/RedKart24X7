@@ -10,31 +10,31 @@ const footerLinks = [
     links: [
       {
         name: "Contact Us",
-        redirect: "https://www.Shop200.com/helpcentre",
+        redirect: "https://www.RedCart24X7.com/helpcentre",
       },
       {
         name: "About Us",
-        redirect: "https://www.Shop200.com/about-us",
+        redirect: "https://www.RedCart24X7.com/about-us",
       },
       {
         name: "Careers",
-        redirect: "https://www.Shop200careers.com",
+        redirect: "https://www.RedCart24X7careers.com",
       },
       {
-        name: "Shop200 Stories",
-        redirect: "https://stories.Shop200.com",
+        name: "RedCart24X7 Stories",
+        redirect: "https://stories.RedCart24X7.com",
       },
       {
         name: "Press",
-        redirect: "https://stories.Shop200.com/category/top-stories/news",
+        redirect: "https://stories.RedCart24X7.com/category/top-stories/news",
       },
       {
-        name: "Shop200 Wholesale",
-        redirect: "https://www.Shop200wholesale.com",
+        name: "RedCart24X7 Wholesale",
+        redirect: "https://www.RedCart24X7wholesale.com",
       },
       {
         name: "Corporate Information",
-        redirect: "https://www.Shop200.com/corporate-information",
+        redirect: "https://www.RedCart24X7.com/corporate-information",
       },
     ]
   },
@@ -43,19 +43,19 @@ const footerLinks = [
     links: [
       {
         name: "Payments",
-        redirect: "https://www.Shop200.com/pages/payments",
+        redirect: "https://www.RedCart24X7.com/pages/payments",
       },
       {
         name: "Shipping",
-        redirect: "https://www.Shop200.com/pages/shipping",
+        redirect: "https://www.RedCart24X7.com/pages/shipping",
       },
       {
         name: "Cancellation & Returns",
-        redirect: "https://www.Shop200.com/helpcentre?catalog=55c9c6edb000002e002c1701&view=CATALOG",
+        redirect: "https://www.RedCart24X7.com/helpcentre?catalog=55c9c6edb000002e002c1701&view=CATALOG",
       },
       {
         name: "FAQ",
-        redirect: "https://www.Shop200.com/helpcentre?catalog=55c9c8e2b0000023002c1702&view=CATALOG",
+        redirect: "https://www.RedCart24X7.com/helpcentre?catalog=55c9c8e2b0000023002c1702&view=CATALOG",
       }
     ]
   },
@@ -64,27 +64,27 @@ const footerLinks = [
     links: [
       {
         name: "Return Policy",
-        redirect: "https://www.Shop200.com/pages/returnpolicy",
+        redirect: "https://www.RedCart24X7.com/pages/returnpolicy",
       },
       {
         name: "Terms Of Use",
-        redirect: "https://www.Shop200.com/pages/terms",
+        redirect: "https://www.RedCart24X7.com/pages/terms",
       },
       {
         name: "Security",
-        redirect: "https://www.Shop200.com/pages/paymentsecurity",
+        redirect: "https://www.RedCart24X7.com/pages/paymentsecurity",
       },
       {
         name: "Privacy",
-        redirect: "https://www.Shop200.com/pages/privacypolicy",
+        redirect: "https://www.RedCart24X7.com/pages/privacypolicy",
       },
       {
         name: "Sitemap",
-        redirect: "https://www.Shop200.com/sitemap",
+        redirect: "https://www.RedCart24X7.com/sitemap",
       },
       {
         name: "EPR Compliance",
-        redirect: "https://www.Shop200.com/pages/ewaste-compliance-tnc",
+        redirect: "https://www.RedCart24X7.com/pages/ewaste-compliance-tnc",
       },
     ]
   },
@@ -93,15 +93,15 @@ const footerLinks = [
     links: [
       {
         name: "Facebook",
-        redirect: "https://www.facebook.com/Shop200",
+        redirect: "https://www.facebook.com/RedCart24X7",
       },
       {
         name: "Twitter",
-        redirect: "https://twitter.com/Shop200",
+        redirect: "https://twitter.com/RedCart24X7",
       },
       {
         name: "YouTube",
-        redirect: "https://www.youtube.com/Shop200",
+        redirect: "https://www.youtube.com/RedCart24X7",
       }
     ]
   }
@@ -139,7 +139,7 @@ const Footer = () => {
             <div className="w-full sm:w-5/12 my-6 mx-5 sm:mx-0 flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between">
               <div className="w-full sm:w-1/2">
                 <h2 className="text-primary-grey">Mail Us:</h2>
-                <p className="mt-2 leading-5">Shop200 Internet Private Limited,<br />
+                <p className="mt-2 leading-5">RedCart24X7 Internet Private Limited,<br />
                   Buildings Alyssa, Begonia &<br />
                   Clove Embassy Tech Village,<br />
                   Outer Ring Road, Devarabeesanahalli Village,<br />
@@ -150,7 +150,7 @@ const Footer = () => {
 
               <div className="w-full sm:w-1/2">
                 <h2 className="text-primary-grey">Registered Office Address:</h2>
-                <p className="mt-2 leading-5">Shop200 Internet Private Limited,<br />
+                <p className="mt-2 leading-5">RedCart24X7 Internet Private Limited,<br />
                   Buildings Alyssa, Begonia &<br />
                   Clove Embassy Tech Village,<br />
                   Outer Ring Road, Devarabeesanahalli Village,<br />
@@ -170,7 +170,7 @@ const Footer = () => {
               <span className="text-red-400">
                 <CardGiftcardIcon sx={{ fontSize: "20px" }} />
               </span>
-              Sell On Shop200
+              Sell On RedCart24X7
             </Link>
             <Link to="/giftCards" className="flex items-center gap-2">
               <span className="text-red-400">
@@ -184,7 +184,7 @@ const Footer = () => {
               </span>
               Help center
             </Link>
-            <span>&copy; 2025-{new Date().getFullYear()} Shop200.com</span>
+            <span>&copy; 2025-{new Date().getFullYear()} RedCart24X7.com</span>
             <img draggable="false" src={paymentMethods} alt="Card Payment" />
           </div>
         </>

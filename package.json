@@ -1,19 +1,18 @@
 {
-  "name": "Shop200",
+  "name": "RedCart24X7",
   "version": "1.0.0",
-  "description": "Full Stack Shop200 Ecommerce",
+  "description": "Full Stack RedCart24X7 Ecommerce",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
     "frontend": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
-    "render-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
+    "dev": "concurrently \"npm run server\" \"npm run frontend\""
   },
-  "author": "Jigar Sable",
-  "license": "ISC",
+  "author": "Rahul singh",
+  "license": "All Rights Reserved",
   "dependencies": {
-    "@sendgrid/mail": "^8.1.5",
+    "@sendgrid/mail": "^7.6.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.1",
     "cloudinary": "^1.28.1",
@@ -22,7 +21,7 @@
     "dotenv": "^14.2.0",
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.7",
     "nodemailer": "^6.7.2",
     "paytmchecksum": "^1.5.0",

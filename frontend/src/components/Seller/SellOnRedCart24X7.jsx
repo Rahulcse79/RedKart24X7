@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 
-const SellOnShop200 = () => {
+const SellOnRedCart24X7 = () => {
 
     const { loading, isAuthenticated } = useSelector(state => state.seller);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -17,9 +17,9 @@ const SellOnShop200 = () => {
     const highlights = [
         {
             icon: "👥",
-            title: "1k+ Shop200 Customers",
+            title: "1k+ RedCart24X7 Customers",
             highlights: "",
-            description: "Join over 1,000 trusted customers who have already chosen Shop200 to grow their businesses. Our platform provides everything you need to succeed online."
+            description: "Join over 1,000 trusted customers who have already chosen RedCart24X7 to grow their businesses. Our platform provides everything you need to succeed online."
         },
         {
             icon: "📞",
@@ -37,51 +37,51 @@ const SellOnShop200 = () => {
 
 
     const sellerStories = [
-        { name: "Vinay Garg, Activa & Digi Smart", quote: "Joining Shop200 boosted my business reach. The platform’s payment system and customer support are excellent!", image: "https://via.placeholder.com/80?text=Vinay" },
-        { name: "Priya Sharma, Trendy Threads", quote: "Shop200 helped me turn my hobby into a real business. Sales are smooth and customer engagement is fantastic!", image: "https://via.placeholder.com/80?text=Priya" },
-        { name: "Rohit Mehra, Home Essentials", quote: "Thanks to Shop200, my small home decor store now reaches customers all over India.", image: "https://via.placeholder.com/80?text=Rohit" },
-        { name: "Anjali Patel, Craft Corner", quote: "I started with zero knowledge, but Shop200’s seller support made it easy to grow.", image: "https://via.placeholder.com/80?text=Anjali" },
-        { name: "Aman Verma, TechBuzz", quote: "Tech sales skyrocketed after I joined Shop200. The interface is clean and seller-friendly.", image: "https://via.placeholder.com/80?text=Aman" },
-        { name: "Sneha Jain, Ethnic Wears", quote: "My ethnic fashion brand found its audience faster than I imagined, thanks to Shop200.", image: "https://via.placeholder.com/80?text=Sneha" },
+        { name: "Vinay Garg, Activa & Digi Smart", quote: "Joining RedCart24X7 boosted my business reach. The platform’s payment system and customer support are excellent!", image: "https://via.placeholder.com/80?text=Vinay" },
+        { name: "Priya Sharma, Trendy Threads", quote: "RedCart24X7 helped me turn my hobby into a real business. Sales are smooth and customer engagement is fantastic!", image: "https://via.placeholder.com/80?text=Priya" },
+        { name: "Rohit Mehra, Home Essentials", quote: "Thanks to RedCart24X7, my small home decor store now reaches customers all over India.", image: "https://via.placeholder.com/80?text=Rohit" },
+        { name: "Anjali Patel, Craft Corner", quote: "I started with zero knowledge, but RedCart24X7’s seller support made it easy to grow.", image: "https://via.placeholder.com/80?text=Anjali" },
+        { name: "Aman Verma, TechBuzz", quote: "Tech sales skyrocketed after I joined RedCart24X7. The interface is clean and seller-friendly.", image: "https://via.placeholder.com/80?text=Aman" },
+        { name: "Sneha Jain, Ethnic Wears", quote: "My ethnic fashion brand found its audience faster than I imagined, thanks to RedCart24X7.", image: "https://via.placeholder.com/80?text=Sneha" },
         { name: "Arjun Malhotra, GadgetHub", quote: "Highly recommended for gadget sellers! Timely payments and genuine buyers.", image: "https://via.placeholder.com/80?text=Arjun" },
-        { name: "Pooja Kaur, Kitchen Karma", quote: "My kitchenware brand became a household name with the help of Shop200's wide reach.", image: "https://via.placeholder.com/80?text=Pooja" },
-        { name: "Ramesh Bhatia, Daily Needs Mart", quote: "Shop200 made local delivery and customer management super easy for my grocery store.", image: "https://via.placeholder.com/80?text=Ramesh" },
-        { name: "Neha Khanna, Decor Dreams", quote: "Decor Dreams scaled from 10 orders a month to 500+ after joining Shop200!", image: "https://via.placeholder.com/80?text=Neha" }
+        { name: "Pooja Kaur, Kitchen Karma", quote: "My kitchenware brand became a household name with the help of RedCart24X7's wide reach.", image: "https://via.placeholder.com/80?text=Pooja" },
+        { name: "Ramesh Bhatia, Daily Needs Mart", quote: "RedCart24X7 made local delivery and customer management super easy for my grocery store.", image: "https://via.placeholder.com/80?text=Ramesh" },
+        { name: "Neha Khanna, Decor Dreams", quote: "Decor Dreams scaled from 10 orders a month to 500+ after joining RedCart24X7!", image: "https://via.placeholder.com/80?text=Neha" }
     ];
 
     const ReadItems = [
         {
             name: "Create Account",
-            text: `Create Your Shop200 Seller Account
-    Starting your journey as a seller on Shop200 is simple, fast, and hassle-free! Setting up your account takes less than 10 minutes — and you only need 3 basic documents to begin.
+            text: `Create Your RedCart24X7 Seller Account
+    Starting your journey as a seller on RedCart24X7 is simple, fast, and hassle-free! Setting up your account takes less than 10 minutes — and you only need 3 basic documents to begin.
     
-    We’ve created an easy-to-follow checklist to help you prepare. With your documents ready, you’ll breeze through the setup and unlock the opportunity to showcase your products to thousands of eager shoppers on Shop200.
+    We’ve created an easy-to-follow checklist to help you prepare. With your documents ready, you’ll breeze through the setup and unlock the opportunity to showcase your products to thousands of eager shoppers on RedCart24X7.
     
-    Don’t wait — join the growing community of sellers, grow your business, and reach new customers with Shop200’s trusted and secure platform.
+    Don’t wait — join the growing community of sellers, grow your business, and reach new customers with RedCart24X7’s trusted and secure platform.
     
     ✅ Fast registration
     ✅ Only 3 documents required
     ✅ No hidden fees — only growth opportunities!
     
-    Get started today and turn your products into profits with Shop200 — where online selling becomes easy and rewarding.`
+    Get started today and turn your products into profits with RedCart24X7 — where online selling becomes easy and rewarding.`
         },
         {
             name: "List Products",
-            text: `List Your Products — Make Them Shine on Shop200
+            text: `List Your Products — Make Them Shine on RedCart24X7
     What is product listing?
-    Listing is the process of adding your products to Shop200’s marketplace, making them visible and accessible to millions of potential customers. This step involves creating a detailed and attractive product page that showcases your items with essential information like the product title, description, images, pricing, and specifications.
+    Listing is the process of adding your products to RedCart24X7’s marketplace, making them visible and accessible to millions of potential customers. This step involves creating a detailed and attractive product page that showcases your items with essential information like the product title, description, images, pricing, and specifications.
     
-    A well-structured and complete listing not only builds trust but also increases the chances of your product being discovered and purchased on Shop200.
+    A well-structured and complete listing not only builds trust but also increases the chances of your product being discovered and purchased on RedCart24X7.
     
-    💡 Pro Tip: Sellers who upload clear, high-quality images and write accurate, detailed descriptions see up to 15% more visibility and engagement from customers on Shop200.`
+    💡 Pro Tip: Sellers who upload clear, high-quality images and write accurate, detailed descriptions see up to 15% more visibility and engagement from customers on RedCart24X7.`
         },
         {
             name: "Storage & Shipping",
-            text: `At Shop200, we make sure your products not only reach the right customer but arrive safe and on time. Whether you manage your own inventory or use our trusted fulfillment network, we’ve designed flexible storage and shipping solutions to help your business grow smoothly.
+            text: `At RedCart24X7, we make sure your products not only reach the right customer but arrive safe and on time. Whether you manage your own inventory or use our trusted fulfillment network, we’ve designed flexible storage and shipping solutions to help your business grow smoothly.
     
     Our reliable shipping partners and efficient logistics system ensure that your orders are picked, packed, and delivered with care — every single time.
     
-    📦 Why choose Shop200 for storage & shipping?
+    📦 Why choose RedCart24X7 for storage & shipping?
     
     Hassle-free dispatch: Once an order is placed, you pack — we handle the rest.
     
@@ -89,19 +89,19 @@ const SellOnShop200 = () => {
     
     Real-time tracking: Keep both you and your buyers updated, every step of the way.
     
-    Storage options: Whether you store products yourself or choose Shop200 warehousing, your inventory is always ready for dispatch.
+    Storage options: Whether you store products yourself or choose RedCart24X7 warehousing, your inventory is always ready for dispatch.
     
     Focus on growing your brand while we handle the heavy lifting.
-    Shop200’s storage and shipping service makes sure your products are always on the move — from your store to your customer’s doorstep.`
+    RedCart24X7’s storage and shipping service makes sure your products are always on the move — from your store to your customer’s doorstep.`
         },
         {
             name: "Receive Payments",
             text: `Receive Payments — Fast, Secure & Transparent
-    At Shop200, we believe your hard work deserves a smooth and reliable payout process. As soon as you make a sale, our system ensures that your payments are processed quickly, securely, and without unnecessary delays.
+    At RedCart24X7, we believe your hard work deserves a smooth and reliable payout process. As soon as you make a sale, our system ensures that your payments are processed quickly, securely, and without unnecessary delays.
     
     No more chasing payments or worrying about transaction safety — your earnings are transferred directly to your registered bank account on time, every time.
     
-    💸 Why Shop200 payment system stands out?
+    💸 Why RedCart24X7 payment system stands out?
     
     Timely Settlements: Get paid on a predictable schedule, so you can plan your business confidently.
     
@@ -111,14 +111,14 @@ const SellOnShop200 = () => {
     
     Flexible Payment Options: Support for multiple payment methods — UPI, wallets, credit cards, COD — to ensure customer convenience and smooth business growth for you.
     
-    With Shop200, your focus stays on selling, while we take care of ensuring your earnings reach you on time — without the guesswork.`
+    With RedCart24X7, your focus stays on selling, while we take care of ensuring your earnings reach you on time — without the guesswork.`
         },
         {
             name: "Grow Faster",
-            text: `Grow Faster with Shop200 — Your Success, Our Mission
-    At Shop200, we don’t just help you set up shop — we empower your business to scale and thrive in the digital marketplace. Whether you’re a new seller or an experienced entrepreneur, our platform offers the tools and insights you need to grow your brand and boost your sales.
+            text: `Grow Faster with RedCart24X7 — Your Success, Our Mission
+    At RedCart24X7, we don’t just help you set up shop — we empower your business to scale and thrive in the digital marketplace. Whether you’re a new seller or an experienced entrepreneur, our platform offers the tools and insights you need to grow your brand and boost your sales.
     
-    🚀 Why sellers grow faster on Shop200?
+    🚀 Why sellers grow faster on RedCart24X7?
     
     Powerful Promotions: Unlock marketing campaigns and discount tools designed to attract more customers and increase conversions.
     
@@ -128,14 +128,14 @@ const SellOnShop200 = () => {
     
     Dedicated Support: Our expert seller support team is always here to help you overcome challenges and keep your business moving forward.
     
-    Join Shop200 today and transform your small shop into a growing online brand. The faster you start, the sooner you sell — and the higher you soar.`
+    Join RedCart24X7 today and transform your small shop into a growing online brand. The faster you start, the sooner you sell — and the higher you soar.`
         },
         {
             name: "Seller App",
             text: `Seller App — Manage Your Shop Anytime, Anywhere!
-    Running your online store is now as easy as using your phone! With the Shop200 Seller App, you can stay connected to your business whether you're at home, in the office, or on the go.
+    Running your online store is now as easy as using your phone! With the RedCart24X7 Seller App, you can stay connected to your business whether you're at home, in the office, or on the go.
     
-    📱 Why choose the Shop200 Seller App?
+    📱 Why choose the RedCart24X7 Seller App?
     
     Real-Time Order Alerts: Get instant notifications every time a customer places an order.
     
@@ -147,14 +147,14 @@ const SellOnShop200 = () => {
     
     Performance Insights: View your daily sales, product rankings, and growth stats to plan your next big move.
     
-    The Shop200 Seller App puts your entire shop in your pocket, so you’re always in control — no matter where life takes you.`
+    The RedCart24X7 Seller App puts your entire shop in your pocket, so you’re always in control — no matter where life takes you.`
         },
         {
             name: "Help & Support",
             text: `Help & Support — We're Here for You, Always!
-    At Shop200, your success is our priority. Whether you're setting up your store, managing orders, or scaling your business — our dedicated support team is always ready to help you at every step.
+    At RedCart24X7, your success is our priority. Whether you're setting up your store, managing orders, or scaling your business — our dedicated support team is always ready to help you at every step.
     
-    💡 How Shop200 Supports You:
+    💡 How RedCart24X7 Supports You:
     
     24/7 Customer Support: Get assistance anytime via chat, email, or call — because we know business doesn’t stop.
     
@@ -164,7 +164,7 @@ const SellOnShop200 = () => {
     
     Community & Forums: Connect with fellow sellers, share experiences, and grow together. Learn from the best — and become one!
     
-    Your journey with Shop200 isn’t just about selling — it’s about growing confidently, knowing help is always just a click away.`
+    Your journey with RedCart24X7 isn’t just about selling — it’s about growing confidently, knowing help is always just a click away.`
         }
     ];
 
@@ -192,7 +192,7 @@ const SellOnShop200 = () => {
 
     return (
         <>
-            <MetaData title="Sell on Shop200" />
+            <MetaData title="Sell on RedCart24X7" />
             {loading ? <Loader /> : (
                 <>
                     <MinCategory />
@@ -200,8 +200,8 @@ const SellOnShop200 = () => {
                     <main className="w-full mt-12 sm:mt-0 flex flex-col items-center bg-white">
 
                         <div className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 py-12 text-center text-white">
-                            <img src={Logo} alt="Shop200 Logo" className="mx-auto mb-4 w-28 h-auto" />
-                            <h1 className="text-4xl font-bold">Sell Online with Shop200</h1>
+                            <img src={Logo} alt="RedCart24X7 Logo" className="mx-auto mb-4 w-28 h-auto" />
+                            <h1 className="text-4xl font-bold">Sell Online with RedCart24X7</h1>
                             <p className="mt-2 text-lg">Reach thousands of customers and grow your business effortlessly!</p>
                             <div className="mt-6 space-x-4">
                                 {!isAuthenticated ? (
@@ -249,7 +249,7 @@ const SellOnShop200 = () => {
                                                             </div>
                                                         </>
                                                     ) : (
-                                                        <span className="font-medium text-2xl text-center text-gray-600">Sell Online with Shop200!</span>
+                                                        <span className="font-medium text-2xl text-center text-gray-600">Sell Online with RedCart24X7!</span>
                                                     )}
                                                 </div>
                                             </div>
@@ -257,11 +257,7 @@ const SellOnShop200 = () => {
                                     </div>
                                 </div>
                             )}
-
-
-
                         </div>
-
 
                         <section className="w-full p-9 max-w-4xl mx-auto" >
                             <h2 className="text-3xl font-bold text-blue-600 mb-8 text-center">Seller Success Stories</h2>
@@ -318,7 +314,7 @@ const SellOnShop200 = () => {
                                                     <p>{selectedItem.text}</p>
                                                 </>
                                             ) : (
-                                                <span className="font-medium text-2xl">Sell Online with Shop200 !</span>
+                                                <span className="font-medium text-2xl">Sell Online with RedCart24X7 !</span>
                                             )}
                                         </div>
                                     </div>
@@ -328,12 +324,12 @@ const SellOnShop200 = () => {
 
                         <section className="bg-blue-50 py-10 text-center w-full">
                             <h3 className="text-2xl font-bold text-gray-800">Ready to start selling?</h3>
-                            <p className="text-gray-600 mt-2">Join Shop200 today and unlock your business growth!</p>
+                            <p className="text-gray-600 mt-2">Join RedCart24X7 today and unlock your business growth!</p>
                             <Link to="/seller/register" className="mt-4 inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-blue-700 transition">Register Now</Link>
                         </section>
 
                         <section className="p-8 text-center text-gray-500 text-sm">
-                            <p>Shop200 is here to empower small and large businesses alike. Start your journey today!</p>
+                            <p>RedCart24X7 is here to empower small and large businesses alike. Start your journey today!</p>
                         </section>
 
                     </main>
@@ -343,4 +339,4 @@ const SellOnShop200 = () => {
     );
 };
 
-export default SellOnShop200;
+export default SellOnRedCart24X7;

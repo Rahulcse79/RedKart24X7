@@ -141,7 +141,7 @@ const HelpCenter = () => {
                                     <div className="flex flex-col gap-5 items-start">
                                         <span className="font-medium text-2xl">Help Center</span>
                                         <p className="text-gray-600 text-base leading-relaxed">
-                                            Welcome to the Shop200 Help Center! Whether you need assistance tracking orders, handling returns and refunds,
+                                            Welcome to the RedCart24X7 Help Center! Whether you need assistance tracking orders, handling returns and refunds,
                                             or solving payment queries, we’re here for you 24x7. Explore our resources and get your questions resolved quickly,
                                             so you can get back to enjoying your shopping experience.
                                             Reach out anytime — we’re happy to help!
@@ -253,11 +253,11 @@ const HelpCenter = () => {
                             <div className="flex-1 overflow-hidden shadow bg-white rounded-2xl">
                                 <div className="flex flex-col gap-12 m-4 sm:mx-8 sm:my-6">
                                     <div className="flex flex-col gap-5 items-start">
-                                        <span className="font-medium text-2xl">Shop200 Help Centre: Get All Your Shopping Solutions Here</span>
+                                        <span className="font-medium text-2xl">RedCart24X7 Help Centre: Get All Your Shopping Solutions Here</span>
                                         <p>
-                                            Once you place an order on any online store, the next step is the excitement of waiting for your product to arrive. At Shop200, we know this wait can sometimes feel uncertain if you don’t receive timely updates or helpful support after your order is placed. That’s exactly why the Shop200 Help Centre is designed to make your experience smooth, easy, and stress-free by offering reliable assistance for all your shopping-related queries.
+                                            Once you place an order on any online store, the next step is the excitement of waiting for your product to arrive. At RedCart24X7, we know this wait can sometimes feel uncertain if you don’t receive timely updates or helpful support after your order is placed. That’s exactly why the RedCart24X7 Help Centre is designed to make your experience smooth, easy, and stress-free by offering reliable assistance for all your shopping-related queries.
 
-                                            With Shop200, online shopping has become more convenient than ever. Whether you’re shopping for electronics, fashion, groceries, home essentials, or personal care — everything you need is just a few clicks away. But we also understand that even the smallest issue can turn a great shopping experience into a frustrating one. To ensure that your journey with us stays positive, the Shop200 Help Centre is always ready to assist you — from resolving order-related concerns to helping you manage your returns, payments, and account settings.
+                                            With RedCart24X7, online shopping has become more convenient than ever. Whether you’re shopping for electronics, fashion, groceries, home essentials, or personal care — everything you need is just a few clicks away. But we also understand that even the smallest issue can turn a great shopping experience into a frustrating one. To ensure that your journey with us stays positive, the RedCart24X7 Help Centre is always ready to assist you — from resolving order-related concerns to helping you manage your returns, payments, and account settings.
                                         </p>
                                     </div>
                                 </div>

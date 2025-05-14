@@ -91,7 +91,7 @@ const Payment = () => {
 
     return (
         <>
-            <MetaData title="Shop200: Secure Payment | Paytm" />
+            <MetaData title="RedCart24X7: Secure Payment | Paytm" />
 
             <main className="w-full mt-20">
 

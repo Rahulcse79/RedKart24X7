@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const MONGO_URI = "mongodb+srv://rahulsinghcse79:Rahul%40r1.14l@freemongodb.guz6ovf.mongodb.net/Shop200?retryWrites=true&w=majority&appName=FreeMongodb";
+const MONGO_URI = "mongodb+srv://rahulsinghcse79:Rahul%40r1.14l@freemongodb.guz6ovf.mongodb.net/RedCart24X7?retryWrites=true&w=majority&appName=FreeMongodb";
 
 const connectDatabase = () => {
     mongoose.set('strictQuery', true); 

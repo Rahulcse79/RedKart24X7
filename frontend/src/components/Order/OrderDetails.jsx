@@ -26,7 +26,7 @@ const OrderDetails = () => {
 
     return (
         <>
-            <MetaData title="Order Details | Shop200" />
+            <MetaData title="Order Details | RedCart24X7" />
 
             <MinCategory />
             <main className="w-full mt-14 sm:mt-4">

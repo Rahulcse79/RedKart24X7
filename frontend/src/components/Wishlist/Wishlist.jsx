@@ -10,7 +10,7 @@ const Wishlist = () => {
 
     return (
         <>
-            <MetaData title="Wishlist | Shop200" />
+            <MetaData title="Wishlist | RedCart24X7" />
 
             <MinCategory />
             <main className="w-full mt-12 sm:mt-0">

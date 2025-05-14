@@ -13,7 +13,7 @@ const OrderConfirm = () => {
 
     return (
         <>
-        <MetaData title="Shop200: Order Confirmation" />
+        <MetaData title="RedCart24X7: Order Confirmation" />
 
         <main className="w-full mt-20">
 

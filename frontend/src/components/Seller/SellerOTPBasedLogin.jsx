@@ -114,11 +114,11 @@ const OTP = () => {
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">
 
                 <div className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 py-12 text-center text-white">
-                    <img src={Logo} alt="Shop200 Logo" className="mx-auto mb-4 w-28 h-auto" />
-                    <h1 className="text-4xl font-bold">Welcome to Shop200 Seller Portal</h1>
+                    <img src={Logo} alt="RedCart24X7 Logo" className="mx-auto mb-4 w-28 h-auto" />
+                    <h1 className="text-4xl font-bold">Welcome to RedCart24X7 Seller Portal</h1>
                     <p className="mt-2 text-lg">
                         Unlock your business potential — connect with thousands of customers, manage orders with ease,
-                        and grow smarter with Shop200.
+                        and grow smarter with RedCart24X7.
                     </p>
                     <p className="mt-1 text-sm text-blue-100">
                         Secure OTP login ensures fast and safe access to your seller account.
@@ -163,9 +163,9 @@ const OTP = () => {
                                     )}
                                     <div className="flex flex-col gap-2.5 mt-2 mb-32">
                                         <p className="text-xs text-gray-500 text-left">
-                                            By continuing, you agree to Shop200's
-                                            <a href="https://www.Shop200.com/pages/terms" className="text-red-600 font-semibold ml-1">Terms of Use</a> and
-                                            <a href="https://www.Shop200.com/pages/privacypolicy" className="text-red-600 font-semibold ml-1">Privacy Policy.</a>
+                                            By continuing, you agree to RedCart24X7's
+                                            <a href="https://www.RedCart24X7.com/pages/terms" className="text-red-600 font-semibold ml-1">Terms of Use</a> and
+                                            <a href="https://www.RedCart24X7.com/pages/privacypolicy" className="text-red-600 font-semibold ml-1">Privacy Policy.</a>
                                         </p>
                                         <button type="submit" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Submit</button>
                                         <button type="button" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium" onClick={() => navigate("/seller/login")}>Login by Password</button>
@@ -174,7 +174,7 @@ const OTP = () => {
                             </form>
                             <div className="mt-4">
                                 <Link to="/seller/register" className="text-sm text-gray-600">
-                                    New to Shop200? <span className="text-red-600 font-semibold hover:underline">Create an seller account</span>
+                                    New to RedCart24X7? <span className="text-red-600 font-semibold hover:underline">Create an seller account</span>
                                 </Link>
                             </div>
                         </div>

@@ -122,7 +122,7 @@ const UserTable = () => {
 
     return (
         <>
-            <MetaData title="Admin Users | Shop200" />
+            <MetaData title="Admin Users | RedCart24X7" />
 
             {loading && <BackdropLoader />}
 
