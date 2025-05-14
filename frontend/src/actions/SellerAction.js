@@ -125,7 +125,7 @@ export const registerSeller = (sellerData) => async (dispatch) => {
             },
         }
 
-        const { data } = await axios.post(
+        const data = await axios.post(
             'http://localhost:4000/api/v1/seller/register',
             sellerData,
             config

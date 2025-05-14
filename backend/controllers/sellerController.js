@@ -39,6 +39,8 @@ exports.registerSeller = asyncErrorHandler(async (req, res, next) => {
             },
         });
 
+        console.log("[REGISTER] init seller store:", email);
+
         const sellerData = await SellerData.create({
             email
         });

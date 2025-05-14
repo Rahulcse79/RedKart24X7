@@ -3,14 +3,8 @@ const mongoose = require('mongoose');
 const sellerSchema = new mongoose.Schema({
     email: {
         type: String,
-        required: [true, "Please enter your email"],
+        required: [true, "Please Enter Your Email"],
         unique: true,
-        trim: true,
-        lowercase: true,
-        match: [
-            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-            "Please enter a valid email address"
-        ]
     },
     storeName: {
         type: String,
@@ -52,22 +46,18 @@ const sellerSchema = new mongoose.Schema({
         {
             public_id: {
                 type: String,
-                required: true
             },
             url: {
                 type: String,
-                required: true
             }
         }
     ],
     bankLogo: {
         public_id: {
             type: String,
-            required: true
         },
         url: {
             type: String,
-            required: true
         }
     },
     holderName: {
