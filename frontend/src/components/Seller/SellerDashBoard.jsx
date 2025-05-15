@@ -6,7 +6,7 @@ import SellerOnBoarding from './SellerOnBoarding';
 import MetaData from '../Layouts/MetaData';
 import Loader from '../Layouts/Loader';
 import { deactivateSeller, deleteSeller, clearErrors } from '../../actions/SellerAction';
-import { DELETE_SELLER_RESET, DEACTIVATE_SELLER_RESET} from "../../constants/SellerConstants";
+import { DELETE_SELLER_RESET, DEACTIVATE_SELLER_RESET } from "../../constants/SellerConstants";
 import { useSnackbar } from 'notistack';
 import BackdropLoader from '../Layouts/BackdropLoader';
 
@@ -30,8 +30,8 @@ const Dashboard = () => {
             dispatch(clearErrors());
         }
         if (isDeleted || isDeactivate) {
-            enqueueSnackbar(`Your account is ${ isDeactivate ? "deactivate" : "delete" } Successfully`, { variant: "success" });
-            isDeactivate ? dispatch({ type: DELETE_SELLER_RESET }) : dispatch({ type: DEACTIVATE_SELLER_RESET });
+            enqueueSnackbar(`Your account is ${isDeactivate ? "deactivate" : "delete"} Successfully`, { variant: "success" });
+            isDeactivate ? dispatch({ type: DEACTIVATE_SELLER_RESET }) : dispatch({ type: DELETE_SELLER_RESET });
         }
     }, [isAuthenticated, navigate, dispatch, isDeactivate, isDeletedError, isDeactivateError, isDeleted, enqueueSnackbar]);
 
@@ -61,8 +61,6 @@ const Dashboard = () => {
 
     return (
         <>
-            <MetaData title="Seller Dashboard" />
-            <>
                 <MetaData title="My Profile" />
 
                 {loading ? <Loader /> :
@@ -182,7 +180,6 @@ const Dashboard = () => {
                         </main>
                     </>
                 }
-            </>
         </>
     );
 };
