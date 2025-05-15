@@ -62,7 +62,7 @@ exports.OTPBasedLoginSeller = asyncErrorHandler(async (req, res, next) => {
     const seller = await Seller.findOne({ email });
     const sellerData = await SellerData.findOne({ email });
 
-    if (!seller || !sellerData ) {
+    if (!seller || !sellerData) {
         return next(new ErrorHandler("Invalid Email or seller not found.", 401));
     }
 
@@ -72,13 +72,13 @@ exports.OTPBasedLoginSeller = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Invalid OTP", 401));
     }
 
-    sendSellerToken(seller, sellerData , 201, res);
+    sendSellerToken(seller, sellerData, 201, res);
 });
 
 // Login Seller
 exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body;
-  
+
     if (!email || !password) {
         return next(new ErrorHandler("Please Enter Email And Password", 400));
     }
@@ -91,7 +91,7 @@ exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     }
 
     const isPasswordMatched = await seller.comparePassword(password);
-    
+
     if (!isPasswordMatched) {
         return next(new ErrorHandler("Invalid Email or Password", 401));
     }
@@ -218,7 +218,6 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
     sendSellerToken(seller, sellerData, 200, res);
 });
 
-
 // Update Password
 exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
 
@@ -280,19 +279,104 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Delete Role --ADMIN
-exports.deleteSeller = asyncErrorHandler(async (req, res, next) => {
+// Delete account controller --Admin
+exports.deleteAccount = asyncErrorHandler(async (req, res, next) => {
+    const { email } = req.query;
 
-    const seller = await Seller.findById(req.params.id);
-
-    if (!seller) {
-        return next(new ErrorHandler(`Seller doesn't exist with id: ${req.params.id}`, 404));
+    if (!email) {
+        return res.status(400).json({
+            success: false,
+            message: "Email is required to delete the account.",
+        });
     }
 
-    await seller.remove();
+    const existingSeller = await Seller.findOne({ email });
 
-    res.status(200).json({
-        success: true
+    if (!existingSeller) {
+        return res.status(404).json({
+            success: false,
+            message: "No seller found with the provided email.",
+        });
+    }
+
+    await Seller.deleteOne({ email });
+    await SellerData.deleteOne({ email });
+
+    return res.status(200).json({
+        success: true,
+        message: "Seller account deleted successfully.",
+    });
+});
+
+// Delete request controller --Admin
+exports.deleteRequestAccount = asyncErrorHandler(async (req, res, next) => {
+    const { email } = req.query;
+
+    if (!email) {
+        return res.status(400).json({
+            success: false,
+            message: "Email is required to request account deletion.",
+        });
+    }
+
+    const existingSeller = await Seller.findOne({ email });
+
+    if (!existingSeller) {
+        return res.status(404).json({
+            success: false,
+            message: "No seller found with the provided email.",
+        });
+    }
+
+    if (existingSeller.isDeleteRequest) {
+        return res.status(200).json({
+            success: true,
+            message: "Delete request already submitted.",
+        });
+    }
+
+    existingSeller.isDeleteRequest = true;
+    await existingSeller.save();
+
+    return res.status(200).json({
+        success: true,
+        message: "Delete request submitted successfully.",
+    });
+});
+
+// Deactivate account controller --Admin
+exports.deactivateAccount = asyncErrorHandler(async (req, res, next) => {
+    const { email } = req.query;
+
+    if (!email) {
+        return res.status(400).json({
+            success: false,
+            message: "Email is required to deactivate the account.",
+        });
+    }
+
+    const existingSeller = await Seller.findOne({ email });
+
+    if (!existingSeller) {
+        return res.status(404).json({
+            success: false,
+            message: "No seller found with the provided email.",
+        });
+    }
+
+    if (existingSeller.isDeactivate) {
+        return res.status(200).json({
+            success: true,
+            message: "Account is already deactivated.",
+        });
+    }
+
+    existingSeller.isDeactivate = true;
+    await existingSeller.save();
+
+    return res.status(200).json({
+        success: true,
+        message: "Seller account has been deactivated successfully.",
     });
 });
 

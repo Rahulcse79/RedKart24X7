@@ -29,6 +29,9 @@ import {
     DELETE_SELLER_REQUEST,
     DELETE_SELLER_SUCCESS,
     DELETE_SELLER_FAIL,
+    DEACTIVATE_SELLER_REQUEST,
+    DEACTIVATE_SELLER_SUCCESS,
+    DEACTIVATE_SELLER_FAIL,
     SELLER_DETAILS_REQUEST,
     SELLER_DETAILS_SUCCESS,
     SELLER_DETAILS_FAIL,
@@ -411,20 +414,40 @@ export const updateSeller = (id, sellerData) => async (dispatch) => {
 };
 
 // Delete seller ---ADMIN
-export const deleteSeller = (id) => async (dispatch) => {
+export const deleteSeller = (email) => async (dispatch) => {
     try {
 
         dispatch({ type: DELETE_SELLER_REQUEST });
-        const { data } = await axios.delete(`/api/v1/seller/admin/seller/${id}`);
+        const { data } = await axios.get(`/api/v1/seller/request/delete?email=${encodeURIComponent(email)}`); 
 
         dispatch({
             type: DELETE_SELLER_SUCCESS,
-            payload: data.success,
+            payload: data,
         });
 
     } catch (error) {
         dispatch({
             type: DELETE_SELLER_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// Deactivate seller ---ADMIN
+export const deactivateSeller = (email) => async (dispatch) => {
+    try {
+
+        dispatch({ type: DEACTIVATE_SELLER_REQUEST });
+        const { data } = await axios.get(`/api/v1/seller/deactivate?email=${encodeURIComponent(email)}`);
+
+        dispatch({ 
+            type: DEACTIVATE_SELLER_SUCCESS,
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: DEACTIVATE_SELLER_FAIL,
             payload: error.response.data.message,
         });
     }

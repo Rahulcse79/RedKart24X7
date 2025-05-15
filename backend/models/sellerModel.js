@@ -17,6 +17,14 @@ const sellerSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please Enter Gender"]
     },
+    isDeleteRequest: {
+        type: Boolean,
+        default: false,
+    },
+    isDeactivate: {
+        type: Boolean,
+        default: false,
+    },
     password: {
         type: String,
         required: [true, "Please Enter Your Password"],

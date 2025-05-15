@@ -37,13 +37,17 @@ import {
     UPDATE_SELLER_FAIL,
     DELETE_SELLER_REQUEST,
     DELETE_SELLER_SUCCESS,
-    DELETE_SELLER_RESET,
     DELETE_SELLER_FAIL,
+    DELETE_SELLER_RESET,
+    DEACTIVATE_SELLER_REQUEST,
+    DEACTIVATE_SELLER_SUCCESS,
+    DEACTIVATE_SELLER_FAIL,
+    DEACTIVATE_SELLER_RESET,
     REMOVE_SELLER_DETAILS,
     OTP_SEND_REQUEST,
-    OTP_SEND_SUCCESS, 
+    OTP_SEND_SUCCESS,
     OTP_SEND_FAIL
-} from '../constants/SellerConstants'; 
+} from '../constants/SellerConstants';
 
 export const SellerReducer = (state = { seller: {} }, { type, payload, payloadSellerData }) => {
 
@@ -53,7 +57,7 @@ export const SellerReducer = (state = { seller: {} }, { type, payload, payloadSe
         case LOAD_SELLER_REQUEST:
             return {
                 loading: true,
-                isAuthenticated: false, 
+                isAuthenticated: false,
             };
         case LOGIN_SELLER_SUCCESS:
         case REGISTER_SELLER_SUCCESS:
@@ -148,7 +152,6 @@ export const profileSellerReducer = (state = {}, { type, payload }) => {
         case UPDATE_PROFILE_REQUEST:
         case UPDATE_PASSWORD_REQUEST:
         case UPDATE_SELLER_REQUEST:
-        case DELETE_SELLER_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -161,16 +164,9 @@ export const profileSellerReducer = (state = {}, { type, payload }) => {
                 loading: false,
                 isUpdated: payload,
             };
-        case DELETE_SELLER_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                isDeleted: payload,
-            };
         case UPDATE_PROFILE_FAIL:
         case UPDATE_PASSWORD_FAIL:
         case UPDATE_SELLER_FAIL:
-        case DELETE_SELLER_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -182,11 +178,6 @@ export const profileSellerReducer = (state = {}, { type, payload }) => {
             return {
                 ...state,
                 isUpdated: false,
-            }
-        case DELETE_SELLER_RESET:
-            return {
-                ...state,
-                isDeleted: false,
             }
         case CLEAR_ERRORS:
             return {
@@ -291,6 +282,74 @@ export const otpSendReducer = (state = {}, { type, payload }) => {
                 error: null,
             };
 
+        default:
+            return state;
+    }
+};
+
+export const deleteAccountReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case DELETE_SELLER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case DELETE_SELLER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeleted: payload,
+            };
+        case DELETE_SELLER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case DELETE_SELLER_RESET:
+            return {
+                ...state,
+                isDeleted: false,
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+export const deactivateAccountReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case DEACTIVATE_SELLER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case DEACTIVATE_SELLER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeactivate: payload,
+            };
+        case DEACTIVATE_SELLER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case DEACTIVATE_SELLER_RESET:
+            return {
+                ...state,
+                isDeactivate: false,
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
         default:
             return state;
     }
