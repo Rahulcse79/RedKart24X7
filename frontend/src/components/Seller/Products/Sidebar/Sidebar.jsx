@@ -5,7 +5,6 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import LogoutIcon from '@mui/icons-material/Logout';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CloseIcon from '@mui/icons-material/Close';
 import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,32 +16,27 @@ const navMenu = [
     {
         icon: <EqualizerIcon />,
         label: "Dashboard",
-        ref: "/seller/dashboard",
+        ref: "/seller/d2/dashboard",
     },
     {
         icon: <ShoppingBagIcon />,
         label: "Orders",
-        ref: "/seller/orders",
+        ref: "/seller/d2/orders",
     },
     {
         icon: <InventoryIcon />,
         label: "Products",
-        ref: "/seller/products",
+        ref: "/seller/d2/products",
     },
     {
         icon: <AddBoxIcon />,
         label: "Add Product",
-        ref: "/seller/new_product",
+        ref: "/seller/d2/new_product",
     },
     {
         icon: <ReviewsIcon />,
         label: "Reviews",
-        ref: "/seller/reviews",
-    },
-    {
-        icon: <AccountBoxIcon />,
-        label: "My Profile",
-        ref: "/account",
+        ref: "/seller/d2/reviews",
     },
     {
         icon: <LogoutIcon />,
@@ -61,7 +55,7 @@ const Sidebar = ({ activeTab, setToggleSidebar }) => {
     const handleLogout = () => {
         dispatch(logoutSeller());
         enqueueSnackbar("Logout Successfully", { variant: "success" });
-        navigate("/login");
+        navigate("/seller/login");
     }
 
     return (

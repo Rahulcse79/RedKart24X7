@@ -113,7 +113,7 @@ const Footer = () => {
   const [adminRoute, setAdminRoute] = useState(false);
 
   useEffect(() => {
-    setAdminRoute(location.pathname.split("/", 2).includes("admin"))
+    setAdminRoute(location.pathname.split("/", 2).includes("admin") || location.pathname.split("/", 3).includes("d2"))
   }, [location]);
 
   return (

@@ -1,12 +1,9 @@
 import React from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ChatIcon from '@mui/icons-material/Chat';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -28,24 +25,9 @@ const SellerPrimaryDropDownMenu = ({ setTogglePrimaryDropDown, seller }) => {
 
     const navs = [
         {
-            title: "New product",
-            icon: <AddShoppingCartIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/seller/new_product",
-        },
-        {
-            title: "Products",
-            icon: <ListAltIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/seller/products",
-        },
-        {
-            title: "Delivered order",
-            icon: <DoneAllIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/",
-        },
-        {
-            title: "Orders",
-            icon: <DoneAllIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/seller/orders",
+            title: "Product dashboard",
+            icon: <DashboardIcon sx={{ fontSize: "18px" }} />,
+            redirect: "/seller/d2/dashboard",
         },
         {
             title: "My Chats",

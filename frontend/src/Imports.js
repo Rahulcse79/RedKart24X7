@@ -47,6 +47,9 @@ export { default as SellerAddProducts } from './components/Seller/Products/AddPr
 export { default as SellerProtectedDashboard } from './components/Seller/Products/Dashboard';
 export { default as SellerProducts } from './components/Seller/Products/Products';
 export { default as SellerUpdateProfile } from './components/Seller/UpdateProfile';
+export { default as SellerProductHome } from './components/Seller/Products/Home';
+export { default as SellerProductOrders } from './components/Seller/Products/OrderTable';
+export { default as SellerProductsReviews } from './components/Seller/Products/ReviewsTable';
 
 // Routes
 export { default as ProtectedRoute } from './Routes/ProtectedRoute';

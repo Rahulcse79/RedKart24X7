@@ -107,15 +107,23 @@ function App() {
           </ Imports.SellerOnBoardingProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/seller/new_product" element={
+        <Imports.Route path="/seller/d2/dashboard" element={
           < Imports.SellerProtectedRoute >
-            <Imports.SellerProtectedDashboard activeTab={3}>
-              <Imports.SellerAddProducts />
+            <Imports.SellerProtectedDashboard activeTab={0}>
+              <Imports.SellerProductHome />
+            </Imports.SellerProtectedDashboard>
+          </ Imports.SellerProtectedRoute>
+        } ></Imports.Route >
+
+        <Imports.Route path="/seller/d2/orders" element={
+          < Imports.SellerProtectedRoute >
+            <Imports.SellerProtectedDashboard activeTab={1}>
+              <Imports.SellerProductOrders />
             </Imports.SellerProtectedDashboard>
           </ Imports.SellerProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/seller/products" element={
+        <Imports.Route path="/seller/d2/products" element={
           < Imports.SellerProtectedRoute >
             <Imports.SellerProtectedDashboard activeTab={2}>
               <Imports.SellerProducts />
@@ -123,7 +131,23 @@ function App() {
           </ Imports.SellerProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/seller/dashboard/update" element={
+        <Imports.Route path="/seller/d2/new_product" element={
+          < Imports.SellerProtectedRoute >
+            <Imports.SellerProtectedDashboard activeTab={3}>
+              <Imports.SellerAddProducts />
+            </Imports.SellerProtectedDashboard>
+          </ Imports.SellerProtectedRoute>
+        } ></Imports.Route>
+
+        <Imports.Route path="/seller/d2/reviews" element={
+          < Imports.SellerProtectedRoute >
+            <Imports.SellerProtectedDashboard activeTab={4}>
+              <Imports.SellerProductsReviews />
+            </Imports.SellerProtectedDashboard>
+          </ Imports.SellerProtectedRoute>
+        } ></Imports.Route>
+
+        <Imports.Route path="/seller/d2/update" element={
           < Imports.SellerProtectedRoute >
             <Imports.SellerUpdateProfile />
           </ Imports.SellerProtectedRoute>

@@ -46,7 +46,7 @@ const SellerSidebar = ({ activeTab }) => {
                         <p className="flex w-full justify-between font-medium text-gray-500">Product dashboard</p>
                     </div>
                     <div className="flex flex-col pb-3 border-b text-sm">
-                        <Link to="/seller/product/home" className={`${activeTab === "product dashboard" ? "bg-blue-50 text-primary-blue font-medium" : "hover:bg-blue-50 hover:text-primary-blue"} p-3 pl-14`}>Home</Link>
+                        <Link to="/seller/d2/dashboard" className={`${activeTab === "product dashboard" ? "bg-blue-50 text-primary-blue font-medium" : "hover:bg-blue-50 hover:text-primary-blue"} p-3 pl-14`}>Product dashboard</Link>
                     </div>
 
                     <div className="flex items-center gap-5 px-4 py-4">
