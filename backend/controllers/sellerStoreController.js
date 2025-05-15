@@ -71,11 +71,10 @@ exports.bankAccountSetup = asyncErrorHandler(async (req, res, next) => {
             accountType,
             email,
         } = req.body;
-        console.log(req.body)
 
         let logoLink = [];
-        if (req.body && req.body.bankLogo) {
-            const logoFile = req.body.bankLogo;
+        if (req.body && req.body.logo) {
+            const logoFile = req.body.logo;
             const result = await cloudinary.v2.uploader.upload(logoFile, {
                 folder: "sellerData",
             });
@@ -97,10 +96,9 @@ exports.bankAccountSetup = asyncErrorHandler(async (req, res, next) => {
         existingSeller.mobileNumber = mobileNumber;
         existingSeller.accountType = accountType;
         if (logoLink.length > 0) {
-            existingSeller.bankLogo = logoLink;
+            existingSeller.bankAccountPhoto = logoLink;
         }
-        
-
+    
         await existingSeller.save();
         return res.status(200).json({
             success: true,
@@ -115,38 +113,15 @@ exports.bankAccountSetup = asyncErrorHandler(async (req, res, next) => {
 exports.businessInformationSetup = asyncErrorHandler(async (req, res, next) => {
     try {
         const {
-            
+            allCheck,
             email,
         } = req.body;
-        console.log(req.body)
 
-        // let logoLink = [];
-        // if (req.body && req.body.bankLogo) {
-        //     const logoFile = req.body.bankLogo;
-        //     const result = await cloudinary.v2.uploader.upload(logoFile, {
-        //         folder: "sellerData",
-        //     });
-
-        //     logoLink.push({
-        //         public_id: result.public_id,
-        //         url: result.secure_url,
-        //     });
-        // }
-        // const existingSeller = await SellerData.findOne({ email });
-        // if (!existingSeller) {
-        //     return next(new ErrorHandler("Seller not found for given email", 404));
-        // }
-        // existingSeller.holderName = holderName;
-        // existingSeller.bankName = bankName;
-        // existingSeller.accountNumber = accountNumber;
-        // existingSeller.IFSCCode = IFSCCode;
-        // existingSeller.UPIID = UPIID;
-        // existingSeller.mobileNumber = mobileNumber;
-        // existingSeller.accountType = accountType;
-        // if (logoLink.length > 0) {
-        //     existingSeller.bankLogo = logoLink;
-        // }
-        
+        const existingSeller = await SellerData.findOne({ email });
+        if (!existingSeller) {
+            return next(new ErrorHandler("Seller not found for given email", 404));
+        }
+        existingSeller.businessPoints = allCheck;
 
         await existingSeller.save();
         return res.status(200).json({
@@ -154,7 +129,7 @@ exports.businessInformationSetup = asyncErrorHandler(async (req, res, next) => {
             message: "Business information setup updated or created successfully",
         });
     } catch (err) {
-        return next(new ErrorHandler("Seller create create or update business information failed", 500));
+        return next(new ErrorHandler("Seller create or update business information failed", 500));
     }
 });
 
@@ -162,38 +137,64 @@ exports.businessInformationSetup = asyncErrorHandler(async (req, res, next) => {
 exports.documentUploadSetup = asyncErrorHandler(async (req, res, next) => {
     try {
         const {
-            
+            aadharNumber,
+            panNumber,
+            dob,
             email,
         } = req.body;
-        console.log(req.body)
 
-        // let logoLink = [];
-        // if (req.body && req.body.bankLogo) {
-        //     const logoFile = req.body.bankLogo;
-        //     const result = await cloudinary.v2.uploader.upload(logoFile, {
-        //         folder: "sellerData",
-        //     });
+        let aadharLogo = [];
+        if (req.body && req.body.aadharLogo) {
+            const logoFile = req.body.aadharLogo;
+            const result = await cloudinary.v2.uploader.upload(logoFile, {
+                folder: "sellerData",
+            });
 
-        //     logoLink.push({
-        //         public_id: result.public_id,
-        //         url: result.secure_url,
-        //     });
-        // }
-        // const existingSeller = await SellerData.findOne({ email });
-        // if (!existingSeller) {
-        //     return next(new ErrorHandler("Seller not found for given email", 404));
-        // }
-        // existingSeller.holderName = holderName;
-        // existingSeller.bankName = bankName;
-        // existingSeller.accountNumber = accountNumber;
-        // existingSeller.IFSCCode = IFSCCode;
-        // existingSeller.UPIID = UPIID;
-        // existingSeller.mobileNumber = mobileNumber;
-        // existingSeller.accountType = accountType;
-        // if (logoLink.length > 0) {
-        //     existingSeller.bankLogo = logoLink;
-        // }
-        
+            aadharLogo.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+            });
+        }
+        let profileLogo = [];
+        if (req.body && req.body.profileLogo) {
+            const logoFile = req.body.profileLogo;
+            const result = await cloudinary.v2.uploader.upload(logoFile, {
+                folder: "sellerData",
+            });
+
+            profileLogo.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+            });
+        }
+        let panLogo = [];
+        if (req.body && req.body.panLogo) {
+            const logoFile = req.body.panLogo;
+            const result = await cloudinary.v2.uploader.upload(logoFile, {
+                folder: "sellerData",
+            });
+
+            panLogo.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+            });
+        }
+        const existingSeller = await SellerData.findOne({ email });
+        if (!existingSeller) {
+            return next(new ErrorHandler("Seller not found for given email", 404));
+        }
+        existingSeller.aadharNumber = aadharNumber;
+        existingSeller.panNumber = panNumber;
+        existingSeller.dob = dob;
+        if (aadharLogo.length > 0) {
+            existingSeller.aadharLogo = aadharLogo;
+        }
+        if (profileLogo.length > 0) {
+            existingSeller.profileLogo = profileLogo;
+        }
+        if (panLogo.length > 0) {
+            existingSeller.panLogo = panLogo;
+        }
 
         await existingSeller.save();
         return res.status(200).json({
@@ -201,7 +202,7 @@ exports.documentUploadSetup = asyncErrorHandler(async (req, res, next) => {
             message: "Document setup updated or created successfully",
         });
     } catch (err) {
-        return next(new ErrorHandler("Seller create create or update document failed", 500));
+        return next(new ErrorHandler("Seller create or update document failed", 500));
     }
 });
 
@@ -209,46 +210,25 @@ exports.documentUploadSetup = asyncErrorHandler(async (req, res, next) => {
 exports.verification = asyncErrorHandler(async (req, res, next) => {
     try {
         const {
-            
+            Verification,
             email,
         } = req.body;
-        console.log(req.body)
 
-        // let logoLink = [];
-        // if (req.body && req.body.bankLogo) {
-        //     const logoFile = req.body.bankLogo;
-        //     const result = await cloudinary.v2.uploader.upload(logoFile, {
-        //         folder: "sellerData",
-        //     });
+        const existingSeller = await SellerData.findOne({ email });
+        if (!existingSeller) {
+            return next(new ErrorHandler("Seller not found for given email", 404));
+        }
 
-        //     logoLink.push({
-        //         public_id: result.public_id,
-        //         url: result.secure_url,
-        //     });
-        // }
-        // const existingSeller = await SellerData.findOne({ email });
-        // if (!existingSeller) {
-        //     return next(new ErrorHandler("Seller not found for given email", 404));
-        // }
-        // existingSeller.holderName = holderName;
-        // existingSeller.bankName = bankName;
-        // existingSeller.accountNumber = accountNumber;
-        // existingSeller.IFSCCode = IFSCCode;
-        // existingSeller.UPIID = UPIID;
-        // existingSeller.mobileNumber = mobileNumber;
-        // existingSeller.accountType = accountType;
-        // if (logoLink.length > 0) {
-        //     existingSeller.bankLogo = logoLink;
-        // }
-        
-
-        await existingSeller.save();
+        if(Verification) {
+            existingSeller.onBoarding[4] = -1;
+            await existingSeller.save();
+        }
         return res.status(200).json({
             success: true,
-            message: "Verification updated or created successfully",
+            message: "Verification updated successfully",
         });
     } catch (err) {
-        return next(new ErrorHandler("Seller create create or update verification failed", 500));
+        return next(new ErrorHandler("Seller create or update verification failed", 500));
     }
 });
 

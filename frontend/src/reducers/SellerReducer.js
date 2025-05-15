@@ -53,7 +53,7 @@ export const SellerReducer = (state = { seller: {} }, { type, payload, payloadSe
         case LOAD_SELLER_REQUEST:
             return {
                 loading: true,
-                isAuthenticated: false,
+                isAuthenticated: false, 
             };
         case LOGIN_SELLER_SUCCESS:
         case REGISTER_SELLER_SUCCESS:

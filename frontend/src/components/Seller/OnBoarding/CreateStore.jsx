@@ -242,7 +242,7 @@ const CreateStore = () => {
                                         />
                                     </div>
 
-                                    <div className="flex flex-col sm:flex-row sm:items-start sm:gap-[50px] gap-5">
+                                    <div className="flex flex-col sm:flex-row sm:items-start sm:gap-[22px]">
                                         {/* Upload Logo Section */}
                                         <div className="flex flex-col gap-2 w-full sm:w-1/2">
                                             <label className="block text-sm font-medium text-gray-600 mb-1">

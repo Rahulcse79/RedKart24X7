@@ -35,7 +35,7 @@ const SellerBankAccountADDForm = () => {
         setUPIID(payloadSellerData.UPIID || '');
         setMobileNumber(payloadSellerData.mobileNumber || '');
         setAccountType(payloadSellerData.accountType || '');
-        const tempLogo = payloadSellerData.bankLogo?.[0]?.url || '';
+        const tempLogo = payloadSellerData.bankAccountPhoto?.[0]?.url || '';
         if (tempLogo) {
             setPreviewLogo(tempLogo);
         }
@@ -47,7 +47,9 @@ const SellerBankAccountADDForm = () => {
             enqueueSnackbar("Bank account Updated or created Successfully", { variant: "success" });
             dispatch({ type: BANK_ACCOUNT_SETUP_RESET });
         }
-    }, [dispatch, error, isCreated, enqueueSnackbar]);
+    }, [dispatch, error, payloadSellerData.holderName, payloadSellerData.bankName, payloadSellerData.accountNumber,
+        payloadSellerData.IFSCCode, payloadSellerData.UPIID, payloadSellerData.mobileNumber, payloadSellerData.accountType,
+        payloadSellerData.bankAccountPhoto, isCreated, enqueueSnackbar]);
 
     const handleLogoChange = (e) => {
         const file = e.target.files[0];
@@ -65,7 +67,7 @@ const SellerBankAccountADDForm = () => {
 
     const isValidIndianUPIID = (UPIID) => {
         return /^[1-9][0-9]{5,14}@[a-zA-Z]{2,6}$/.test(UPIID);
-    };    
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -95,7 +97,7 @@ const SellerBankAccountADDForm = () => {
         formData.set("email", payloadSellerData.email);
 
         if (logoFile) {
-            formData.append("bankLogo", logoFile);
+            formData.append("logo", previewLogo);
         }
 
         dispatch(bankAccountSetupAction(formData))
@@ -200,12 +202,14 @@ const SellerBankAccountADDForm = () => {
                                         </div>
                                     </div>
                                     <div className="flex gap-5 flex-col sm:flex-row">
-                                        <InputField
-                                            label="Mobile Number"
-                                            value={mobileNumber}
-                                            setValue={setMobileNumber}
-                                            required
-                                        />
+                                        <div className="w-full sm:w-[49%]">
+                                            <InputField
+                                                label="Mobile Number"
+                                                value={mobileNumber}
+                                                setValue={setMobileNumber}
+                                                required
+                                            />
+                                        </div>
                                     </div>
 
                                     <div className="flex flex-col sm:flex-row sm:items-start sm:gap-[50px] gap-5">

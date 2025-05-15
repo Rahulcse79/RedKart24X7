@@ -96,7 +96,7 @@ export const OTPloginSeller = (email, OTP, onSuccess, onError) => async (dispatc
 
         dispatch({
             type: OTP_BASED_LOGIN_SELLER_SUCCESS,
-            payload: data.seller,
+            payload: data.user,
             payloadSellerData: data.sellerData,
         });
 
@@ -125,12 +125,11 @@ export const registerSeller = (sellerData) => async (dispatch) => {
             },
         }
 
-        const data = await axios.post(
-            'http://localhost:4000/api/v1/seller/register',
+        const { data } = await axios.post(
+            '/api/v1/seller/register',
             sellerData,
             config
         );
-
         dispatch({
             type: REGISTER_SELLER_SUCCESS,
             payload: data.seller,
@@ -138,10 +137,11 @@ export const registerSeller = (sellerData) => async (dispatch) => {
         });
 
     } catch (error) {
+        const errorMsg = error?.response?.data?.message || error.message || "Registration failed";
         dispatch({
             type: REGISTER_SELLER_FAIL,
-            payload: error.response.data.message,
-            payloadSellerData: error.response.data.message,
+            payload: errorMsg,
+            payloadSellerData: errorMsg
         });
     }
 };
@@ -207,10 +207,10 @@ export const loginSeller = (email, password) => async (dispatch) => {
             { email, password },
             config
         );
-
+        console.log(data)
         dispatch({
             type: LOGIN_SELLER_SUCCESS,
-            payload: data.seller,
+            payload: data.user,
             payloadSellerData: data.sellerData,
         });
 

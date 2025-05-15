@@ -18,7 +18,7 @@ const Register = () => {
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
 
-    const { loading, isAuthenticated, error } = useSelector((state) => state.seller);
+    const { loading, isAuthenticated, error } = useSelector((state) => state.seller); 
 
     const [seller, setSeller] = useState({
         name: "",

@@ -52,13 +52,61 @@ const sellerSchema = new mongoose.Schema({
             }
         }
     ],
-    bankLogo: {
-        public_id: {
-            type: String,
-        },
-        url: {
-            type: String,
+    bankAccountPhoto: [
+        {
+            public_id: {
+                type: String,
+            },
+            url: {
+                type: String,
+            }
         }
+    ],
+    aadharNumber: {
+        type: Number,
+        default: null,
+    },
+    panNumber: {
+        type: String,
+        default: "",
+    },
+    dob: {
+        type: String,
+        default: "",
+    },
+    profileLogo: [
+        {
+            public_id: {
+                type: String,
+            },
+            url: {
+                type: String,
+            }
+        }
+    ],
+    panLogo: [
+        {
+            public_id: {
+                type: String,
+            },
+            url: {
+                type: String,
+            }
+        }
+    ],
+    aadharLogo: [
+        {
+            public_id: {
+                type: String,
+            },
+            url: {
+                type: String,
+            }
+        }
+    ],
+    businessPoints: {
+        type: Boolean,
+        default: false,
     },
     holderName: {
         type: String,

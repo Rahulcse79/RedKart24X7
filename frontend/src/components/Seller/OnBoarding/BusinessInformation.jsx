@@ -1,16 +1,43 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MetaData from '../../Layouts/MetaData';
 import Loader from '../../Layouts/Loader';
 import SellerOnBoarding from '../SellerOnBoarding';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
+import { BusinessInformationSetupAction, clearErrors } from '../../../actions/storeAction';
+import { BUSINESS_INFORMATION_SETUP_RESET } from "../../../constants/storeConstants";
+import BackdropLoader from '../../Layouts/BackdropLoader';
 
 const BusinessInfo = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const { loading, payloadSellerData } = useSelector(state => state.seller);
+    const { error, loading: saveLoading, isCreated } = useSelector(state => state.sellerBusinessInformation);
+
+    useEffect(() => {
+
+        if (payloadSellerData.businessPoints) {
+            setBusinessPoints({
+                isRegisteredBusiness: true,
+                hasValidPAN_GST: true,
+                correctAddressProvided: true,
+                authorizedRepresentativeAvailable: true,
+                documentsAvailable: true,
+            });
+        }
+        if (error) {
+            enqueueSnackbar(error, { variant: "error" });
+            dispatch(clearErrors());
+        }
+        if (isCreated) {
+            enqueueSnackbar("Business information Updated or created Successfully", { variant: "success" });
+            dispatch({ type: BUSINESS_INFORMATION_SETUP_RESET });
+        }
+    }, [dispatch, error, isCreated, enqueueSnackbar, payloadSellerData.businessPoints]);
+
 
     const [businessPoints, setBusinessPoints] = useState({
         isRegisteredBusiness: false,
@@ -28,9 +55,12 @@ const BusinessInfo = () => {
             enqueueSnackbar("Please confirm all the business information points.", { variant: "warning" });
             return;
         }
-        // dispatch(bankAccountSetupAction(formData))
 
-        enqueueSnackbar("Form submitted successfully!", { variant: "success" });
+        const formData = new FormData();
+        formData.set("email", payloadSellerData.email);
+        formData.set("allCheck", allChecked);
+
+        dispatch(BusinessInformationSetupAction(formData))
     };
 
     const getStatus = (step) => {
@@ -61,10 +91,10 @@ const BusinessInfo = () => {
     return (
         <>
             <MetaData title="Business Information" />
-
             {loading ? <Loader /> :
                 <>
                     <SellerOnBoarding steps={payloadSellerData.onBoarding} />
+                    {(saveLoading) ? <BackdropLoader /> : null}
                     <main className="w-full mt-12 sm:mt-0">
                         <form onSubmit={handleSubmit} className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
                             <div className="flex-1 overflow-hidden shadow bg-white">
