@@ -20,7 +20,7 @@ const Home = () => {
       enqueueSnackbar(error, { variant: "error" });
       dispatch(clearErrors());
     }
-    dispatch(getSliderProducts());
+    // dispatch(getSliderProducts());
   }, [dispatch, error, enqueueSnackbar]);
 
   return (
