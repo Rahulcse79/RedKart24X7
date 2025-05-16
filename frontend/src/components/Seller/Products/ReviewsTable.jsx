@@ -39,6 +39,7 @@ const ReviewsTable = () => {
         if (isDeleted) {
             enqueueSnackbar("Review Deleted Successfully", { variant: "success" });
             dispatch({ type: DELETE_REVIEW_RESET });
+            dispatch({ type: ALL_REVIEWS_RESET });
         }
         return () => {
             window.removeEventListener("keydown", handleKeyDown);

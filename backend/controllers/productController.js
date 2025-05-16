@@ -303,36 +303,40 @@ exports.getProductReviews = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
-// Delete Reveiws
+// Delete Review (Only for Product Owner Seller)
 exports.deleteReview = asyncErrorHandler(async (req, res, next) => {
+    const { productId, id: reviewId } = req.query;
+    const sellerId = req.seller?.id;
 
-    const product = await Product.findById(req.query.productId);
+    if (!productId || !reviewId) {
+        return next(new ErrorHandler("Product ID and Review ID are required", 400));
+    }
+
+    const product = await Product.findById(productId);
 
     if (!product) {
         return next(new ErrorHandler("Product Not Found", 404));
     }
 
-    const reviews = product.reviews.filter((rev) => rev._id.toString() !== req.query.id.toString());
+    // Check if current seller is authorized
+    if (product.seller.toString() !== sellerId.toString()) {
+        return next(new ErrorHandler("You are not authorized to delete this review", 403));
+    }
 
+    const reviews = product.reviews.filter((rev) => rev._id.toString() !== reviewId.toString());
+
+    // Recalculate ratings
     let avg = 0;
-
     reviews.forEach((rev) => {
         avg += rev.rating;
     });
 
-    let ratings = 0;
-
-    if (reviews.length === 0) {
-        ratings = 0;
-    } else {
-        ratings = avg / reviews.length;
-    }
-
+    const ratings = reviews.length === 0 ? 0 : avg / reviews.length;
     const numOfReviews = reviews.length;
 
-    await Product.findByIdAndUpdate(req.query.productId, {
+    await Product.findByIdAndUpdate(productId, {
         reviews,
-        ratings: Number(ratings),
+        ratings,
         numOfReviews,
     }, {
         new: true,
@@ -342,5 +346,6 @@ exports.deleteReview = asyncErrorHandler(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
+        message: "Review deleted successfully",
     });
 });

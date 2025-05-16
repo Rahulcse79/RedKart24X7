@@ -41,7 +41,7 @@ const Actions = ({ id, deleteHandler, name, editRoute }) => {
                 </DialogContent>
                 <DialogActions>
                     <button onClick={handleClose} className="py-2 px-6 rounded shadow bg-gray-400 hover:bg-gray-500 text-white">Cancel</button>
-                    <button onClick={() => deleteHandler(id)} className="py-2 px-6 ml-4 rounded bg-red-600 hover:bg-red-700 text-white shadow">Delete</button>
+                    <button onClick={() => {deleteHandler(id); setOpen(false);}} className="py-2 px-6 ml-4 rounded bg-red-600 hover:bg-red-700 text-white shadow">Delete</button>
                 </DialogActions>
             </Dialog>
         </>
