@@ -23,10 +23,12 @@ const order = require('./routes/orderRoute');
 const payment = require('./routes/paymentRoute');
 const seller = require('./routes/sellerRoute');
 const sellerSetup = require('./routes/sellerStoreRoute');
+const admin = require('./routes/adminRoute');
 
 app.use('/api/v1/seller', seller)
 app.use('/api/v1/seller', sellerSetup)
 app.use('/api/v1', user);
+app.use('/api/v1/admin', admin);
 app.use('/api/v1', product);
 app.use('/api/v1', order);
 app.use('/api/v1', payment);

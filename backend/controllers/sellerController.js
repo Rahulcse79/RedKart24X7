@@ -279,35 +279,6 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Delete account controller --Admin
-exports.deleteAccount = asyncErrorHandler(async (req, res, next) => {
-    const { email } = req.query;
-
-    if (!email) {
-        return res.status(400).json({
-            success: false,
-            message: "Email is required to delete the account.",
-        });
-    }
-
-    const existingSeller = await Seller.findOne({ email });
-
-    if (!existingSeller) {
-        return res.status(404).json({
-            success: false,
-            message: "No seller found with the provided email.",
-        });
-    }
-
-    await Seller.deleteOne({ email });
-    await SellerData.deleteOne({ email });
-
-    return res.status(200).json({
-        success: true,
-        message: "Seller account deleted successfully.",
-    });
-});
-
 // Delete request controller --Admin
 exports.deleteRequestAccount = asyncErrorHandler(async (req, res, next) => {
     const { email } = req.query;
@@ -377,27 +348,6 @@ exports.deactivateAccount = asyncErrorHandler(async (req, res, next) => {
     return res.status(200).json({
         success: true,
         message: "Seller account has been deactivated successfully.",
-    });
-});
-
-// Update Seller Role --ADMIN
-exports.updateSellerRole = asyncErrorHandler(async (req, res, next) => {
-
-    const newSellerData = {
-        name: req.body.name,
-        email: req.body.email,
-        gender: req.body.gender,
-        role: req.body.role,
-    }
-
-    await Seller.findByIdAndUpdate(req.params.id, newSellerData, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
-    });
-
-    res.status(200).json({
-        success: true,
     });
 });
 

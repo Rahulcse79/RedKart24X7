@@ -1,0 +1,22 @@
+const express = require('express');
+
+const { getAllUsers, getSingleUser, getAllSellers, getSingleSeller, deleteUser, getAllOrders, deleteOrder, updateUserRole, updateOrder, deleteAccount } = require('../controllers/adminController');
+const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
+
+const router = express.Router();
+
+// User 
+router.route("/users").get(isAuthenticatedUser, authorizeRoles("admin"), getAllUsers);
+router.route("/user/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getSingleUser).put(isAuthenticatedUser, authorizeRoles("admin"), updateUserRole).delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+
+// Seller 
+router.route("/sellers").get(isAuthenticatedUser, authorizeRoles("admin"), getAllSellers);
+router.route("/seller/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getSingleSeller)
+router.route('/delete').delete(isAuthenticatedUser, authorizeRoles("admin"), deleteAccount);
+// router.route('/get/storeData').get(isAuthenticatedUser, authorizeRoles("admin"), getCreateStoreSetup);
+
+// orders
+router.route('/orders').get(isAuthenticatedUser, authorizeRoles("admin"), getAllOrders);
+router.route('/order/:id').put(isAuthenticatedUser, authorizeRoles("admin"), updateOrder).delete(isAuthenticatedUser, authorizeRoles("admin"), deleteOrder);
+
+module.exports = router;
