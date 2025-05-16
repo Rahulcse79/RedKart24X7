@@ -6,81 +6,86 @@ const sendEmail = require('../utils/sendEmail');
 
 // Create New Order
 exports.newOrder = asyncErrorHandler(async (req, res, next) => {
-
-    const {
-        shippingInfo,
-        orderItems,
-        paymentInfo,
-        totalPrice,
-    } = req.body;
-
-    const orderExist = await Order.findOne({ paymentInfo });
-
-    if (orderExist) {
-        return next(new ErrorHandler("Order Already Placed", 400));
-    }
-
-    const order = await Order.create({
-        shippingInfo,
-        orderItems,
-        paymentInfo,
-        totalPrice,
-        paidAt: Date.now(),
-        user: req.user._id,
-    });
-
-    await sendEmail({
-        email: req.user.email,
-        templateId: process.env.SENDGRID_ORDER_TEMPLATEID,
-        data: {
-            name: req.user.name,
+    try {
+        const {
             shippingInfo,
             orderItems,
+            paymentInfo,
             totalPrice,
-            oid: order._id,
-        }
-    });
+        } = req.body;
 
-    res.status(201).json({
-        success: true,
-        order,
-    });
+        const orderExist = await Order.findOne({ paymentInfo });
+
+        if (orderExist) {
+            return next(new ErrorHandler("Order Already Placed", 400));
+        }
+
+        const order = await Order.create({
+            shippingInfo,
+            orderItems,
+            paymentInfo,
+            totalPrice,
+            paidAt: Date.now(),
+            user: req.user._id,
+        });
+
+        await sendEmail({
+            email: req.user.email,
+            templateId: process.env.SENDGRID_ORDER_TEMPLATEID,
+            data: {
+                name: req.user.name,
+                shippingInfo,
+                orderItems,
+                totalPrice,
+                oid: order._id,
+            }
+        });
+
+        res.status(201).json({
+            success: true,
+            order,
+        });
+    } catch (error) {
+        console.error("[NEW_ORDER] Error:", error);
+        return next(new ErrorHandler("Failed to create new order", 500));
+    }
 });
 
 // Get Single Order Details
 exports.getSingleOrderDetails = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const order = await Order.findById(req.params.id).populate("user", "name email");
 
-    const order = await Order.findById(req.params.id).populate("user", "name email");
+        if (!order) {
+            return next(new ErrorHandler("Order Not Found", 404));
+        }
 
-    if (!order) {
-        return next(new ErrorHandler("Order Not Found", 404));
+        res.status(200).json({
+            success: true,
+            order,
+        });
+    } catch (error) {
+        console.error("[GET_SINGLE_ORDER_DETAILS] Error:", error);
+        return next(new ErrorHandler("Failed to fetch order details", 500));
     }
-
-    res.status(200).json({
-        success: true,
-        order,
-    });
 });
-
 
 // Get Logged In User Orders
 exports.myOrders = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const orders = await Order.find({ user: req.user._id });
 
-    const orders = await Order.find({ user: req.user._id });
+        if (!orders || orders.length === 0) {
+            return next(new ErrorHandler("Orders Not Found", 404));
+        }
 
-    if (!orders) {
-        return next(new ErrorHandler("Order Not Found", 404));
+        res.status(200).json({
+            success: true,
+            orders,
+        });
+    } catch (error) {
+        console.error("[MY_ORDERS] Error:", error);
+        return next(new ErrorHandler("Failed to fetch orders", 500));
     }
-
-    res.status(200).json({
-        success: true,
-        orders,
-    });
 });
 
-
-async function updateStock(id, quantity) {
-    const product = await Product.findById(id);
-    product.stock -= quantity;
-    await product.save({ validateBeforeSave: false });
-}

@@ -1,5 +1,5 @@
 const UserModel = require('../models/userModel');
-// const ProductsModel = require('../models/productModel');
+const ProductModel = require('../models/productModel');
 // const OrderModel = require('../models/productModel');
 const SellerModel = require('../models/sellerModel');
 const SellerDataModel = require('../models/sellerDataModel');
@@ -85,9 +85,6 @@ exports.updateUserRole = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
-
-
-
 // Get all sellers 
 exports.getAllSellers = asyncErrorHandler(async (req, res, next) => {
     try {
@@ -162,8 +159,6 @@ exports.deleteAccount = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Failed to delete seller account", 500));
     }
 });
-
-
 
 // Get All Orders
 exports.getAllOrders = asyncErrorHandler(async (req, res, next) => {
@@ -245,3 +240,25 @@ exports.updateOrder = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Failed to update order status", 500));
     }
 });
+
+// Update stock
+async function updateStock(id, quantity) {
+    try {
+        const product = await ProductModel.findById(id);
+
+        if (!product) {
+            throw new Error(`Product not found with id: ${id}`);
+        }
+
+        product.stock -= quantity;
+
+        if (product.stock < 0) {
+            product.stock = 0; 
+        }
+
+        await product.save({ validateBeforeSave: false });
+    } catch (error) {
+        console.error(`[UPDATE_STOCK] Error updating stock for product ${id}:`, error);
+        throw error;
+    }
+}
