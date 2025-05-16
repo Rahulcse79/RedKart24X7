@@ -29,6 +29,7 @@ import {
     ALL_REVIEWS_REQUEST,
     ALL_REVIEWS_SUCCESS,
     ALL_REVIEWS_FAIL,
+    ALL_REVIEWS_RESET,
     DELETE_REVIEW_REQUEST,
     DELETE_REVIEW_SUCCESS,
     DELETE_REVIEW_RESET,
@@ -248,6 +249,12 @@ export const productReviewsReducer = (state = { reviews: [] }, { type, payload }
                 loading: false,
                 error: payload,
             };
+        case ALL_REVIEWS_RESET: 
+        return {
+            ...state,
+            loading: false,
+            reviews: null,
+        };
         case CLEAR_ERRORS:
             return {
                 ...state,

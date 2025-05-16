@@ -5,7 +5,7 @@ import { useSnackbar } from 'notistack';
 import { clearErrors, deleteReview, getAllReviews } from '../../../actions/productAction';
 import Rating from '@mui/material/Rating';
 import Actions from './Actions';
-import { DELETE_REVIEW_RESET } from '../../../constants/productConstants';
+import { DELETE_REVIEW_RESET, ALL_REVIEWS_RESET } from '../../../constants/productConstants';
 import MetaData from '../../Layouts/MetaData';
 import BackdropLoader from '../../Layouts/BackdropLoader';
 
@@ -22,12 +22,15 @@ const ReviewsTable = () => {
         const handleKeyDown = (e) => {
             if (e.key === "Enter" && productId.length === 24) {
                 dispatch(getAllReviews(productId));
+            } else if (productId.length !== 24){
+                dispatch({ type: ALL_REVIEWS_RESET });
             }
         };
         window.addEventListener("keydown", handleKeyDown);
         if (error) {
             enqueueSnackbar(error, { variant: "error" });
             dispatch(clearErrors());
+            dispatch({ type: ALL_REVIEWS_RESET });
         }
         if (deleteError) {
             enqueueSnackbar(deleteError, { variant: "error" });
@@ -92,7 +95,7 @@ const ReviewsTable = () => {
         },
     ];
 
-    const rows = [];
+    let rows = [];
 
     reviews && reviews.forEach((rev) => {
         rows.push({
