@@ -50,6 +50,7 @@ export { default as SellerUpdateProfile } from './components/Seller/UpdateProfil
 export { default as SellerProductHome } from './components/Seller/Products/Home';
 export { default as SellerProductOrders } from './components/Seller/Products/OrderTable';
 export { default as SellerProductsReviews } from './components/Seller/Products/ReviewsTable';
+export { default as SellerUpdateProducts } from './components/Seller/Products/UpdateProduct';
 
 // Routes
 export { default as ProtectedRoute } from './Routes/ProtectedRoute';

@@ -139,6 +139,14 @@ function App() {
           </ Imports.SellerProtectedRoute>
         } ></Imports.Route>
 
+        <Imports.Route path="/seller/d2/product/:id" element={
+          < Imports.SellerProtectedRoute >
+            <Imports.SellerProtectedDashboard activeTab={3}>
+              <Imports.SellerUpdateProducts />
+            </Imports.SellerProtectedDashboard>
+          </ Imports.SellerProtectedRoute>
+        } ></Imports.Route>
+
         <Imports.Route path="/seller/d2/reviews" element={
           < Imports.SellerProtectedRoute >
             <Imports.SellerProtectedDashboard activeTab={4}>
