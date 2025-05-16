@@ -37,7 +37,7 @@ const PrimaryDropDownMenu = ({ setTogglePrimaryDropDown, user }) => {
             redirect: "/",
         },
         {
-            title: "RedCart24X7 Plus Zone",
+            title: "RedKart24X7 Plus Zone",
             icon: <AddCircleIcon sx={{ fontSize: "18px" }} />,
             redirect: "/",
         },

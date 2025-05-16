@@ -160,7 +160,7 @@ const NewProduct = () => {
 
     return (
         <>
-            <MetaData title="Admin: New Product | RedCart24X7" />
+            <MetaData title="Admin: New Product | RedKart24X7" />
 
             {loading && <BackdropLoader />}
             <form onSubmit={newProductSubmitHandler} encType="multipart/form-data" className="flex flex-col sm:flex-row bg-white rounded-lg shadow p-4" id="mainform">

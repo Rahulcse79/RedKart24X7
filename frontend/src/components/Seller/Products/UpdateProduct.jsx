@@ -182,7 +182,7 @@ const UpdateProduct = () => {
 
     return (
         <>
-            <MetaData title="Seller: Update Product | RedCart24X7" />
+            <MetaData title="Seller: Update Product | RedKart24X7" />
 
             {loading && <BackdropLoader />}
             {updateLoading && <BackdropLoader />}

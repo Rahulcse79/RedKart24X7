@@ -94,7 +94,7 @@ const Home = () => {
 
     return (
         <>
-            <MetaData title="Seller product Dashboard | RedCart24X7" />
+            <MetaData title="Seller product Dashboard | RedKart24X7" />
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-6">
                 <div className="flex flex-col bg-purple-600 text-white gap-2 rounded-xl shadow-lg hover:shadow-xl p-6">

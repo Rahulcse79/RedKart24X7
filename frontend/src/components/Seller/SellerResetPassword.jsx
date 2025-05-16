@@ -49,7 +49,7 @@ const ResetPassword = () => {
 
     return (
         <>
-            <MetaData title="Seller Password Reset | RedCart24X7" />
+            <MetaData title="Seller Password Reset | RedKart24X7" />
 
             {loading && <BackdropLoader />}
             <main class="w-full mt-12 sm:pt-20 sm:mt-0">
@@ -95,9 +95,9 @@ const ResetPassword = () => {
                                     />
                                     <div class="flex flex-col gap-3 mt-4 mb-20">
                                         <p className="text-xs text-gray-500 text-left">
-                                            By continuing, you agree to RedCart24X7's
-                                            <a href="https://www.RedCart24X7.com/pages/terms" className="text-red-600 font-semibold ml-1">Terms of Use</a> and
-                                            <a href="https://www.RedCart24X7.com/pages/privacypolicy" className="text-red-600 font-semibold ml-1">Privacy Policy.</a>
+                                            By continuing, you agree to RedKart24X7's
+                                            <a href="https://www.RedKart24X7.com/pages/terms" className="text-red-600 font-semibold ml-1">Terms of Use</a> and
+                                            <a href="https://www.RedKart24X7.com/pages/privacypolicy" className="text-red-600 font-semibold ml-1">Privacy Policy.</a>
                                         </p>
                                         <button type="submit" class="text-white py-3 w-full bg-red-600 shadow-md hover:bg-red-700 rounded-md font-medium transition-all">Submit</button>
                                     </div>
@@ -105,7 +105,7 @@ const ResetPassword = () => {
                             </form>
                             <div className="mt-4">
                                 <Link to="/seller/register" className="text-sm text-gray-600">
-                                    New to RedCart24X7? <span className="text-red-600 font-semibold hover:underline">Create an seller account</span>
+                                    New to RedKart24X7? <span className="text-red-600 font-semibold hover:underline">Create an seller account</span>
                                 </Link>
                             </div>
                         </div>

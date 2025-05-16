@@ -33,7 +33,7 @@ const Header = () => {
 
           <div className="flex items-center flex-1">
             <Link className="h-7 mr-1 sm:mr-4" to="/">
-              <img draggable="false" className="h-full w-full object-contain" src={logo} alt="RedCart24X7 Logo" />
+              <img draggable="false" className="h-full w-full object-contain" src={logo} alt="RedKart24X7 Logo" />
             </Link>
             <Searchbar />
           </div>
@@ -109,7 +109,7 @@ const Header = () => {
                 draggable="false"
                 className="h-full object-contain"
                 src={logo}
-                alt="RedCart24X7 Logo"
+                alt="RedKart24X7 Logo"
               />
             </Link>
             <div className="flex justify-center w-full">

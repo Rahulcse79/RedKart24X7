@@ -88,20 +88,20 @@ const Register = () => {
 
     return (
         <>
-            <MetaData title="Seller Register | RedCart24X7" />
+            <MetaData title="Seller Register | RedKart24X7" />
 
             {loading && <BackdropLoader />}
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">
 
                 <div className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 py-12 text-center text-white">
-                    <img src={Logo} alt="RedCart24X7 Logo" className="mx-auto mb-4 w-28 h-auto" />
-                    <h1 className="text-4xl font-bold">Join RedCart24X7 as a Seller</h1>
+                    <img src={Logo} alt="RedKart24X7 Logo" className="mx-auto mb-4 w-28 h-auto" />
+                    <h1 className="text-4xl font-bold">Join RedKart24X7 as a Seller</h1>
                     <p className="mt-2 text-lg">
                         Start your online store today and showcase your products to a wide audience across the country.
                         Simple setup, secure payments, and powerful tools — all in one place.
                     </p>
                     <p className="mt-1 text-sm text-blue-100">
-                        Register now and take the first step toward growing your business with RedCart24X7.
+                        Register now and take the first step toward growing your business with RedKart24X7.
                     </p>
                     <div className="mt-6 space-x-4">
                     </div>

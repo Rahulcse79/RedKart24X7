@@ -160,7 +160,7 @@ const ProductTable = () => {
 
     return (
         <>
-            <MetaData title="Seller Products | RedCart24X7" />
+            <MetaData title="Seller Products | RedKart24X7" />
 
             {loading && <BackdropLoader />}
 

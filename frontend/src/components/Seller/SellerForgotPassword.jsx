@@ -78,9 +78,9 @@ const ForgotPassword = () => {
                                     />
                                     <div className="flex flex-col gap-2.5 mt-2 mb-32">
                                         <p className="text-xs text-gray-500 text-left">
-                                            By continuing, you agree to RedCart24X7's
-                                            <a href="https://www.RedCart24X7.com/pages/terms" className="text-red-600 font-semibold ml-1">Terms of Use</a> and
-                                            <a href="https://www.RedCart24X7.com/pages/privacypolicy" className="text-red-600 font-semibold ml-1">Privacy Policy.</a>
+                                            By continuing, you agree to RedKart24X7's
+                                            <a href="https://www.RedKart24X7.com/pages/terms" className="text-red-600 font-semibold ml-1">Terms of Use</a> and
+                                            <a href="https://www.RedKart24X7.com/pages/privacypolicy" className="text-red-600 font-semibold ml-1">Privacy Policy.</a>
                                         </p>
                                         <button type="submit" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Submit</button>
                                     </div>
@@ -88,7 +88,7 @@ const ForgotPassword = () => {
                             </form>
                             <div className="mt-4">
                                 <Link to="/seller/register" className="text-sm text-gray-600">
-                                    New to RedCart24X7? <span className="text-red-600 font-semibold hover:underline">Create an seller account</span>
+                                    New to RedKart24X7? <span className="text-red-600 font-semibold hover:underline">Create an seller account</span>
                                 </Link>
                             </div>
                         </div>

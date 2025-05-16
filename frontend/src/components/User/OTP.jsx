@@ -160,7 +160,7 @@ const OTP = () => {
 
                                     {/* <!-- button container --> */}
                                     <div className="flex flex-col gap-2.5 mt-2 mb-32">
-                                        <p className="text-xs text-primary-grey text-left">By continuing, you agree to RedCart24X7's <a href="https://www.RedCart24X7.com/pages/terms" className="text-primary-blue"> Terms of Use</a> and <a href="https://www.RedCart24X7.com/pages/privacypolicy" className="text-primary-blue"> Privacy Policy.</a></p>
+                                        <p className="text-xs text-primary-grey text-left">By continuing, you agree to RedKart24X7's <a href="https://www.RedKart24X7.com/pages/terms" className="text-primary-blue"> Terms of Use</a> and <a href="https://www.RedKart24X7.com/pages/privacypolicy" className="text-primary-blue"> Privacy Policy.</a></p>
                                         <button type="submit" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Submit</button>
                                         <button type="button" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium" onClick={()=> navigate("/login")}>Login by Password</button>
                                     </div>
@@ -170,7 +170,7 @@ const OTP = () => {
                             </form>
                             {/* <!-- input container --> */}
 
-                            <Link to="/register" className="font-medium text-sm text-primary-blue">New to RedCart24X7? Create an account</Link>
+                            <Link to="/register" className="font-medium text-sm text-primary-blue">New to RedKart24X7? Create an account</Link>
                         </div>
                         {/* <!-- edit info container --> */}
 

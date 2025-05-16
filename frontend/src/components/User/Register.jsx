@@ -88,7 +88,7 @@ const Register = () => {
 
     return (
         <>
-            <MetaData title="Register | RedCart24X7" />
+            <MetaData title="Register | RedKart24X7" />
 
             {loading && <BackdropLoader />}
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">

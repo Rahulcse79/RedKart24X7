@@ -189,7 +189,7 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
         await seller.save({ validateBeforeSave: false });
 
         const resetPasswordUrl = `http://localhost:3000/password/seller/reset/${resetToken}`;
-        const MailSubject = "Your RedCart24X7 OTP Code";
+        const MailSubject = "Your RedKart24X7 OTP Code";
         const MailText = `
 Dear ${seller.name},
 
@@ -199,7 +199,7 @@ ${resetPasswordUrl}
 If you did not request this, please ignore.
 
 Best regards,
-RedCart24X7 Team
+RedKart24X7 Team
       `;
 
         try {

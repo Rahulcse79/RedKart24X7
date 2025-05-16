@@ -72,7 +72,7 @@ const UpdateProfile = () => {
 
     return (
         <>
-            <MetaData title="Update Profile | RedCart24X7" />
+            <MetaData title="Update Profile | RedKart24X7" />
 
             {loading && <BackdropLoader />}
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">

@@ -103,7 +103,7 @@ const MyOrders = () => {
 
     return (
         <>
-            <MetaData title="My Orders | RedCart24X7" />
+            <MetaData title="My Orders | RedKart24X7" />
 
             <MinCategory />
             <main className="w-full mt-16 sm:mt-0">

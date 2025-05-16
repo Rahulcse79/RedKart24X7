@@ -1,7 +1,7 @@
 {
-  "name": "RedCart24X7",
+  "name": "RedKart24X7",
   "version": "1.0.0",
-  "description": "Full Stack RedCart24X7 Ecommerce",
+  "description": "Full Stack RedKart24X7 Ecommerce",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

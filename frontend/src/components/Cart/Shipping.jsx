@@ -42,7 +42,7 @@ const Shipping = () => {
 
     return (
         <>
-            <MetaData title="RedCart24X7: Shipping Details" />
+            <MetaData title="RedKart24X7: Shipping Details" />
             <main className="w-full mt-20">
 
                 {/* <!-- row --> */}
