@@ -6,6 +6,11 @@ const productSchema = new mongoose.Schema({
         required: [true, "Please enter product name"],
         trim: true
     },
+    storeName: {
+        type: String,
+        required: [true, "Please enter store name"],
+        trim: true
+    },
     description: {
         type: String,
         required: [true, "Please enter product description"]
@@ -90,7 +95,7 @@ const productSchema = new mongoose.Schema({
         {
             user: {
                 type: mongoose.Schema.ObjectId,
-                ref: "User",
+                ref: "user",
                 required: true
             },
             name: {
@@ -108,9 +113,9 @@ const productSchema = new mongoose.Schema({
         }
     ],
 
-    user: {
+    seller: {
         type: mongoose.Schema.ObjectId,
-        ref: "User",
+        ref: "Seller",
         required: true
     },
     createdAt: {

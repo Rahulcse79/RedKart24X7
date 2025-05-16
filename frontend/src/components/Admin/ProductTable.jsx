@@ -31,7 +31,7 @@ const ProductTable = () => {
             enqueueSnackbar("Product Deleted Successfully", { variant: "success" });
             dispatch({ type: DELETE_PRODUCT_RESET });
         }
-        dispatch(getAdminProducts());
+        // dispatch(getAdminProducts());
     }, [dispatch, error, deleteError, isDeleted, enqueueSnackbar]);
 
     const deleteProductHandler = (id) => {

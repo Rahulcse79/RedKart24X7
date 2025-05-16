@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
-// import { clearErrors, deleteReview, getAllReviews } from '../../actions/productAction';
+import { clearErrors, deleteReview, getAllReviews } from '../../../actions/productAction';
 import Rating from '@mui/material/Rating';
 import Actions from './Actions';
-// import { DELETE_REVIEW_RESET } from '../../../constants/productConstants';
+import { DELETE_REVIEW_RESET } from '../../../constants/productConstants';
 import MetaData from '../../Layouts/MetaData';
 import BackdropLoader from '../../Layouts/BackdropLoader';
 
@@ -15,29 +15,35 @@ const ReviewsTable = () => {
     const { enqueueSnackbar } = useSnackbar();
     const [productId, setProductId] = useState("");
 
-    // const { reviews, error } = useSelector((state) => state.reviews);
-    // const { loading, isDeleted, error: deleteError } = useSelector((state) => state.review);
+    const { reviews, error } = useSelector((state) => state.reviews);
+    const { loading, isDeleted, error: deleteError } = useSelector((state) => state.review);
 
-    // useEffect(() => {
-    //     if (productId.length === 24) {
-    //         // dispatch(getAllReviews(productId));
-    //     }
-    //     if (error) {
-    //         enqueueSnackbar(error, { variant: "error" });
-    //         dispatch(clearErrors());
-    //     }
-    //     if (deleteError) {
-    //         enqueueSnackbar(deleteError, { variant: "error" });
-    //         dispatch(clearErrors());
-    //     }
-    //     if (isDeleted) {
-    //         enqueueSnackbar("Review Deleted Successfully", { variant: "success" });
-    //         dispatch({ type: DELETE_REVIEW_RESET });
-    //     }
-    // }, [dispatch, error, deleteError, isDeleted, productId, enqueueSnackbar]);
+    useEffect((e) => {
+        const handleKeyDown = (e) => {
+            if (e.key === "Enter" && productId.length === 24) {
+                dispatch(getAllReviews(productId));
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        if (error) {
+            enqueueSnackbar(error, { variant: "error" });
+            dispatch(clearErrors());
+        }
+        if (deleteError) {
+            enqueueSnackbar(deleteError, { variant: "error" });
+            dispatch(clearErrors());
+        }
+        if (isDeleted) {
+            enqueueSnackbar("Review Deleted Successfully", { variant: "success" });
+            dispatch({ type: DELETE_REVIEW_RESET });
+        }
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [dispatch, error, deleteError, isDeleted, productId, enqueueSnackbar]);
 
     const deleteReviewHandler = (id) => {
-        // dispatch(deleteReview(id, productId));
+        dispatch(deleteReview(id, productId));
     }
 
     const columns = [
@@ -88,20 +94,20 @@ const ReviewsTable = () => {
 
     const rows = [];
 
-    // reviews && reviews.forEach((rev) => {
-    //     rows.push({
-    //         id: rev._id,
-    //         rating: rev.rating,
-    //         comment: rev.comment,
-    //         user: rev.name,
-    //     });
-    // });
+    reviews && reviews.forEach((rev) => {
+        rows.push({
+            id: rev._id,
+            rating: rev.rating,
+            comment: rev.comment,
+            user: rev.name,
+        });
+    });
 
     return (
         <>
-            <MetaData title="Admin Reviews | RedCart24X7" />
+            <MetaData title="Seller Reviews | RedCart24X7" />
 
-            {/* {loading && <BackdropLoader />} */}
+            {loading && <BackdropLoader />}
             <div className="flex justify-between items-center gap-2 sm:gap-12">
                 <h1 className="text-lg font-medium uppercase">reviews</h1>
                 <input type="text" placeholder="Product ID" value={productId} onChange={(e) => setProductId(e.target.value)} className="outline-none border-0 rounded p-2 w-full shadow hover:shadow-lg" />

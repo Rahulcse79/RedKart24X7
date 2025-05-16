@@ -3,10 +3,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { Link } from 'react-router-dom';
-import { clearErrors, deleteProduct, getAdminProducts } from '../../../actions/productAction';
+import { clearErrors, deleteProduct, getSellerProducts } from '../../../actions/productAction';
 import Rating from '@mui/material/Rating';
 import { DELETE_PRODUCT_RESET } from '../../../constants/productConstants';
-import Actions from '../../Admin/Actions';
+import Actions from './Actions';
 import MetaData from '../../Layouts/MetaData';
 import BackdropLoader from '../../Layouts/BackdropLoader';
 
@@ -14,7 +14,6 @@ const ProductTable = () => {
 
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
-
     const { products, error } = useSelector((state) => state.products);
     const { loading, isDeleted, error: deleteError } = useSelector((state) => state.product);
 
@@ -31,7 +30,7 @@ const ProductTable = () => {
             enqueueSnackbar("Product Deleted Successfully", { variant: "success" });
             dispatch({ type: DELETE_PRODUCT_RESET });
         }
-        dispatch(getAdminProducts());
+        dispatch(getSellerProducts());
     }, [dispatch, error, deleteError, isDeleted, enqueueSnackbar]);
 
     const deleteProductHandler = (id) => {
@@ -161,13 +160,13 @@ const ProductTable = () => {
 
     return (
         <>
-            <MetaData title="Admin Products | RedCart24X7" />
+            <MetaData title="Seller Products | RedCart24X7" />
 
             {loading && <BackdropLoader />}
 
             <div className="flex justify-between items-center">
                 <h1 className="text-lg font-medium uppercase">products</h1>
-                <Link to="/admin/new_product" className="py-2 px-4 rounded shadow font-medium text-white bg-primary-blue hover:shadow-lg">New Product</Link>
+                <Link to="/seller/d2/new_product" className="py-2 px-4 rounded shadow font-medium text-white bg-primary-blue hover:shadow-lg">New Product</Link>
             </div>
             <div className="bg-white rounded-xl shadow-lg w-full" style={{ height: 470 }}>
 

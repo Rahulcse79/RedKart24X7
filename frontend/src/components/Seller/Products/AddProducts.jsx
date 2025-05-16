@@ -17,8 +17,8 @@ const NewProduct = () => {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
-
     const { loading, success, error } = useSelector((state) => state.newProduct);
+    const { payloadSellerData } = useSelector(state => state.seller);
 
     const [highlights, setHighlights] = useState([]);
     const [highlightInput, setHighlightInput] = useState("");
@@ -124,6 +124,7 @@ const NewProduct = () => {
         formData.set("warranty", warranty);
         formData.set("brandname", brand);
         formData.set("logo", logo);
+        formData.set("storeName", payloadSellerData.storeName);
 
         images.forEach((image) => {
             formData.append("images", image);
@@ -148,7 +149,7 @@ const NewProduct = () => {
         if (success) {
             enqueueSnackbar("Product Created", { variant: "success" });
             dispatch({ type: NEW_PRODUCT_RESET });
-            navigate("/seller/products");
+            navigate("/seller/d2/products");
         }
     }, [dispatch, error, success, navigate, enqueueSnackbar]);
 

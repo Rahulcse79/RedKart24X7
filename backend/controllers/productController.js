@@ -6,39 +6,58 @@ const cloudinary = require('cloudinary');
 
 // Get All Products
 exports.getAllProducts = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const resultPerPage = 12;
+        const sellerId = req.seller?.id;
 
-    const resultPerPage = 12;
-    const productsCount = await Product.countDocuments();
-    // console.log(req.query);
-
-    const searchFeature = new SearchFeatures(Product.find(), req.query)
-        .search()
-        .filter();
-
-    let products = await searchFeature.query;
-    let filteredProductsCount = products.length;
-
-    searchFeature.pagination(resultPerPage);
-
-    products = await searchFeature.query.clone();
-
-    res.status(200).json({
-        success: true,
-        products,
-        productsCount,
-        resultPerPage,
-        filteredProductsCount,
-    });
+        if (!sellerId) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: Seller ID not found",
+            });
+        }
+        const productsCount = await Product.countDocuments({ seller: sellerId });
+        const searchFeature = new SearchFeatures(Product.find({ seller: sellerId }), req.query)
+            .search()
+            .filter();
+        let products = await searchFeature.query;
+        const filteredProductsCount = products.length;
+        searchFeature.pagination(resultPerPage);
+        products = await searchFeature.query.clone();
+        res.status(200).json({
+            success: true,
+            message: "Products fetched successfully",
+            products,
+            productsCount,
+            filteredProductsCount,
+            resultPerPage,
+        });
+    } catch (err) {
+        console.error("[GET_PRODUCTS] Error:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch products. Please try again later.",
+        });
+    }
 });
 
 // Get All Products ---Product Sliders
 exports.getProducts = asyncErrorHandler(async (req, res, next) => {
-    const products = await Product.find();
+    try {
+        const products = await Product.find();
 
-    res.status(200).json({
-        success: true,
-        products,
-    });
+        res.status(200).json({
+            success: true,
+            message: "All products fetched successfully",
+            products,
+        });
+    } catch (err) {
+        console.error("[GET_PRODUCTS] Error:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch products",
+        });
+    }
 });
 
 // Get Product Details
@@ -56,8 +75,8 @@ exports.getProductDetails = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Get All Products ---ADMIN
-exports.getAdminProducts = asyncErrorHandler(async (req, res, next) => {
+// Get All Products
+exports.getSellerProducts = asyncErrorHandler(async (req, res, next) => {
     const products = await Product.find();
 
     res.status(200).json({
@@ -66,7 +85,7 @@ exports.getAdminProducts = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Create Product ---ADMIN
+// Create Product 
 exports.createProduct = asyncErrorHandler(async (req, res, next) => {
 
     let images = [];
@@ -102,7 +121,7 @@ exports.createProduct = asyncErrorHandler(async (req, res, next) => {
         logo: brandLogo
     }
     req.body.images = imagesLink;
-    req.body.user = req.user.id;
+    req.body.seller = req.seller.id;
 
     let specs = [];
     req.body.specifications.forEach((s) => {
@@ -118,7 +137,7 @@ exports.createProduct = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Update Product ---ADMIN
+// Update Product
 exports.updateProduct = asyncErrorHandler(async (req, res, next) => {
 
     let product = await Product.findById(req.params.id);
@@ -174,7 +193,7 @@ exports.updateProduct = asyncErrorHandler(async (req, res, next) => {
         specs.push(JSON.parse(s))
     });
     req.body.specifications = specs;
-    req.body.user = req.user.id;
+    req.body.seller = req.seller.id;
 
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
@@ -188,7 +207,7 @@ exports.updateProduct = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Delete Product ---ADMIN
+// Delete Product 
 exports.deleteProduct = asyncErrorHandler(async (req, res, next) => {
 
     const product = await Product.findById(req.params.id);
@@ -226,12 +245,12 @@ exports.createProductReview = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Product Not Found", 404));
     }
 
-    const isReviewed = product.reviews.find(review => review.user.toString() === req.user._id.toString());
+    const isReviewed = product.reviews.find(review => review.seller.toString() === req.seller._id.toString());
 
     if (isReviewed) {
 
         product.reviews.forEach((rev) => { 
-            if (rev.user.toString() === req.user._id.toString())
+            if (rev.seller.toString() === req.seller._id.toString())
                 (rev.rating = rating, rev.comment = comment);
         });
     } else {
@@ -254,19 +273,34 @@ exports.createProductReview = asyncErrorHandler(async (req, res, next) => {
     });
 });
 
-// Get All Reviews of Product
+// Get All Reviews of a Product (for the logged-in seller)
 exports.getProductReviews = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const { id: productId } = req.query;
+        const sellerId = req.seller.id;
 
-    const product = await Product.findById(req.query.id);
+        if (!productId) {
+            return next(new ErrorHandler("Product ID is required", 400));
+        }
 
-    if (!product) {
-        return next(new ErrorHandler("Product Not Found", 404));
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return next(new ErrorHandler("Product not found", 404));
+        }
+
+        if (product.seller.toString() !== sellerId.toString()) {
+            return next(new ErrorHandler("You are not authorized to view reviews of this product", 403));
+        }
+
+        res.status(200).json({
+            success: true,
+            reviews: product.reviews,
+        });
+    } catch (error) {
+        console.error("[GET_PRODUCT_REVIEWS] Error:", error);
+        return next(new ErrorHandler("Failed to fetch product reviews", 500));
     }
-
-    res.status(200).json({
-        success: true,
-        reviews: product.reviews
-    });
 });
 
 // Delete Reveiws

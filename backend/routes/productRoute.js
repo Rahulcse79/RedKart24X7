@@ -1,25 +1,15 @@
 const express = require('express');
-const { getAllProducts, getProductDetails, updateProduct, deleteProduct, getProductReviews, deleteReview, createProductReview, createProduct, getAdminProducts, getProducts } = require('../controllers/productController');
-const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
-
+const { getAllProducts, getProductDetails, updateProduct, deleteProduct, getProductReviews, deleteReview, createProductReview, createProduct, getSellerProducts, getProducts } = require('../controllers/productController');
+const { isAuthenticatedSeller, isAuthenticatedUser } = require('../middlewares/auth');
 const router = express.Router();
 
-router.route('/products').get(getAllProducts);
-router.route('/products/all').get(getProducts);
-
-router.route('/admin/products').get(isAuthenticatedUser, authorizeRoles("admin"), getAdminProducts);
-router.route('/admin/product/new').post(isAuthenticatedUser, authorizeRoles("admin"), createProduct);
-
-router.route('/admin/product/:id')
-    .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct)
-    .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
-
-router.route('/product/:id').get(getProductDetails);
-
+router.route('/seller/d2/products').get(isAuthenticatedSeller, getAllProducts);
+router.route('/seller/d2/products/all').get(isAuthenticatedSeller, getProducts);
+router.route('/seller/d2/products').get(isAuthenticatedSeller, getSellerProducts);
+router.route('/seller/d2/product/new').post(isAuthenticatedSeller, createProduct);
+router.route('/seller/d2/product/:id').put(isAuthenticatedSeller, updateProduct).delete(isAuthenticatedSeller, deleteProduct);
+router.route('/seller/d2/product/:id').get(isAuthenticatedSeller, getProductDetails);
 router.route('/review').put(isAuthenticatedUser, createProductReview);
-
-router.route('/admin/reviews')
-    .get(getProductReviews)
-    .delete(isAuthenticatedUser, deleteReview);
+router.route('/seller/d2/reviews').get(isAuthenticatedSeller, getProductReviews).delete(isAuthenticatedSeller, deleteReview);
 
 module.exports = router;
