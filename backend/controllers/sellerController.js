@@ -162,7 +162,16 @@ exports.logoutSeller = asyncErrorHandler(async (req, res, next) => {
 // Get Seller Details
 exports.getSellerDetails = asyncErrorHandler(async (req, res, next) => {
     try {
+        if (!req.seller || !req.seller.id) {
+            return next(new ErrorHandler("Seller is not authenticated", 401));
+        }
+
         const seller = await Seller.findById(req.seller.id);
+
+        if (!seller) {
+            return next(new ErrorHandler("Seller not found", 404));
+        }
+
         const sellerData = await SellerData.findOne({ email: seller.email });
 
         res.status(200).json({
@@ -175,6 +184,7 @@ exports.getSellerDetails = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Failed to fetch seller details", 500));
     }
 });
+
 
 // Forgot Password
 exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
@@ -408,6 +418,11 @@ exports.deactivateAccount = asyncErrorHandler(async (req, res, next) => {
 // Get Single seller Details 
 exports.getSingleSeller = asyncErrorHandler(async (req, res, next) => {
     try {
+
+        if (!req.user || !req.user.id) {
+            return next(new ErrorHandler("User is not authenticated", 401));
+        }
+
         const seller = await Seller.findById(req.params.id);
 
         if (!seller) {

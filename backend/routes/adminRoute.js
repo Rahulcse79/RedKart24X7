@@ -16,7 +16,6 @@ router.route('/delete').delete(isAuthenticatedUser, authorizeRoles("admin"), del
 // router.route('/get/storeData').get(isAuthenticatedUser, authorizeRoles("admin"), getCreateStoreSetup);
 
 // orders
-router.route('/orders').get(isAuthenticatedUser, authorizeRoles("admin"), getAllOrders);
 router.route('/order/:id').put(isAuthenticatedUser, authorizeRoles("admin"), updateOrder).delete(isAuthenticatedUser, authorizeRoles("admin"), deleteOrder);
 
 module.exports = router;

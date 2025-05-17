@@ -51,6 +51,31 @@ exports.newOrder = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
+// Get All Orders
+exports.getAllOrders = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const orders = await orderModel.find();
+
+        if (!orders) {
+            return next(new ErrorHandler("Order Not Found", 404));
+        }
+
+        let totalAmount = 0;
+        orders.forEach((order) => {
+            totalAmount += order.totalPrice;
+        });
+
+        res.status(200).json({
+            success: true,
+            orders,
+            totalAmount,
+        });
+    } catch (error) {
+        console.error("[GET_ALL_ORDERS] Error:", error);
+        return next(new ErrorHandler("Failed to fetch orders", 500));
+    }
+});
+
 // Get Single Order Details
 exports.getSingleOrderDetails = asyncErrorHandler(async (req, res, next) => {
     try {

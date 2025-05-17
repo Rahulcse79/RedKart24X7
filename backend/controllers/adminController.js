@@ -1,7 +1,7 @@
 const UserModel = require('../models/userModel');
+const SellerModel = require('../models/sellerModel');
 const ProductModel = require('../models/productModel');
 // const OrderModel = require('../models/productModel');
-const SellerModel = require('../models/sellerModel');
 const SellerDataModel = require('../models/sellerDataModel');
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
 
@@ -157,31 +157,6 @@ exports.deleteAccount = asyncErrorHandler(async (req, res, next) => {
     } catch (error) {
         console.error("[DELETE_ACCOUNT] Error:", error);
         return next(new ErrorHandler("Failed to delete seller account", 500));
-    }
-});
-
-// Get All Orders
-exports.getAllOrders = asyncErrorHandler(async (req, res, next) => {
-    try {
-        const orders = await orderModel.find();
-
-        if (!orders) {
-            return next(new ErrorHandler("Order Not Found", 404));
-        }
-
-        let totalAmount = 0;
-        orders.forEach((order) => {
-            totalAmount += order.totalPrice;
-        });
-
-        res.status(200).json({
-            success: true,
-            orders,
-            totalAmount,
-        });
-    } catch (error) {
-        console.error("[GET_ALL_ORDERS] Error:", error);
-        return next(new ErrorHandler("Failed to fetch orders", 500));
     }
 });
 

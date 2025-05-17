@@ -29,11 +29,11 @@ const Header = () => {
     <>
       {!findSeller ? (<header className="bg-red-500 fixed top-0 py-2.5 w-full z-10">
 
-        <div className="w-full sm:w-9/12 px-1 sm:px-4 m-auto flex justify-between items-center relative">
+        <div className="w-full sm:w-9/12 px-1 sm:px-4 m-auto flex justify-start items-center relative">
 
           <div className="flex items-center flex-1">
-            <Link className="h-7 mr-1 sm:mr-4" to="/">
-              <img draggable="false" className="h-full w-full object-contain" src={logo} alt="RedKart24X7 Logo" />
+            <Link className="h-10 mr-2 sm:mr-4" to="/">
+              <img draggable="false" className="h-full w-full object-contain" src={logo} alt="RedCart24X7 Logo" />
             </Link>
             <Searchbar />
           </div>
@@ -109,7 +109,7 @@ const Header = () => {
                 draggable="false"
                 className="h-full object-contain"
                 src={logo}
-                alt="RedKart24X7 Logo"
+                alt="RedCart24X7 Logo"
               />
             </Link>
             <div className="flex justify-center w-full">
