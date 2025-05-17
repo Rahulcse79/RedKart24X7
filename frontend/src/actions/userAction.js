@@ -40,10 +40,24 @@ import {
     OTP_SEND_FAIL,
     OTP_BASED_LOGIN_USER_FAIL,
     OTP_BASED_LOGIN_USER_REQUEST,
-    OTP_BASED_LOGIN_USER_SUCCESS
+    OTP_BASED_LOGIN_USER_SUCCESS,
+    CREATE_OFFER_USER_REQUEST,
+    CREATE_OFFER_USER_SUCCESS,
+    CREATE_OFFER_USER_FAIL,
+    GET_OFFER_USER_REQUEST,
+    GET_OFFER_USER_SUCCESS,
+    GET_OFFER_USER_FAIL,
+    UPDATE_OFFER_USER_REQUEST,
+    UPDATE_OFFER_USER_SUCCESS,
+    UPDATE_OFFER_USER_FAIL,
+    DELETE_OFFER_USER_REQUEST,
+    DELETE_OFFER_USER_SUCCESS,
+    DELETE_OFFER_USER_FAIL,
+    GET_ALL_OFFER_USER_REQUEST,
+    GET_ALL_OFFER_USER_SUCCESS,
+    GET_ALL_OFFER_USER_FAIL,
 } from '../constants/userConstants';
 import axios from 'axios';
-
 
 // OTP send 
 export const OTPSend = (email, onSuccess, onError) => async (dispatch) => {
@@ -100,7 +114,7 @@ export const OTPloginUser = (email, OTP, onSuccess, onError) => async (dispatch)
             payload: data.user,
         });
 
-        if (onSuccess) onSuccess(); 
+        if (onSuccess) onSuccess();
 
     } catch (error) {
         dispatch({
@@ -111,7 +125,7 @@ export const OTPloginUser = (email, OTP, onSuccess, onError) => async (dispatch)
         if (onError) onError(error.response?.data?.message);
     }
 };
- 
+
 // Login User
 export const loginUser = (email, password) => async (dispatch) => {
     try {
@@ -418,6 +432,117 @@ export const deleteUser = (id) => async (dispatch) => {
         dispatch({
             type: DELETE_USER_FAIL,
             payload: error.response.data.message,
+        });
+    }
+};
+
+// Create an offer for a single user
+export const createOfferUser = (userId, offerData) => async (dispatch) => {
+    try {
+        dispatch({ type: CREATE_OFFER_USER_REQUEST });
+
+        const config = {
+            headers: { "Content-Type": "application/json" },
+        };
+
+        const { data } = await axios.post(
+            `/api/v1/user/${userId}/offer`,
+            offerData,
+            config
+        );
+
+        dispatch({
+            type: CREATE_OFFER_USER_SUCCESS,
+            payload: data.offer,
+        });
+    } catch (error) {
+        dispatch({
+            type: CREATE_OFFER_USER_FAIL,
+            payload: error.response?.data?.message || error.message,
+        });
+    }
+};
+
+// Get all offers for a single user
+export const getOfferUser = (userId) => async (dispatch) => {
+    try {
+        dispatch({ type: GET_OFFER_USER_REQUEST });
+
+        const { data } = await axios.get(`/api/v1/user/${userId}/offers`);
+
+        dispatch({
+            type: GET_OFFER_USER_SUCCESS,
+            payload: data.offers,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_OFFER_USER_FAIL,
+            payload: error.response?.data?.message || error.message,
+        });
+    }
+};
+
+// Update an offer by offer index for a user
+export const updateOfferUser = (userId, offerIndex, offerData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_OFFER_USER_REQUEST });
+
+        const config = {
+            headers: { "Content-Type": "application/json" },
+        };
+
+        const { data } = await axios.put(
+            `/api/v1/user/${userId}/offer/${offerIndex}`,
+            offerData,
+            config
+        );
+
+        dispatch({
+            type: UPDATE_OFFER_USER_SUCCESS,
+            payload: data.offer,
+        });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_OFFER_USER_FAIL,
+            payload: error.response?.data?.message || error.message,
+        });
+    }
+};
+
+// Delete an offer by offer index for a user
+export const deleteOfferUser = (userId, offerIndex) => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_OFFER_USER_REQUEST });
+
+        const { data } = await axios.delete(`/api/v1/user/${userId}/offer/${offerIndex}`);
+
+        dispatch({
+            type: DELETE_OFFER_USER_SUCCESS,
+            payload: data.message,
+        });
+    } catch (error) {
+        dispatch({
+            type: DELETE_OFFER_USER_FAIL,
+            payload: error.response?.data?.message || error.message,
+        });
+    }
+};
+
+// Get all offers for all users (admin only)
+export const getAllOfferUsers = () => async (dispatch) => {
+    try {
+        dispatch({ type: GET_ALL_OFFER_USER_REQUEST });
+
+        const { data } = await axios.get(`/api/v1/users/offers`);
+
+        dispatch({
+            type: GET_ALL_OFFER_USER_SUCCESS,
+            payload: data, 
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_ALL_OFFER_USER_FAIL,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };

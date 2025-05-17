@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { forgotPasswordReducer, profileReducer, userReducer, allUsersReducer, userDetailsReducer } from './reducers/userReducer';
+import { forgotPasswordReducer, profileReducer, userReducer, allUsersReducer, userDetailsReducer, createOfferReducer, getOfferReducer, updateOfferReducer, deleteOfferReducer, getAllOfferReducer, } from './reducers/userReducer';
 import { SellerReducer, forgotPasswordSellerReducer, profileSellerReducer, allSellersReducer, sellerDetailsReducer, otpSendReducer, deleteAccountReducer, deactivateAccountReducer } from './reducers/SellerReducer';
 import { newProductReducer, newReviewReducer, productDetailsReducer, productReducer, productsReducer, productReviewsReducer, reviewReducer } from './reducers/productReducer';
 import { createStoreReducer, bankAccountReducer, businessInformationReducer, documentUploadReducer, verificationReducer, getStoreReducer } from './reducers/storeReducer';
@@ -47,7 +47,11 @@ const reducer = combineReducers({
     sellerGetStoreData: getStoreReducer,
     sellerDeactivateAccount: deactivateAccountReducer,
     sellerDeleteAccount: deleteAccountReducer,
-    
+    createOffer: createOfferReducer,
+    getOffer: getOfferReducer,
+    updateOffer: updateOfferReducer,
+    deleteOffer: deleteOfferReducer,
+    getAllOffers: getAllOfferReducer,
 });
 
 let initialState = {

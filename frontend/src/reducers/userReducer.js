@@ -39,6 +39,26 @@ import {
     DELETE_USER_SUCCESS,
     DELETE_USER_RESET,
     DELETE_USER_FAIL,
+    CREATE_OFFER_USER_REQUEST,
+    CREATE_OFFER_USER_SUCCESS,
+    CREATE_OFFER_USER_RESET,
+    CREATE_OFFER_USER_FAIL,
+    GET_OFFER_USER_REQUEST,
+    GET_OFFER_USER_SUCCESS,
+    GET_OFFER_USER_RESET,
+    GET_OFFER_USER_FAIL,
+    UPDATE_OFFER_USER_REQUEST,
+    UPDATE_OFFER_USER_SUCCESS,
+    UPDATE_OFFER_USER_RESET,
+    UPDATE_OFFER_USER_FAIL,
+    DELETE_OFFER_USER_REQUEST,
+    DELETE_OFFER_USER_SUCCESS,
+    DELETE_OFFER_USER_RESET,
+    DELETE_OFFER_USER_FAIL,
+    GET_ALL_OFFER_USER_REQUEST,
+    GET_ALL_OFFER_USER_SUCCESS,
+    GET_ALL_OFFER_USER_RESET,
+    GET_ALL_OFFER_USER_FAIL,
     REMOVE_USER_DETAILS,
 } from '../constants/userConstants';
 
@@ -243,6 +263,190 @@ export const userDetailsReducer = (state = { user: {} }, { type, payload }) => {
             return {
                 ...state,
                 user: {},
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+export const createOfferReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case CREATE_OFFER_USER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case CREATE_OFFER_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                offer: payload,
+            };
+        case CREATE_OFFER_USER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case CREATE_OFFER_USER_RESET:
+            return {
+                ...state,
+                success: false,
+                offer: null,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+export const getOfferReducer = (state = { offer: null }, { type, payload }) => {
+    switch (type) {
+        case GET_OFFER_USER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case GET_OFFER_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                offer: payload,
+            };
+        case GET_OFFER_USER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case GET_OFFER_USER_RESET:
+            return {
+                ...state,
+                offer: null,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+export const updateOfferReducer = (state = { offer: null }, { type, payload }) => {
+    switch (type) {
+        case UPDATE_OFFER_USER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case UPDATE_OFFER_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                offer: payload,
+            };
+        case UPDATE_OFFER_USER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case UPDATE_OFFER_USER_RESET:
+            return {
+                ...state,
+                success: false,
+                offer: null,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+export const deleteOfferReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case DELETE_OFFER_USER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case DELETE_OFFER_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                message: payload,
+            };
+        case DELETE_OFFER_USER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case DELETE_OFFER_USER_RESET:
+            return {
+                ...state,
+                success: false,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+const initialState = {
+    loading: false,
+    offers: [],
+    error: null,
+    success: false,
+};
+
+export const getAllOfferReducer = (state = initialState, { type, payload }) => {
+    switch (type) {
+        case GET_ALL_OFFER_USER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case GET_ALL_OFFER_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                offers: payload,
+            };
+        case GET_ALL_OFFER_USER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case GET_ALL_OFFER_USER_RESET:
+            return {
+                ...state,
+                success: false,
+                offers: [],
             };
         case CLEAR_ERRORS:
             return {
