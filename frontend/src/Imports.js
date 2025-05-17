@@ -77,8 +77,8 @@ export { default as OrderTable } from './components/Admin/OrderTable';
 export { default as UpdateOrder } from './components/Admin/UpdateOrder';
 export { default as ProductTable } from './components/Admin/ProductTable';
 export { default as UpdateProduct } from './components/Admin/UpdateProduct';
-export { default as UserTable } from './components/Admin/UserTable';
-export { default as UpdateUser } from './components/Admin/UpdateUser';
+export { default as AccountsTable } from './components/Admin/accountsTable';
+export { default as UpdateUserAndSeller } from './components/Admin/UpdateUserAndSeller';
 export { default as ReviewsTable } from './components/Admin/ReviewsTable';
 
 // Temp Pages

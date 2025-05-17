@@ -12,9 +12,8 @@ router.route("/user/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getS
 
 // Seller 
 router.route("/sellers").get(isAuthenticatedUser, authorizeRoles("admin"), getAllSellers);
-router.route("/seller/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getSingleSeller)
+router.route("/seller/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getSingleSeller).put(isAuthenticatedUser, authorizeRoles("admin"), updateSellerRole);
 router.route('/delete/:id').delete(isAuthenticatedUser, authorizeRoles("admin"), deleteAccount);
-router.route('/seller/update/:id').put(isAuthenticatedUser, authorizeRoles("admin"), updateSellerRole);
 // router.route('/get/storeData').get(isAuthenticatedUser, authorizeRoles("admin"), getCreateStoreSetup);
 
 // Offers

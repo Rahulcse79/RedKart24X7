@@ -4,7 +4,6 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import GroupIcon from '@mui/icons-material/Group';
 import ReviewsIcon from '@mui/icons-material/Reviews';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CloseIcon from '@mui/icons-material/Close';
@@ -32,8 +31,8 @@ const navMenu = [
     },
     {
         icon: <GroupIcon />,
-        label: "Users",
-        ref: "/admin/users",
+        label: "Accounts",
+        ref: "/admin/accounts",
     },
     {
         icon: <ReviewsIcon />,
@@ -101,14 +100,6 @@ const Sidebar = ({ activeTab, setToggleSidebar }) => {
                     )
                 }
                 )}
-            </div>
-
-            <div className="flex flex-col gap-1 bg-gray-700 p-3 rounded-lg shadow-lg mb-6 mt-28 mx-3.5 overflow-hidden">
-                <h5>Developed with ❤️ by:</h5>
-                <div className="flex flex-col gap-0">
-                    <a href="https://www.linkedin.com/in/jigar-sable" target="_blank" rel="noreferrer" className="font-medium text-lg hover:text-blue-500">Jigar Sable</a>
-                    <a href="mailto:jigarsable21@gmail.com" className="text-gray-300 text-sm hover:text-blue-500">jigarsable21@gmail.com</a>
-                </div>
             </div>
         </aside>
     )

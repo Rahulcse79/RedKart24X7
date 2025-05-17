@@ -275,18 +275,18 @@ function App() {
           </Imports.ProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/admin/users" element={
+        <Imports.Route path="/admin/accounts" element={
           <Imports.ProtectedRoute isAdmin={true}>
             <Imports.Dashboard activeTab={3}>
-              <Imports.UserTable />
+              <Imports.AccountsTable />
             </Imports.Dashboard>
           </Imports.ProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/admin/user/:id" element={
+        <Imports.Route path="/admin/accounts/:account/:id" element={
           <Imports.ProtectedRoute isAdmin={true}>
             <Imports.Dashboard activeTab={3}>
-              <Imports.UpdateUser />
+              <Imports.UpdateUserAndSeller />
             </Imports.Dashboard>
           </Imports.ProtectedRoute>
         } ></Imports.Route>

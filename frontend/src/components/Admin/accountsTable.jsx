@@ -27,7 +27,8 @@ import Actions from './Actions';
 import MetaData from '../Layouts/MetaData';
 import BackdropLoader from '../Layouts/BackdropLoader';
 
-const UserTable = () => {
+const AccountsTable = () => {
+
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -35,7 +36,6 @@ const UserTable = () => {
   const { sellers, error: sellerError } = useSelector((state) => state.allSellers);
   const { loading: loadingSellerDelete, isDeleted: isDeletedSeller } = useSelector((state) => state.sellerDeleteAccount);
   const { loading, isDeleted, error: deleteError } = useSelector((state) => state.profile);
-
   const [activeSection, setActiveSection] = useState('users');
 
   useEffect(() => {
@@ -164,7 +164,7 @@ const UserTable = () => {
 
   return (
     <>
-      <MetaData title="Admin Users | RedKart24X7" />
+      <MetaData title="Admin accounts | RedKart24X7" />
       {(loading || loadingSellerDelete) && <BackdropLoader />}
 
       <section className="px-6 py-6 bg-white rounded-lg shadow-md w-full">
@@ -208,4 +208,4 @@ const UserTable = () => {
   );
 };
 
-export default UserTable;
+export default AccountsTable;

@@ -5,8 +5,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import SellerOnBoarding from './SellerOnBoarding';
 import MetaData from '../Layouts/MetaData';
 import Loader from '../Layouts/Loader';
-import { deactivateSeller, deleteSeller, clearErrors } from '../../actions/SellerAction';
-import { DELETE_SELLER_RESET, DEACTIVATE_SELLER_RESET } from "../../constants/SellerConstants";
+import { deactivateSeller, deleteRequestSeller, clearErrors } from '../../actions/SellerAction';
+import { DELETE_REQUEST_SELLER_RESET, DEACTIVATE_SELLER_RESET } from "../../constants/SellerConstants";
 import { useSnackbar } from 'notistack';
 import BackdropLoader from '../Layouts/BackdropLoader';
 
@@ -18,7 +18,7 @@ const Dashboard = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [actionType, setActionType] = useState('');
     const { seller, loading, isAuthenticated, payloadSellerData } = useSelector(state => state.seller);
-    const { error: isDeletedError, loading: isDeletedLoading, isDeleted } = useSelector(state => state.sellerDeleteAccount);
+    const { error: isDeletedError, loading: isDeletedLoading, isDeleted } = useSelector(state => state.sellerDeleteRequestAccount);
     const { error: isDeactivateError, loading: isDeactivateLoading, isDeactivate } = useSelector(state => state.sellerDeactivateAccount);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const Dashboard = () => {
         }
         if (isDeleted || isDeactivate) {
             enqueueSnackbar(`Your account is ${isDeactivate ? "deactivate" : "delete"} Successfully`, { variant: "success" });
-            isDeactivate ? dispatch({ type: DEACTIVATE_SELLER_RESET }) : dispatch({ type: DELETE_SELLER_RESET });
+            isDeactivate ? dispatch({ type: DEACTIVATE_SELLER_RESET }) : dispatch({ type: DELETE_REQUEST_SELLER_RESET });
         }
     }, [isAuthenticated, navigate, dispatch, isDeactivate, isDeletedError, isDeactivateError, isDeleted, enqueueSnackbar]);
 
@@ -43,9 +43,9 @@ const Dashboard = () => {
     const confirmAction = () => {
         setShowPopup(false);
         if (actionType === "Delete") {
-            dispatch(deleteSeller(seller.email));
+            dispatch(deleteRequestSeller());
         } else if (actionType === "Deactivate") {
-            dispatch(deactivateSeller(seller.email));
+            dispatch(deactivateSeller());
         }
     };
 

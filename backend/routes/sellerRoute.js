@@ -14,7 +14,7 @@ router.route('/password/reset/:token').put(resetPassword);
 router.route('/password/update').put(isAuthenticatedSeller, updatePassword);
 router.route('/me').get(isAuthenticatedSeller, getSellerDetails);
 router.route('/deactivate').get(isAuthenticatedSeller, deactivateAccount);
-router.route('/request/delete').get(isAuthenticatedSeller, deleteRequestAccount);
+router.route('/request/delete').get(isAuthenticatedSeller, deleteRequestAccount); 
 router.route('/me/update').put(isAuthenticatedSeller, updateProfile);
 
 module.exports = router;

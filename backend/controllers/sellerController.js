@@ -335,24 +335,15 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
-// Delete request controller 
+// Delete request controller
 exports.deleteRequestAccount = asyncErrorHandler(async (req, res, next) => {
     try {
-        const { email } = req.query;
-
-        if (!email) {
-            return res.status(400).json({
-                success: false,
-                message: "Email is required to request account deletion.",
-            });
-        }
-
-        const existingSeller = await Seller.findOne({ email });
+        const existingSeller = await Seller.findById(req.seller.id);
 
         if (!existingSeller) {
             return res.status(404).json({
                 success: false,
-                message: "No seller found with the provided email.",
+                message: "No seller found with the provided ID.",
             });
         }
 
@@ -378,16 +369,8 @@ exports.deleteRequestAccount = asyncErrorHandler(async (req, res, next) => {
 // Deactivate account controller 
 exports.deactivateAccount = asyncErrorHandler(async (req, res, next) => {
     try {
-        const { email } = req.query;
-
-        if (!email) {
-            return res.status(400).json({
-                success: false,
-                message: "Email is required to deactivate the account.",
-            });
-        }
-
-        const existingSeller = await Seller.findOne({ email });
+        
+        const existingSeller = await Seller.findById(req.seller.id);
 
         if (!existingSeller) {
             return res.status(404).json({

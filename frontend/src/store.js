@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { forgotPasswordReducer, profileReducer, userReducer, allUsersReducer, userDetailsReducer, createOfferReducer, getOfferReducer, updateOfferReducer, deleteOfferReducer, getAllOfferReducer, } from './reducers/userReducer';
-import { SellerReducer, forgotPasswordSellerReducer, profileSellerReducer, allSellersReducer, sellerDetailsReducer, otpSendReducer, deleteAccountReducer, deactivateAccountReducer } from './reducers/SellerReducer';
+import { SellerReducer, forgotPasswordSellerReducer, profileSellerReducer, allSellersReducer, sellerDetailsReducer, otpSendReducer, deleteAccountReducer, deactivateAccountReducer, deleteRequestAccountReducer } from './reducers/SellerReducer';
 import { newProductReducer, newReviewReducer, productDetailsReducer, productReducer, productsReducer, productReviewsReducer, reviewReducer } from './reducers/productReducer';
 import { createStoreReducer, bankAccountReducer, businessInformationReducer, documentUploadReducer, verificationReducer, getStoreReducer } from './reducers/storeReducer';
 import { cartReducer } from './reducers/cartReducer';
@@ -17,7 +17,7 @@ const reducer = combineReducers({
     profileSellerReducer: profileSellerReducer,
     allSellers: allSellersReducer,
     otpSendReducer: otpSendReducer,
-    sellerDetailsReducer: sellerDetailsReducer,
+    sellerDetails: sellerDetailsReducer,
     user: userReducer,
     profile: profileReducer,
     forgotPassword: forgotPasswordReducer,
@@ -45,6 +45,7 @@ const reducer = combineReducers({
     sellerDocumentUpload: documentUploadReducer,
     sellerVerification: verificationReducer,
     sellerGetStoreData: getStoreReducer,
+    sellerDeleteRequestAccount: deleteRequestAccountReducer,
     sellerDeactivateAccount: deactivateAccountReducer,
     sellerDeleteAccount: deleteAccountReducer,
     createOffer: createOfferReducer,

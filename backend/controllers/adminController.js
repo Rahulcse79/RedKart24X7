@@ -131,16 +131,9 @@ exports.getSingleSeller = asyncErrorHandler(async (req, res, next) => {
             return next(new ErrorHandler(`Seller doesn't exist with id: ${req.params.id}`, 404));
         }
 
-        const sellerStoreData = await SellerDataModel.findOne({ email: seller.email });
-
-        if (!sellerStoreData) {
-            return next(new ErrorHandler(`Seller store data doesn't exist for seller with email: ${seller.email}`, 404));
-        }
-
         res.status(200).json({
             success: true,
             seller,
-            sellerStoreData,
         });
     } catch (error) {
         console.error("[GET_SINGLE_SELLER] Error:", error);

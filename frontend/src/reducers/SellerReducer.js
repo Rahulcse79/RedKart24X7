@@ -32,6 +32,10 @@ import {
     UPDATE_SELLER_SUCCESS,
     UPDATE_SELLER_RESET,
     UPDATE_SELLER_FAIL,
+    DELETE_REQUEST_SELLER_REQUEST,
+    DELETE_REQUEST_SELLER_SUCCESS,
+    DELETE_REQUEST_SELLER_FAIL,
+    DELETE_REQUEST_SELLER_RESET,
     DELETE_SELLER_REQUEST,
     DELETE_SELLER_SUCCESS,
     DELETE_SELLER_FAIL,
@@ -279,6 +283,40 @@ export const deleteAccountReducer = (state = {}, { type, payload }) => {
                 error: payload,
             };
         case DELETE_SELLER_RESET:
+            return {
+                ...state,
+                isDeleted: false,
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+export const deleteRequestAccountReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case DELETE_REQUEST_SELLER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case DELETE_REQUEST_SELLER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeleted: payload,
+            };
+        case DELETE_REQUEST_SELLER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case DELETE_REQUEST_SELLER_RESET:
             return {
                 ...state,
                 isDeleted: false,
