@@ -1,7 +1,6 @@
 const UserModel = require('../models/userModel');
 const SellerModel = require('../models/sellerModel');
 const ProductModel = require('../models/productModel');
-// const OrderModel = require('../models/productModel');
 const SellerDataModel = require('../models/sellerDataModel');
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
 
@@ -216,6 +215,160 @@ exports.updateOrder = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
+// Create an offer for a single user
+exports.singleUserOffer = async (req, res, next) => {
+    try {
+        const user = await UserModel.findById(req.params.id);
+        if (!user) {
+            return next(new ErrorHandler("User not found", 404));
+        }
+
+        const { discount, offerName, count, highestPrice } = req.body;
+
+        if (
+            typeof discount !== "number" ||
+            !offerName ||
+            typeof count !== "number" ||
+            typeof highestPrice !== "number"
+        ) {
+            return next(new ErrorHandler("All offer fields are required and must be valid", 400));
+        }
+
+        if (discount < 0 || count < 0 || highestPrice < 0) {
+            return next(new ErrorHandler("Values cannot be negative", 400));
+        }
+
+        if (discount > highestPrice) {
+            return next(new ErrorHandler("Discount cannot be greater than highest price", 400));
+        }
+
+        const newOffer = { discount, offerName, count, highestPrice };
+        user.offer.push(newOffer);
+        await user.save();
+
+        res.status(201).json({
+            success: true,
+            message: "Offer added successfully",
+            offer: newOffer,
+        });
+    } catch (error) {
+        console.error("[CREATE_USER_OFFER] Error:", error);
+        return next(new ErrorHandler("Failed to create user offer", 500));
+    }
+};
+
+// Update an offer for a single user by offer index
+exports.updateUserOffer = async (req, res, next) => {
+    try {
+        const user = await UserModel.findById(req.params.id);
+        if (!user) {
+            return next(new ErrorHandler("User not found", 404));
+        }
+
+        const { discount, offerName, count, highestPrice, offerIndex } = req.body;
+
+        if (
+            typeof discount !== "number" ||
+            !offerName ||
+            typeof count !== "number" ||
+            typeof highestPrice !== "number"
+        ) {
+            return next(new ErrorHandler("All offer fields are required and must be valid", 400));
+        }
+
+        if (discount < 0 || count < 0 || highestPrice < 0) {
+            return next(new ErrorHandler("Values cannot be negative", 400));
+        }
+
+        if (discount > highestPrice) {
+            return next(new ErrorHandler("Discount cannot be greater than highest price", 400));
+        }
+
+        if (offerIndex < 0 || offerIndex >= user.offer.length) {
+            return next(new ErrorHandler("Offer not found", 404));
+        }
+
+        user.offer[offerIndex].discount = discount;
+        user.offer[offerIndex].offerName = offerName;
+        user.offer[offerIndex].count = count;
+        user.offer[offerIndex].highestPrice = highestPrice;
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Offer updated successfully",
+            offer: user.offer[offerIndex],
+        });
+    } catch (error) {
+        console.error("[UPDATE_USER_OFFER] Error:", error);
+        return next(new ErrorHandler("Failed to update user offer", 500));
+    }
+};
+
+// Delete an offer from a user by offer index
+exports.deleteUserOffer = async (req, res, next) => {
+    try {
+        const user = await UserModel.findById(req.params.id);
+        if (!user) {
+            return next(new ErrorHandler("User not found", 404));
+        }
+
+        const offerIndex = req.params.offerIndex;
+
+        if (offerIndex < 0 || offerIndex >= user.offer.length) {
+            return next(new ErrorHandler("Offer not found", 404));
+        }
+
+        user.offer.splice(offerIndex, 1);
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Offer deleted successfully",
+            offers: user.offer,
+        });
+    } catch (error) {
+        console.error("[DELETE_USER_OFFER] Error:", error);
+        return next(new ErrorHandler("Failed to delete user offer", 500));
+    }
+};
+
+// Get all offers for a user
+exports.getUserOffers = async (req, res, next) => {
+    try {
+        const user = await UserModel.findById(req.params.id).select('offer');
+        if (!user) {
+            return next(new ErrorHandler("User not found", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            offers: user.offer,
+        });
+    } catch (error) {
+        console.error("[GET_USER_OFFERS] Error:", error);
+        return next(new ErrorHandler("Failed to get user offers", 500));
+    }
+};
+
+// Controller function to fetch all users' id and their offers
+exports.getAllUsersOffers = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const usersOffers = await UserModel.find({}, { _id: 1, offer: 1 });
+
+        res.status(200).json({
+            success: true,
+            count: usersOffers.length,
+            data: usersOffers,
+        });
+    } catch (error) {
+        console.error("[GET_ALL_USERS_OFFERS] Error:", error);
+        return next(new ErrorHandler("Failed to fetch users offers", 500));
+    }
+});
+
 // Update stock
 async function updateStock(id, quantity) {
     try {
@@ -228,7 +381,7 @@ async function updateStock(id, quantity) {
         product.stock -= quantity;
 
         if (product.stock < 0) {
-            product.stock = 0; 
+            product.stock = 0;
         }
 
         await product.save({ validateBeforeSave: false });

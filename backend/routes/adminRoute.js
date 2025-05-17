@@ -1,6 +1,7 @@
 const express = require('express');
 
-const { getAllUsers, getSingleUser, getAllSellers, getSingleSeller, deleteUser, getAllOrders, deleteOrder, updateUserRole, updateOrder, deleteAccount } = require('../controllers/adminController');
+const { getAllUsers, getSingleUser, getAllSellers, getSingleSeller, deleteUser, deleteOrder, updateUserRole, updateOrder,
+deleteAccount, singleUserOffer, updateUserOffer, deleteUserOffer, getUserOffers, getAllUsersOffers, } = require('../controllers/adminController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 const router = express.Router();
@@ -14,6 +15,13 @@ router.route("/sellers").get(isAuthenticatedUser, authorizeRoles("admin"), getAl
 router.route("/seller/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getSingleSeller)
 router.route('/delete').delete(isAuthenticatedUser, authorizeRoles("admin"), deleteAccount);
 // router.route('/get/storeData').get(isAuthenticatedUser, authorizeRoles("admin"), getCreateStoreSetup);
+
+// Offers
+router.route("/user/:id/offer").post(isAuthenticatedUser, authorizeRoles("admin"), singleUserOffer);
+router.route("/user/:id/offer/:offerIndex").put(isAuthenticatedUser, authorizeRoles("admin"), updateUserOffer);
+router.route("/user/:id/offer/:offerIndex").delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUserOffer);
+router.route("/user/:id/offers").get(isAuthenticatedUser, authorizeRoles("admin", "user"), getUserOffers);
+router.route("/users/offers").get(isAuthenticatedUser, authorizeRoles("admin"), getAllUsersOffers);
 
 // orders
 router.route('/order/:id').put(isAuthenticatedUser, authorizeRoles("admin"), updateOrder).delete(isAuthenticatedUser, authorizeRoles("admin"), deleteOrder);

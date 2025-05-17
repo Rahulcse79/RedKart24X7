@@ -13,6 +13,34 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please Enter Your Email"],
         unique: true,
     },
+    offer: [
+        {
+            discount: {
+                type: Number,
+                required: [true, "Discount is required"],
+                validate: {
+                    validator: function (value) {
+                        return value <= this.highestPrice;
+                    },
+                    message: "Discount must be less than or equal to highestPrice"
+                }
+            },
+            offerName: {
+                type: String,
+                required: [true, "Offer name is required"],
+            },
+            count: {
+                type: Number,
+                required: [true, "Count is required"],
+                min: [0, "Count cannot be negative"],
+            },
+            highestPrice: {
+                type: Number,
+                required: [true, "Highest price is required"],
+                min: [0, "Highest price cannot be negative"],
+            }
+        }
+    ],
     gender: {
         type: String,
         required: [true, "Please Enter Gender"]
@@ -64,13 +92,9 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 
 userSchema.methods.getResetPasswordToken = async function () {
 
-    // generate token
     const resetToken = crypto.randomBytes(20).toString("hex");
-
-    // generate hash token and add to db
     this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
     this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
-
     return resetToken;
 }
 

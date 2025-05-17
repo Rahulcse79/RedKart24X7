@@ -35,11 +35,19 @@ const productSchema = new mongoose.Schema({
     ],
     price: {
         type: Number,
-        required: [true, "Please enter product price"]
+        required: [true, "Please enter product price"],
+        min: [0, "Price cannot be negative"],
     },
     cuttedPrice: {
         type: Number,
-        required: [true, "Please enter cutted price"]
+        required: [true, "Please enter cutted price"],
+        min: [0, "Cutted price cannot be negative"],
+        validate: {
+            validator: function (value) {
+                return value >= this.price;
+            },
+            message: "Cutted price must be greater than or equal to actual price",
+        },
     },
     images: [
         {
