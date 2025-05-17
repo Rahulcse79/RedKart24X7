@@ -35,7 +35,6 @@ const ProductDetails = () => {
     const params = useParams();
     const navigate = useNavigate();
 
-    // reviews toggle
     const [open, setOpen] = useState(false);
     const [viewAll, setViewAll] = useState(false);
     const [rating, setRating] = useState(0);
@@ -132,13 +131,8 @@ const ProductDetails = () => {
                     <MetaData title={product.name} />
                     <MinCategory />
                     <main className="mt-12 sm:mt-0">
-
-                        {/* <!-- product image & description container --> */}
                         <div className="w-full flex flex-col sm:flex-row bg-white sm:p-2 relative">
-
-                            {/* <!-- image wrapper --> */}
                             <div className="w-full sm:w-2/5 sm:sticky top-16 sm:h-screen">
-                                {/* <!-- imgbox --> */}
                                 <div className="flex flex-col gap-3 m-3">
                                     <div className="w-full h-full pb-6 border relative">
                                         <Slider {...settings}>
@@ -152,7 +146,6 @@ const ProductDetails = () => {
                                     </div>
 
                                     <div className="w-full flex gap-3">
-                                        {/* <!-- add to cart btn --> */}
                                         {product.stock > 0 && (
                                             <button onClick={itemInCart ? goToCart : addToCartHandler} className="p-4 w-1/2 flex items-center justify-center gap-2 text-white bg-primary-yellow rounded-sm shadow hover:shadow-lg">
                                                 <ShoppingCartIcon />
@@ -163,29 +156,16 @@ const ProductDetails = () => {
                                             <FlashOnIcon />
                                             {product.stock < 1 ? "OUT OF STOCK" : "BUY NOW"}
                                         </button>
-                                        {/* <!-- add to cart btn --> */}
                                     </div>
-
                                 </div>
-                                {/* <!-- imgbox --> */}
                             </div>
-                            {/* <!-- image wrapper --> */}
-
-                            {/* <!-- product desc wrapper --> */}
                             <div className="flex-1 py-2 px-3">
-
-                                {/* <!-- whole product description --> */}
                                 <div className="flex flex-col gap-2 mb-4">
-
                                     <h2 className="text-xl">{product.name}</h2>
-                                    {/* <!-- rating badge --> */}
                                     <span className="text-sm text-gray-500 font-medium flex gap-2 items-center">
                                         <span className="text-xs px-1.5 py-0.5 bg-primary-green rounded-sm text-white flex items-center gap-0.5">{product.ratings && product.ratings.toFixed(1)} <StarIcon sx={{ fontSize: "12px" }} /></span>
                                         <span>{product.numOfReviews} Reviews</span>
                                     </span>
-                                    {/* <!-- rating badge --> */}
-
-                                    {/* <!-- price desc --> */}
                                     <span className="text-primary-green text-sm font-medium">Special Price</span>
                                     <div className="flex items-baseline gap-2 text-3xl font-medium">
                                         <span className="text-gray-800">₹{product.price?.toLocaleString()}</span>
@@ -195,33 +175,21 @@ const ProductDetails = () => {
                                     {product.stock <= 10 && product.stock > 0 && (
                                         <span className="text-red-500 text-sm font-medium">Hurry, Only {product.stock} left!</span>
                                     )}
-                                    {/* <!-- price desc --> */}
-
-                                    {/* <!-- banks offers --> */}
                                     <p className="text-md font-medium">Available offers</p>
-                                    {Array(3).fill("").map((el, i) => (
-                                        <p className="text-sm flex items-center gap-1" key={i}>
+                                    {/* {Array(3).fill("").map((el, i) => ( */}
+                                        <p className="text-sm flex items-center gap-1">
                                             <span className="text-primary-lightGreen"><LocalOfferIcon sx={{ fontSize: "20px" }} /></span>
                                             <span className="font-medium ml-2">Bank Offer</span> 15% Instant discount on first RedKart24X7 Pay Later order of 500 and above <Link className="text-primary-blue font-medium" to="/">T&C</Link>
                                         </p>
-                                    ))}
-                                    {/* <!-- banks offers --> */}
-
-                                    {/* <!-- warranty & brand --> */}
+                                    {/* ))} */}
                                     <div className="flex gap-8 mt-2 items-center text-sm">
                                         <img draggable="false" className="w-20 h-8 p-0.5 border object-contain" src={product.brand?.logo.url} alt={product.brand && product.brand.name} />
                                         <span>{product.warranty} Year Warranty <Link className="font-medium text-primary-blue" to="/">Know More</Link></span>
                                     </div>
-                                    {/* <!-- warranty & brand --> */}
-
-                                    {/* <!-- delivery details --> */}
                                     <div className="flex gap-16 mt-4 items-center text-sm font-medium">
                                         <p className="text-gray-500">Delivery</p>
                                         <span>Delivery by {getDeliveryDate()}</span>
                                     </div>
-                                    {/* <!-- delivery details --> */}
-
-                                    {/* <!-- highlights & services details --> */}
                                     <div className="flex flex-col sm:flex-row justify-between">
                                         {/* <!-- highlights details --> */}
                                         <div className="flex gap-16 mt-4 items-stretch text-sm">

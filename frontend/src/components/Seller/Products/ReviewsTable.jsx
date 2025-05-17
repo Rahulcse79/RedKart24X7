@@ -19,14 +19,7 @@ const ReviewsTable = () => {
     const { loading, isDeleted, error: deleteError } = useSelector((state) => state.review);
 
     useEffect((e) => {
-        const handleKeyDown = (e) => {
-            if (e.key === "Enter" && productId.length === 24) {
-                dispatch(getAllReviews(productId));
-            } else if (productId.length !== 24){
-                dispatch({ type: ALL_REVIEWS_RESET });
-            }
-        };
-        window.addEventListener("keydown", handleKeyDown);
+    
         if (error) {
             enqueueSnackbar(error, { variant: "error" });
             dispatch(clearErrors());
@@ -49,6 +42,23 @@ const ReviewsTable = () => {
     const deleteReviewHandler = (id) => {
         dispatch(deleteReview(id, productId));
     }
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter" && productId.length === 24) {
+            dispatch(getAllReviews(productId));
+        } else if (productId.length !== 24) {
+            dispatch({ type: ALL_REVIEWS_RESET });
+        }
+    };
+
+    const handleClick = () => {
+        if (productId.length === 24) {
+            dispatch(getAllReviews(productId));
+        } else {
+            enqueueSnackbar("Please enter 12 digit id.", { variant: "fail" });
+            dispatch({ type: ALL_REVIEWS_RESET });
+        }
+    };
 
     const columns = [
         {
@@ -115,6 +125,12 @@ const ReviewsTable = () => {
             <div className="flex justify-between items-center gap-2 sm:gap-12">
                 <h1 className="text-lg font-medium uppercase">reviews</h1>
                 <input type="text" placeholder="Product ID" value={productId} onChange={(e) => setProductId(e.target.value)} className="outline-none border-0 rounded p-2 w-full shadow hover:shadow-lg" />
+                <span
+                    onClick={handleClick}
+                    className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700"
+                >
+                    Search
+                </span>
             </div>
             <div className="bg-white rounded-xl shadow-lg w-full" style={{ height: 450 }}>
 

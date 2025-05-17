@@ -27,10 +27,6 @@ const catNav = [
         icon: home,
     },
     {
-        name: "Travel",
-        icon: travel,
-    },
-    {
         name: "Appliances",
         icon: appliances,
     },
