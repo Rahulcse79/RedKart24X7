@@ -15,7 +15,7 @@ const reducer = combineReducers({
     seller: SellerReducer,
     forgotPasswordSeller: forgotPasswordSellerReducer,
     profileSellerReducer: profileSellerReducer,
-    allSellersReducer: allSellersReducer,
+    allSellers: allSellersReducer,
     otpSendReducer: otpSendReducer,
     sellerDetailsReducer: sellerDetailsReducer,
     user: userReducer,

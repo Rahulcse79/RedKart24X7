@@ -7,7 +7,6 @@ import { UPDATE_USER_RESET, REMOVE_USER_DETAILS } from '../../constants/userCons
 import Loading from './Loading';
 import Avatar from '@mui/material/Avatar';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import MenuItem from '@mui/material/MenuItem';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
@@ -87,7 +86,6 @@ const UpdateUser = () => {
                         >
                             <div className="flex flex-col gap-3 items-start">
 
-                                {/* <!-- input container column --> */}
                                 <div className="flex flex-col w-full justify-between sm:flex-col gap-3 items-center">
                                     <TextField
                                         fullWidth
@@ -107,9 +105,7 @@ const UpdateUser = () => {
                                         required
                                     />
                                 </div>
-                                {/* <!-- input container column --> */}
 
-                                {/* <!-- gender input --> */}
                                 <div className="flex gap-4 items-center">
                                     <h2 className="text-md">Your Gender :</h2>
                                     <div className="flex items-center gap-6" id="radioInput">
@@ -123,26 +119,12 @@ const UpdateUser = () => {
                                         </RadioGroup>
                                     </div>
                                 </div>
-                                {/* <!-- gender input --> */}
-
                                 <div className="flex flex-col w-full justify-between sm:flex-row gap-3 items-center">
                                     <Avatar
                                         alt="Avatar Preview"
                                         src={avatarPreview}
                                         sx={{ width: 56, height: 56 }}
                                     />
-                                    <TextField
-                                        label="Role"
-                                        select
-                                        fullWidth
-                                        variant="outlined"
-                                        required
-                                        value={role}
-                                        onChange={(e) => setRole(e.target.value)}
-                                    >
-                                        <MenuItem value={"user"}>User</MenuItem>
-                                        <MenuItem value={"admin"}>Admin</MenuItem>
-                                    </TextField>
                                 </div>
                                 
                                 <button type="submit" className="text-white py-3 w-full bg-primary-orange shadow hover:shadow-lg rounded-sm font-medium">Update</button>

@@ -267,14 +267,6 @@ function App() {
           </Imports.ProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/admin/new_product" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={3}>
-              <Imports.NewProduct />
-            </Imports.Dashboard>
-          </Imports.ProtectedRoute>
-        } ></Imports.Route>
-
         <Imports.Route path="/admin/product/:id" element={
           <Imports.ProtectedRoute isAdmin={true}>
             <Imports.Dashboard activeTab={2}>
@@ -285,7 +277,7 @@ function App() {
 
         <Imports.Route path="/admin/users" element={
           <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={4}>
+            <Imports.Dashboard activeTab={3}>
               <Imports.UserTable />
             </Imports.Dashboard>
           </Imports.ProtectedRoute>
@@ -293,7 +285,7 @@ function App() {
 
         <Imports.Route path="/admin/user/:id" element={
           <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={4}>
+            <Imports.Dashboard activeTab={3}>
               <Imports.UpdateUser />
             </Imports.Dashboard>
           </Imports.ProtectedRoute>
@@ -301,7 +293,7 @@ function App() {
 
         <Imports.Route path="/admin/reviews" element={
           <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={5}>
+            <Imports.Dashboard activeTab={4}>
               <Imports.ReviewsTable />
             </Imports.Dashboard>
           </Imports.ProtectedRoute>

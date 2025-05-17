@@ -22,7 +22,7 @@ exports.getAllUsers = asyncErrorHandler(async (req, res, next) => {
 // Delete User by ID
 exports.deleteUser = asyncErrorHandler(async (req, res, next) => {
     try {
-        const user = await UserModel.findById(req.params.id);
+        const user = await UserModel.findById(req.params.id); 
 
         if (!user) {
             return next(new ErrorHandler(`User doesn't exist with id: ${req.params.id}`, 404));
@@ -65,8 +65,7 @@ exports.updateUserRole = asyncErrorHandler(async (req, res, next) => {
         const newUserData = {
             name: req.body.name,
             email: req.body.email,
-            gender: req.body.gender,
-            role: req.body.role,
+            gender: req.body.gender
         };
 
         await UserModel.findByIdAndUpdate(req.params.id, newUserData, {
@@ -99,6 +98,30 @@ exports.getAllSellers = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
+// Update Seller Role
+exports.updateSellerRole = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const newSellerData = {
+            name: req.body.name,
+            email: req.body.email,
+            gender: req.body.gender
+        };
+
+        await SellerModel.findByIdAndUpdate(req.params.id, newSellerData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        });
+
+        res.status(200).json({
+            success: true,
+        });
+    } catch (error) {
+        console.error("[UPDATE_SELLER_ROLE] Error:", error);
+        return next(new ErrorHandler("Failed to update selelr role", 500));
+    }
+});
+
 // Get single seller 
 exports.getSingleSeller = asyncErrorHandler(async (req, res, next) => {
     try {
@@ -128,25 +151,18 @@ exports.getSingleSeller = asyncErrorHandler(async (req, res, next) => {
 // Delete account controller --Admin
 exports.deleteAccount = asyncErrorHandler(async (req, res, next) => {
     try {
-        const { email } = req.query;
+        const seller = await SellerModel.findById(req.params.id);
 
-        if (!email) {
-            return res.status(400).json({
-                success: false,
-                message: "Email is required to delete the account.",
-            });
-        }
-
-        const existingSeller = await SellerModel.findOne({ email });
-
-        if (!existingSeller) {
+        if (!seller) {
             return res.status(404).json({
                 success: false,
-                message: "No seller found with the provided email.",
+                message: "Seller not found with the provided ID.",
             });
         }
 
-        await SellerModel.deleteOne({ email });
+        const email = seller.email;
+
+        await SellerModel.deleteOne({ _id: req.params.id });
         await SellerDataModel.deleteOne({ email });
 
         return res.status(200).json({

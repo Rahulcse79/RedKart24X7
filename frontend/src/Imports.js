@@ -76,7 +76,6 @@ export { default as MainData } from './components/Admin/MainData';
 export { default as OrderTable } from './components/Admin/OrderTable';
 export { default as UpdateOrder } from './components/Admin/UpdateOrder';
 export { default as ProductTable } from './components/Admin/ProductTable';
-export { default as NewProduct } from './components/Admin/NewProduct';
 export { default as UpdateProduct } from './components/Admin/UpdateProduct';
 export { default as UserTable } from './components/Admin/UserTable';
 export { default as UpdateUser } from './components/Admin/UpdateUser';

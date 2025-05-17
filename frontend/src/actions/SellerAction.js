@@ -35,9 +35,9 @@ import {
     SELLER_DETAILS_REQUEST,
     SELLER_DETAILS_SUCCESS,
     SELLER_DETAILS_FAIL,
-    ALL_SELLERS_FAIL,
-    ALL_SELLERS_SUCCESS,
-    ALL_SELLERS_REQUEST,
+    GET_ALL_SELLERS_REQUEST,
+    GET_ALL_SELLERS_SUCCESS,
+    GET_ALL_SELLERS_FAIL,
     OTP_SEND_REQUEST,
     OTP_SEND_SUCCESS,
     OTP_SEND_FAIL,
@@ -347,16 +347,16 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 export const getAllSellers = () => async (dispatch) => {
     try {
 
-        dispatch({ type: ALL_SELLERS_REQUEST });
-        const { data } = await axios.get('/api/v1/seller/admin/sellers');
+        dispatch({ type: GET_ALL_SELLERS_REQUEST });
+        const { data } = await axios.get('/api/v1/admin/sellers');
         dispatch({
-            type: ALL_SELLERS_SUCCESS,
+            type: GET_ALL_SELLERS_SUCCESS,
             payload: data.sellers,
         });
 
     } catch (error) {
         dispatch({
-            type: ALL_SELLERS_FAIL,
+            type: GET_ALL_SELLERS_FAIL,
             payload: error.response.data.message,
         });
     }
@@ -367,7 +367,7 @@ export const getSellerDetails = (id) => async (dispatch) => {
     try {
 
         dispatch({ type: SELLER_DETAILS_REQUEST });
-        const { data } = await axios.get(`/api/v1/seller/admin/seller/${id}`);
+        const { data } = await axios.get(`/api/v1/admin/seller/${id}`);
 
         dispatch({
             type: SELLER_DETAILS_SUCCESS,
@@ -395,7 +395,7 @@ export const updateSeller = (id, sellerData) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `/api/v1/seller/admin/seller/${id}`,
+            `/api/v1/admin/seller/${id}`,
             sellerData,
             config
         );
@@ -414,11 +414,11 @@ export const updateSeller = (id, sellerData) => async (dispatch) => {
 };
 
 // Delete seller ---ADMIN
-export const deleteSeller = (email) => async (dispatch) => {
+export const deleteSeller = (id) => async (dispatch) => {
     try {
 
         dispatch({ type: DELETE_SELLER_REQUEST });
-        const { data } = await axios.get(`/api/v1/seller/request/delete?email=${encodeURIComponent(email)}`); 
+        const { data } = await axios.delete(`/api/v1/admin/request/delete/${id}`); 
 
         dispatch({
             type: DELETE_SELLER_SUCCESS,

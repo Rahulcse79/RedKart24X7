@@ -25,9 +25,6 @@ import {
     UPDATE_PASSWORD_SUCCESS,
     UPDATE_PASSWORD_FAIL,
     UPDATE_PASSWORD_RESET,
-    ALL_SELLERS_REQUEST,
-    ALL_SELLERS_SUCCESS,
-    ALL_SELLERS_FAIL,
     SELLER_DETAILS_REQUEST,
     SELLER_DETAILS_SUCCESS,
     SELLER_DETAILS_FAIL,
@@ -46,7 +43,11 @@ import {
     REMOVE_SELLER_DETAILS,
     OTP_SEND_REQUEST,
     OTP_SEND_SUCCESS,
-    OTP_SEND_FAIL
+    OTP_SEND_FAIL,
+    GET_ALL_SELLERS_REQUEST,
+    GET_ALL_SELLERS_SUCCESS,
+    GET_ALL_SELLERS_FAIL,
+    GET_ALL_SELLERS_RESET,
 } from '../constants/SellerConstants';
 
 export const SellerReducer = (state = { seller: {} }, { type, payload, payloadSellerData }) => {
@@ -179,35 +180,6 @@ export const profileSellerReducer = (state = {}, { type, payload }) => {
                 ...state,
                 isUpdated: false,
             }
-        case CLEAR_ERRORS:
-            return {
-                ...state,
-                error: null,
-            };
-        default:
-            return state;
-    }
-};
-
-export const allSellersReducer = (state = { sellers: [] }, { type, payload }) => {
-    switch (type) {
-        case ALL_SELLERS_REQUEST:
-            return {
-                ...state,
-                loading: true,
-            };
-        case ALL_SELLERS_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                sellers: payload,
-            };
-        case ALL_SELLERS_FAIL:
-            return {
-                ...state,
-                loading: false,
-                error: payload,
-            };
         case CLEAR_ERRORS:
             return {
                 ...state,
@@ -354,3 +326,39 @@ export const deactivateAccountReducer = (state = {}, { type, payload }) => {
             return state;
     }
 };
+
+export const allSellersReducer = (state = { sellers: [] }, { type, payload }) => {
+    switch (type) {
+        case GET_ALL_SELLERS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case GET_ALL_SELLERS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                sellers: payload,
+            };
+        case GET_ALL_SELLERS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case GET_ALL_SELLERS_RESET:
+            return {
+                ...state,
+                loading: false,
+                sellers: null,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+

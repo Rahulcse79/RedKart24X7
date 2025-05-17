@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { getAllUsers, getSingleUser, getAllSellers, getSingleSeller, deleteUser, deleteOrder, updateUserRole, updateOrder,
-deleteAccount, singleUserOffer, updateUserOffer, deleteUserOffer, getUserOffers, getAllUsersOffers, } = require('../controllers/adminController');
+deleteAccount, singleUserOffer, updateUserOffer, deleteUserOffer, updateSellerRole, getUserOffers, getAllUsersOffers, } = require('../controllers/adminController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 const router = express.Router();
@@ -13,7 +13,8 @@ router.route("/user/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getS
 // Seller 
 router.route("/sellers").get(isAuthenticatedUser, authorizeRoles("admin"), getAllSellers);
 router.route("/seller/:id").get(isAuthenticatedUser, authorizeRoles("admin"), getSingleSeller)
-router.route('/delete').delete(isAuthenticatedUser, authorizeRoles("admin"), deleteAccount);
+router.route('/delete/:id').delete(isAuthenticatedUser, authorizeRoles("admin"), deleteAccount);
+router.route('/seller/update/:id').put(isAuthenticatedUser, authorizeRoles("admin"), updateSellerRole);
 // router.route('/get/storeData').get(isAuthenticatedUser, authorizeRoles("admin"), getCreateStoreSetup);
 
 // Offers
