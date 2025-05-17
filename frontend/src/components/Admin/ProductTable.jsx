@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { clearErrors, deleteProduct, getAdminProducts } from '../../actions/productAction';
+import { clearErrors, deleteProduct, getSliderProducts } from '../../actions/productAction';
 import Rating from '@mui/material/Rating';
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstants';
 import Actions from './Actions';
@@ -30,7 +30,7 @@ const ProductTable = () => {
             enqueueSnackbar("Product Deleted Successfully", { variant: "success" });
             dispatch({ type: DELETE_PRODUCT_RESET });
         }
-        // dispatch(getAdminProducts());
+        dispatch(getSliderProducts());
     }, [dispatch, error, deleteError, isDeleted, enqueueSnackbar]);
 
     const deleteProductHandler = (id) => {

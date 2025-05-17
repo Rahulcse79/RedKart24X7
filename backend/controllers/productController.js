@@ -79,21 +79,6 @@ exports.getProductDetails = async (req, res, next) => {
     }
 };
 
-// Get All Products
-exports.getSellerProducts = async (req, res, next) => {
-    try {
-        const products = await Product.find();
-
-        res.status(200).json({
-            success: true,
-            products,
-        });
-    } catch (error) {
-        console.error("[GET_SELLER_PRODUCTS] Error:", error);
-        return next(new ErrorHandler("Failed to get products", 500));
-    }
-};
-
 // Create Product 
 exports.createProduct = async (req, res, next) => {
     try {
