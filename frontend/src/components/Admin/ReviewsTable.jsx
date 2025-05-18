@@ -1,27 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { clearErrors, deleteReview, getAllReviews } from '../../actions/productAction';
 import Rating from '@mui/material/Rating';
 import Actions from './Actions';
-import { DELETE_REVIEW_RESET } from '../../constants/productConstants';
 import MetaData from '../Layouts/MetaData';
+import { useDispatch, useSelector } from 'react-redux';
 import BackdropLoader from '../Layouts/BackdropLoader';
+import { clearErrors, deleteAdminReview, getAllAdminReviews } from '../../actions/productAction';
+import { DELETE_REVIEW_ADMIN_RESET, ALL_REVIEWS_ADMIN__RESET } from '../../constants/productConstants';
 
 const ReviewsTable = () => {
 
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const [productId, setProductId] = useState("");
+    const { reviews, error } = useSelector((state) => state.adminReview);
+    const { loading, isDeleted, error: deleteError } = useSelector((state) => state.adminDeleteReview);
 
-    const { reviews, error } = useSelector((state) => state.reviews);
-    const { loading, isDeleted, error: deleteError } = useSelector((state) => state.review);
+    const handleKeyDown = useCallback((e) => {
+        if (e.key === "Enter" && productId.length === 24) {
+            dispatch(getAllAdminReviews(productId));
+        } else if (productId.length !== 24) {
+            dispatch({ type: ALL_REVIEWS_ADMIN__RESET });
+        }
+    }, [productId, dispatch]);
 
     useEffect(() => {
-        if (productId.length === 24) {
-            dispatch(getAllReviews(productId));
-        }
+        window.addEventListener("keydown", handleKeyDown);
+
         if (error) {
             enqueueSnackbar(error, { variant: "error" });
             dispatch(clearErrors());
@@ -32,13 +38,26 @@ const ReviewsTable = () => {
         }
         if (isDeleted) {
             enqueueSnackbar("Review Deleted Successfully", { variant: "success" });
-            dispatch({ type: DELETE_REVIEW_RESET });
+            dispatch({ type: DELETE_REVIEW_ADMIN_RESET });
         }
-    }, [dispatch, error, deleteError, isDeleted, productId, enqueueSnackbar]);
 
-    const deleteReviewHandler = (id) => {
-        dispatch(deleteReview(id, productId));
-    }
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [dispatch, error, deleteError, isDeleted, enqueueSnackbar, handleKeyDown]);
+
+    const deleteAdminReviewHandler = (id) => {
+        dispatch(deleteAdminReview(id, productId));
+    };
+
+    const handleClick = () => {
+        if (productId.length === 24) {
+            dispatch(getAllAdminReviews(productId));
+        } else {
+            enqueueSnackbar("Please enter a 24 digit product ID.", { variant: "error" });
+            dispatch({ type: ALL_REVIEWS_ADMIN__RESET });
+        }
+    };
 
     const columns = [
         {
@@ -61,9 +80,9 @@ const ReviewsTable = () => {
             flex: 0.3,
             align: "left",
             headerAlign: "left",
-            renderCell: (params) => {
-                return <Rating readOnly value={params.row.rating} size="small" precision={0.5} />
-            }
+            renderCell: (params) => (
+                <Rating readOnly value={params.row.rating} size="small" precision={0.5} />
+            ),
         },
         {
             field: "comment",
@@ -78,41 +97,47 @@ const ReviewsTable = () => {
             flex: 0.3,
             type: "number",
             sortable: false,
-            renderCell: (params) => {
-                return (
-                    <Actions editRoute={"review"} deleteHandler={deleteReviewHandler} id={params.row.id} />
-                );
-            },
+            renderCell: (params) => (
+                <Actions editRoute={"review"} deleteHandler={deleteAdminReviewHandler} id={params.row.id} />
+            ),
         },
     ];
 
-    const rows = [];
-
-    reviews && reviews.forEach((rev) => {
-        rows.push({
-            id: rev._id,
-            rating: rev.rating,
-            comment: rev.comment,
-            user: rev.name,
-        });
-    });
+    const rows = reviews?.map((rev) => ({
+        id: rev._id,
+        rating: rev.rating,
+        comment: rev.comment,
+        user: rev.name,
+    })) || [];
 
     return (
         <>
             <MetaData title="Admin Reviews | RedKart24X7" />
-
             {loading && <BackdropLoader />}
-            <div className="flex justify-between items-center gap-2 sm:gap-12">
-                <h1 className="text-lg font-medium uppercase">reviews</h1>
-                <input type="text" placeholder="Product ID" value={productId} onChange={(e) => setProductId(e.target.value)} className="outline-none border-0 rounded p-2 w-full shadow hover:shadow-lg" />
-            </div>
-            <div className="bg-white rounded-xl shadow-lg w-full" style={{ height: 450 }}>
 
+            <div className="flex justify-between items-center gap-2 sm:gap-12 mb-4">
+                <h1 className="text-lg font-medium uppercase">Reviews</h1>
+                <input
+                    type="text"
+                    placeholder="Product ID"
+                    value={productId}
+                    onChange={(e) => setProductId(e.target.value)}
+                    className="outline-none border-0 rounded p-2 w-full shadow hover:shadow-lg"
+                />
+                <span
+                    onClick={handleClick}
+                    className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700"
+                >
+                    Search
+                </span>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg w-full" style={{ height: 450 }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
                     pageSize={10}
-                    disableSelectIconOnClick
+                    disableSelectionOnClick
                     sx={{
                         boxShadow: 0,
                         border: 0,

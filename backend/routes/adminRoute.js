@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { getAllUsers, getSingleUser, getAllSellers, getSingleSeller, deleteUser, deleteOrder, updateUserRole, updateOrder,
-deleteAccount, singleUserOffer, updateUserOffer, deleteUserOffer, updateSellerRole, getUserOffers, getAllUsersOffers, } = require('../controllers/adminController');
+deleteAccount, singleUserOffer, deleteProductReviews, getProductReviews, updateUserOffer, deleteUserOffer, updateSellerRole, getUserOffers, getAllUsersOffers, } = require('../controllers/adminController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 const router = express.Router();
@@ -25,5 +25,9 @@ router.route("/users/offers").get(isAuthenticatedUser, authorizeRoles("admin"), 
 
 // orders
 router.route('/order/:id').put(isAuthenticatedUser, authorizeRoles("admin"), updateOrder).delete(isAuthenticatedUser, authorizeRoles("admin"), deleteOrder);
+
+// products
+router.route("/get/reviews").get(isAuthenticatedUser, authorizeRoles("admin"), getProductReviews);
+router.route("/delete/product").delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductReviews);
 
 module.exports = router;

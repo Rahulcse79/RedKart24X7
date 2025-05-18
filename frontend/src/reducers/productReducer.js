@@ -37,6 +37,14 @@ import {
     SLIDER_PRODUCTS_FAIL,
     SLIDER_PRODUCTS_REQUEST,
     SLIDER_PRODUCTS_SUCCESS,
+    ALL_REVIEWS_ADMIN__REQUEST,
+    ALL_REVIEWS_ADMIN__SUCCESS,
+    ALL_REVIEWS_ADMIN__FAIL,
+    ALL_REVIEWS_ADMIN__RESET,
+    DELETE_REVIEW_ADMIN_REQUEST,
+    DELETE_REVIEW_ADMIN_SUCCESS,
+    DELETE_REVIEW_ADMIN_RESET,
+    DELETE_REVIEW_ADMIN_FAIL,
 } from "../constants/productConstants";
 
 export const productsReducer = (state = { products: [] }, { type, payload }) => {
@@ -113,7 +121,6 @@ export const productDetailsReducer = (state = { product: {} }, { type, payload }
     }
 }
 
-// New Review Reducer
 export const newReviewReducer = (state = {}, { type, payload }) => {
     switch (type) {
         case NEW_REVIEW_REQUEST:
@@ -147,7 +154,6 @@ export const newReviewReducer = (state = {}, { type, payload }) => {
     }
 }
 
-// New Product Reducer
 export const newProductReducer = (state = { product: {} }, { type, payload }) => {
     switch (type) {
         case NEW_PRODUCT_REQUEST:
@@ -182,7 +188,6 @@ export const newProductReducer = (state = { product: {} }, { type, payload }) =>
     }
 }
 
-// New Product Reducer
 export const productReducer = (state = {}, { type, payload }) => {
     switch (type) {
         case UPDATE_PRODUCT_REQUEST:
@@ -249,12 +254,12 @@ export const productReviewsReducer = (state = { reviews: [] }, { type, payload }
                 loading: false,
                 error: payload,
             };
-        case ALL_REVIEWS_RESET: 
-        return {
-            ...state,
-            loading: false,
-            reviews: null,
-        };
+        case ALL_REVIEWS_RESET:
+            return {
+                ...state,
+                loading: false,
+                reviews: null,
+            };
         case CLEAR_ERRORS:
             return {
                 ...state,
@@ -265,7 +270,7 @@ export const productReviewsReducer = (state = { reviews: [] }, { type, payload }
     }
 }
 
-export const reviewReducer = (state = {}, { type, payload }) => {
+export const deletReducer = (state = {}, { type, payload }) => {
 
     switch (type) {
         case DELETE_REVIEW_REQUEST:
@@ -285,6 +290,75 @@ export const reviewReducer = (state = {}, { type, payload }) => {
                 error: payload,
             };
         case DELETE_REVIEW_RESET:
+            return {
+                ...state,
+                isDeleted: false,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+}
+
+export const productAdminReviewsReducer = (state = { reviews: [] }, { type, payload }) => {
+
+    switch (type) {
+        case ALL_REVIEWS_ADMIN__REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case ALL_REVIEWS_ADMIN__SUCCESS:
+            return {
+                loading: false,
+                reviews: payload,
+            };
+        case ALL_REVIEWS_ADMIN__FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case ALL_REVIEWS_ADMIN__RESET:
+            return {
+                ...state,
+                loading: false,
+                reviews: null,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+}
+
+export const deleteAdminReviewReducer = (state = {}, { type, payload }) => {
+
+    switch (type) {
+        case DELETE_REVIEW_ADMIN_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case DELETE_REVIEW_ADMIN_SUCCESS:
+            return {
+                loading: false,
+                isDeleted: payload,
+            };
+        case DELETE_REVIEW_ADMIN_RESET:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case DELETE_REVIEW_ADMIN_FAIL:
             return {
                 ...state,
                 isDeleted: false,

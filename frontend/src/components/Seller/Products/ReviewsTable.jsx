@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
@@ -18,44 +18,48 @@ const ReviewsTable = () => {
     const { reviews, error } = useSelector((state) => state.reviews);
     const { loading, isDeleted, error: deleteError } = useSelector((state) => state.review);
 
-    useEffect((e) => {
-    
-        if (error) {
-            enqueueSnackbar(error, { variant: "error" });
-            dispatch(clearErrors());
-            dispatch({ type: ALL_REVIEWS_RESET });
-        }
-        if (deleteError) {
-            enqueueSnackbar(deleteError, { variant: "error" });
-            dispatch(clearErrors());
-        }
-        if (isDeleted) {
-            enqueueSnackbar("Review Deleted Successfully", { variant: "success" });
-            dispatch({ type: DELETE_REVIEW_RESET });
-            dispatch({ type: ALL_REVIEWS_RESET });
-        }
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown);
-        };
-    }, [dispatch, error, deleteError, isDeleted, productId, enqueueSnackbar]);
-
-    const deleteReviewHandler = (id) => {
-        dispatch(deleteReview(id, productId));
-    }
-
-    const handleKeyDown = (e) => {
+    const handleKeyDown = useCallback((e) => {
         if (e.key === "Enter" && productId.length === 24) {
             dispatch(getAllReviews(productId));
         } else if (productId.length !== 24) {
             dispatch({ type: ALL_REVIEWS_RESET });
         }
+    }, [productId, dispatch]);
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyDown);
+
+        if (error) {
+            enqueueSnackbar(error, { variant: "error" });
+            dispatch(clearErrors());
+            dispatch({ type: ALL_REVIEWS_RESET });
+        }
+
+        if (deleteError) {
+            enqueueSnackbar(deleteError, { variant: "error" });
+            dispatch(clearErrors());
+        }
+
+        if (isDeleted) {
+            enqueueSnackbar("Review Deleted Successfully", { variant: "success" });
+            dispatch({ type: DELETE_REVIEW_RESET });
+            dispatch({ type: ALL_REVIEWS_RESET });
+        }
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [dispatch, error, deleteError, isDeleted, productId, enqueueSnackbar, handleKeyDown]);
+
+    const deleteReviewHandler = (id) => {
+        dispatch(deleteReview(id, productId));
     };
 
     const handleClick = () => {
         if (productId.length === 24) {
             dispatch(getAllReviews(productId));
         } else {
-            enqueueSnackbar("Please enter 12 digit id.", { variant: "fail" });
+            enqueueSnackbar("Please enter a 24 digit product ID.", { variant: "error" });
             dispatch({ type: ALL_REVIEWS_RESET });
         }
     };
@@ -82,8 +86,8 @@ const ReviewsTable = () => {
             align: "left",
             headerAlign: "left",
             renderCell: (params) => {
-                return <Rating readOnly value={params.row.rating} size="small" precision={0.5} />
-            }
+                return <Rating readOnly value={params.row.rating} size="small" precision={0.5} />;
+            },
         },
         {
             field: "comment",
@@ -106,25 +110,28 @@ const ReviewsTable = () => {
         },
     ];
 
-    let rows = [];
-
-    reviews && reviews.forEach((rev) => {
-        rows.push({
-            id: rev._id,
-            rating: rev.rating,
-            comment: rev.comment,
-            user: rev.name,
-        });
-    });
+    const rows = reviews?.map((rev) => ({
+        id: rev._id,
+        rating: rev.rating,
+        comment: rev.comment,
+        user: rev.name,
+    })) || [];
 
     return (
         <>
             <MetaData title="Seller Reviews | RedKart24X7" />
 
             {loading && <BackdropLoader />}
+
             <div className="flex justify-between items-center gap-2 sm:gap-12">
-                <h1 className="text-lg font-medium uppercase">reviews</h1>
-                <input type="text" placeholder="Product ID" value={productId} onChange={(e) => setProductId(e.target.value)} className="outline-none border-0 rounded p-2 w-full shadow hover:shadow-lg" />
+                <h1 className="text-lg font-medium uppercase">Reviews</h1>
+                <input
+                    type="text"
+                    placeholder="Product ID"
+                    value={productId}
+                    onChange={(e) => setProductId(e.target.value)}
+                    className="outline-none border-0 rounded p-2 w-full shadow hover:shadow-lg"
+                />
                 <span
                     onClick={handleClick}
                     className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700"
@@ -132,13 +139,13 @@ const ReviewsTable = () => {
                     Search
                 </span>
             </div>
-            <div className="bg-white rounded-xl shadow-lg w-full" style={{ height: 450 }}>
 
+            <div className="bg-white rounded-xl shadow-lg w-full" style={{ height: 450 }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
                     pageSize={10}
-                    disableSelectIconOnClick
+                    disableSelectionOnClick
                     sx={{
                         boxShadow: 0,
                         border: 0,

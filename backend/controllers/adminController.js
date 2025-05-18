@@ -378,6 +378,76 @@ exports.getAllUsersOffers = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
+// Get All Reviews of a Product 
+exports.getProductReviews = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const { id: productId } = req.query;
+    
+        if (!productId) {
+            return next(new ErrorHandler("Product ID is required", 400));
+        }
+
+        const product = await ProductModel.findById(productId);
+
+        if (!product) {
+            return next(new ErrorHandler("Product not found", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            reviews: product.reviews,
+        });
+    } catch (error) {
+        console.error("[GET_PRODUCT_REVIEWS] Error:", error);
+        return next(new ErrorHandler("Failed to fetch product reviews", 500));
+    }
+});
+
+// Delete Review
+exports.deleteProductReviews = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const { productId, id: reviewId } = req.query;
+
+        if (!productId || !reviewId) {
+            return next(new ErrorHandler("Product ID and Review ID are required", 400));
+        }
+
+        const product = await ProductModel.findById(productId);
+
+        if (!product) {
+            return next(new ErrorHandler("Product Not Found", 404));
+        }
+
+        const reviews = product.reviews.filter((rev) => rev._id.toString() !== reviewId.toString());
+
+        let avg = 0;
+        reviews.forEach((rev) => {
+            avg += rev.rating;
+        });
+
+        const ratings = reviews.length === 0 ? 0 : avg / reviews.length;
+        const numOfReviews = reviews.length;
+
+        await Product.findByIdAndUpdate(productId, {
+            reviews,
+            ratings,
+            numOfReviews,
+        }, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Review deleted successfully",
+        });
+    } catch (error) {
+        console.error("[DLETE_REVIEWS] Error:", error);
+        return next(new ErrorHandler("Failed to delete reviews", 500));
+    }
+});
+
 // Update stock
 async function updateStock(id, quantity) {
     try {
