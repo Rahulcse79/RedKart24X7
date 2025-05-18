@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { forgotPasswordReducer, profileReducer, userReducer, allUsersReducer, userDetailsReducer, createOfferReducer, getOfferReducer, updateOfferReducer, deleteOfferReducer, getAllOfferReducer, } from './reducers/userReducer';
 import { SellerReducer, forgotPasswordSellerReducer, profileSellerReducer, allSellersReducer, sellerDetailsReducer, otpSendReducer, deleteAccountReducer, deactivateAccountReducer, deleteRequestAccountReducer } from './reducers/SellerReducer';
-import { newProductReducer, newReviewReducer, productDetailsReducer, productReducer, productsReducer, productReviewsReducer, deletReducer, deleteAdminReviewReducer, productAdminReviewsReducer } from './reducers/productReducer';
+import { newProductReducer, newReviewReducer, productDetailsReducer, productReducer, productsReducer, productReviewsReducer, deletReducer, deleteAdminReviewReducer, productAdminReviewsReducer, productAdminReducer } from './reducers/productReducer';
 import { createStoreReducer, bankAccountReducer, businessInformationReducer, documentUploadReducer, verificationReducer, getStoreReducer } from './reducers/storeReducer';
 import { cartReducer } from './reducers/cartReducer';
 import { saveForLaterReducer } from './reducers/saveForLaterReducer';
@@ -55,6 +55,7 @@ const reducer = combineReducers({
     getAllOffers: getAllOfferReducer,
     adminDeleteReview: deleteAdminReviewReducer,
     adminReview: productAdminReviewsReducer,
+    productAdminAction: productAdminReducer,
 
 });
 

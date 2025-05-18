@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { clearErrors, deleteProduct, getSliderProducts } from '../../actions/productAction';
+import { clearErrors, deleteAdminProduct, getSliderProducts } from '../../actions/productAction';
 import Rating from '@mui/material/Rating';
-import { DELETE_PRODUCT_RESET } from '../../constants/productConstants';
+import { ADMIN_DELETE_PRODUCTS_RESET } from '../../constants/productConstants';
 import Actions from './Actions';
 import MetaData from '../Layouts/MetaData';
 import BackdropLoader from '../Layouts/BackdropLoader';
@@ -15,7 +15,7 @@ const ProductTable = () => {
     const { enqueueSnackbar } = useSnackbar();
 
     const { products, error } = useSelector((state) => state.products);
-    const { loading, isDeleted, error: deleteError } = useSelector((state) => state.product);
+    const { loading, isDeleted, error: deleteError } = useSelector((state) => state.productAdminAction);
 
     useEffect(() => {
         if (error) {
@@ -28,13 +28,13 @@ const ProductTable = () => {
         }
         if (isDeleted) {
             enqueueSnackbar("Product Deleted Successfully", { variant: "success" });
-            dispatch({ type: DELETE_PRODUCT_RESET });
+            dispatch({ type: ADMIN_DELETE_PRODUCTS_RESET });
         }
         dispatch(getSliderProducts());
     }, [dispatch, error, deleteError, isDeleted, enqueueSnackbar]);
 
-    const deleteProductHandler = (id) => {
-        dispatch(deleteProduct(id));
+    const deleteAdminProductHandler = (id) => {
+        dispatch(deleteAdminProduct(id));
     }
 
     const columns = [
@@ -45,9 +45,21 @@ const ProductTable = () => {
             flex: 0.5,
         },
         {
+            field: "sellerId",
+            headerName: "Seller ID",
+            minWidth: 100,
+            flex: 0.5,
+        },
+        {
+            field: "storeName",
+            headerName: "Store Name",
+            minWidth: 100,
+            flex: 0.5,
+        },
+        {
             field: "name",
             headerName: "Name",
-            minWidth: 200,
+            minWidth: 150,
             flex: 1,
             renderCell: (params) => {
                 return (
@@ -137,7 +149,7 @@ const ProductTable = () => {
             sortable: false,
             renderCell: (params) => {
                 return (
-                    <Actions editRoute={"product"} deleteHandler={deleteProductHandler} id={params.row.id} />
+                    <Actions editRoute={"product"} deleteHandler={deleteAdminProductHandler} id={params.row.id} />
                 );
             },
         },
@@ -148,6 +160,8 @@ const ProductTable = () => {
     products && products.forEach((item) => {
         rows.unshift({
             id: item._id,
+            sellerId: item.seller,
+            storeName: item.storeName,
             name: item.name,
             image: item.images[0].url,
             category: item.category,

@@ -37,6 +37,13 @@ import {
     DELETE_REVIEW_ADMIN_REQUEST,
     DELETE_REVIEW_ADMIN_SUCCESS,
     DELETE_REVIEW_ADMIN_FAIL,
+    ADMIN_UPDATE_PRODUCTS_REQUEST,
+    ADMIN_UPDATE_PRODUCTS_SUCCESS,
+    ADMIN_UPDATE_PRODUCTS_FAIL,
+    ADMIN_DELETE_PRODUCTS_REQUEST,
+    ADMIN_DELETE_PRODUCTS_SUCCESS,
+    ADMIN_DELETE_PRODUCTS_FAIL,
+
 } from "../constants/productConstants";
 
 // Get All Products --- Filter/Search/Sort
@@ -191,6 +198,43 @@ export const updateProduct = (id, productData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_PRODUCT_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+}
+
+// Update Product --ADMIN
+export const updateAdminProduct = (id, productData) => async (dispatch) => {
+    try {
+        dispatch({ type: ADMIN_UPDATE_PRODUCTS_REQUEST });
+        const config = { header: { "Content-Type": "application/json" } }
+        const { data } = await axios.put(`/api/v1/admin/product/${id}`, productData, config);
+
+        dispatch({
+            type: ADMIN_UPDATE_PRODUCTS_SUCCESS,
+            payload: data.success,
+        });
+    } catch (error) {
+        dispatch({
+            type: ADMIN_UPDATE_PRODUCTS_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+}
+
+// Delete Product 
+export const deleteAdminProduct = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: ADMIN_DELETE_PRODUCTS_REQUEST });
+        const { data } = await axios.delete(`/api/v1/admin/product/${id}`);
+
+        dispatch({
+            type: ADMIN_DELETE_PRODUCTS_SUCCESS,
+            payload: data.success,
+        });
+    } catch (error) {
+        dispatch({
+            type: ADMIN_DELETE_PRODUCTS_FAIL,
             payload: error.response.data.message,
         });
     }

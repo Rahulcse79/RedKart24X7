@@ -60,8 +60,8 @@ import {
     GET_ALL_OFFER_USER_RESET,
     GET_ALL_OFFER_USER_FAIL,
     REMOVE_USER_DETAILS,
+    
 } from '../constants/userConstants';
-
 
 export const userReducer = (state = { user: {} }, { type, payload }) => {
     switch (type) {

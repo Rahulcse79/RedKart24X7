@@ -267,7 +267,7 @@ function App() {
           </Imports.ProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/admin/product/:id" element={
+        <Imports.Route path="/admin/accounts/product/:id" element={
           <Imports.ProtectedRoute isAdmin={true}>
             <Imports.Dashboard activeTab={2}>
               <Imports.UpdateProduct />

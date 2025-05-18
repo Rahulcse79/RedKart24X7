@@ -45,6 +45,15 @@ import {
     DELETE_REVIEW_ADMIN_SUCCESS,
     DELETE_REVIEW_ADMIN_RESET,
     DELETE_REVIEW_ADMIN_FAIL,
+    ADMIN_UPDATE_PRODUCTS_REQUEST,
+    ADMIN_UPDATE_PRODUCTS_SUCCESS,
+    ADMIN_UPDATE_PRODUCTS_FAIL,
+    ADMIN_UPDATE_PRODUCTS_RESET,
+    ADMIN_DELETE_PRODUCTS_REQUEST,
+    ADMIN_DELETE_PRODUCTS_SUCCESS,
+    ADMIN_DELETE_PRODUCTS_RESET,
+    ADMIN_DELETE_PRODUCTS_FAIL,
+
 } from "../constants/productConstants";
 
 export const productsReducer = (state = { products: [] }, { type, payload }) => {
@@ -356,9 +365,58 @@ export const deleteAdminReviewReducer = (state = {}, { type, payload }) => {
             return {
                 ...state,
                 loading: false,
+                isDeleted: false,
                 error: payload,
             };
         case DELETE_REVIEW_ADMIN_FAIL:
+            return {
+                ...state,
+                loading: false,
+                isDeleted: false,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+}
+
+export const productAdminReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case ADMIN_UPDATE_PRODUCTS_REQUEST:
+        case ADMIN_DELETE_PRODUCTS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case ADMIN_UPDATE_PRODUCTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isUpdated: payload,
+            };
+        case ADMIN_DELETE_PRODUCTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeleted: payload,
+            };
+        case ADMIN_UPDATE_PRODUCTS_FAIL:
+        case ADMIN_DELETE_PRODUCTS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case ADMIN_UPDATE_PRODUCTS_RESET:
+            return {
+                ...state,
+                isUpdated: false,
+            };
+        case ADMIN_DELETE_PRODUCTS_RESET:
             return {
                 ...state,
                 isDeleted: false,

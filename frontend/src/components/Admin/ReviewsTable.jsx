@@ -39,6 +39,7 @@ const ReviewsTable = () => {
         if (isDeleted) {
             enqueueSnackbar("Review Deleted Successfully", { variant: "success" });
             dispatch({ type: DELETE_REVIEW_ADMIN_RESET });
+            dispatch(getAllAdminReviews(productId));
         }
 
         return () => {

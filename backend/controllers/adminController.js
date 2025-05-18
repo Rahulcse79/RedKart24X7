@@ -3,6 +3,8 @@ const SellerModel = require('../models/sellerModel');
 const ProductModel = require('../models/productModel');
 const SellerDataModel = require('../models/sellerDataModel');
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
+const ErrorHandler = require('../utils/errorHandler');
+const cloudinary = require('cloudinary');
 
 // Get All users 
 exports.getAllUsers = asyncErrorHandler(async (req, res, next) => {
@@ -428,7 +430,7 @@ exports.deleteProductReviews = asyncErrorHandler(async (req, res, next) => {
         const ratings = reviews.length === 0 ? 0 : avg / reviews.length;
         const numOfReviews = reviews.length;
 
-        await Product.findByIdAndUpdate(productId, {
+        await ProductModel.findByIdAndUpdate(productId, {
             reviews,
             ratings,
             numOfReviews,
@@ -447,6 +449,115 @@ exports.deleteProductReviews = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Failed to delete reviews", 500));
     }
 });
+
+// Update Product
+exports.updateProduct = async (req, res, next) => {
+    try {
+        let product = await ProductModel.findById(req.params.id);
+        
+        if (!product) {
+            return next(new ErrorHandler("Product Not Found", 404));
+        }
+
+        if (req.body.images !== undefined) {
+            let images = [];
+            if (typeof req.body.images === "string") {
+                images.push(req.body.images);
+            } else {
+                images = req.body.images;
+            }
+
+            for (let i = 0; i < product.images.length; i++) {
+                await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+            }
+
+            const imagesLink = [];
+
+            for (let i = 0; i < images.length; i++) {
+                const result = await cloudinary.v2.uploader.upload(images[i], {
+                    folder: "products",
+                });
+
+                imagesLink.push({
+                    public_id: result.public_id,
+                    url: result.secure_url,
+                });
+            }
+            req.body.images = imagesLink;
+        }
+
+        if (req.body.logo && req.body.logo.length > 0) {
+            if (product.brand && product.brand.logo && product.brand.logo.public_id) {
+                await cloudinary.v2.uploader.destroy(product.brand.logo.public_id);
+            }
+            const result = await cloudinary.v2.uploader.upload(req.body.logo, {
+                folder: "brands",
+            });
+
+            const brandLogo = {
+                public_id: result.public_id,
+                url: result.secure_url,
+            };
+
+            req.body.brand = {
+                name: req.body.brandname,
+                logo: brandLogo,
+            };
+        }
+
+        if (req.body.specifications && Array.isArray(req.body.specifications)) {
+            let specs = [];
+            for (const s of req.body.specifications) {
+                try {
+                    specs.push(JSON.parse(s));
+                } catch (err) {
+                    return next(new ErrorHandler("Invalid specification format", 400));
+                }
+            }
+            req.body.specifications = specs;
+        }
+
+        product = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        });
+
+        res.status(200).json({
+            success: true,
+            product,
+        });
+
+    } catch (error) {
+        console.error("[UPDATE_PRODUCT] Error:", error);
+        return next(new ErrorHandler("Failed to update product", 500));
+    }
+};
+
+// Delete Product 
+exports.deleteProduct = async (req, res, next) => {
+    try {
+        const product = await ProductModel.findById(req.params.id);
+      
+        if (!product) {
+            return next(new ErrorHandler("Product Not Found", 404));
+        }
+       
+        for (let i = 0; i < product.images.length; i++) {
+            await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+        }
+
+        await product.remove();
+
+        res.status(201).json({
+            success: true,
+            message: "Product deleted successfully",
+        });
+    } catch (error) {
+        console.error("[DELETE_PRODUCT] Error:", error);
+        return next(new ErrorHandler("Failed to delete product", 500));
+    }
+};
 
 // Update stock
 async function updateStock(id, quantity) {

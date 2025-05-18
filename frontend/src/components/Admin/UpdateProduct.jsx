@@ -5,14 +5,14 @@ import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router-dom';
-import { REMOVE_PRODUCT_DETAILS, UPDATE_PRODUCT_RESET } from '../../constants/productConstants';
-import { clearErrors, getProductDetails, updateProduct } from '../../actions/productAction';
+import { REMOVE_PRODUCT_DETAILS, ADMIN_UPDATE_PRODUCTS_RESET } from '../../constants/productConstants';
+import { clearErrors, getProductDetails, updateAdminProduct } from '../../actions/productAction';
 import ImageIcon from '@mui/icons-material/Image';
 import BackdropLoader from '../Layouts/BackdropLoader';
 import { categories } from '../../utils/constants';
 import MetaData from '../Layouts/MetaData';
 
-const UpdateProduct = () => {
+const UpdateProduct = () => { 
 
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
@@ -20,7 +20,7 @@ const UpdateProduct = () => {
     const params = useParams();
 
     const { loading, product, error } = useSelector((state) => state.productDetails);
-    const { loading: updateLoading, isUpdated, error: updateError } = useSelector((state) => state.product);
+    const { loading: updateLoading, isUpdated, error: updateError } = useSelector((state) => state.productAdminAction);
 
     const [highlights, setHighlights] = useState([]);
     const [highlightInput, setHighlightInput] = useState("");
@@ -142,7 +142,7 @@ const UpdateProduct = () => {
             formData.append("specifications", JSON.stringify(s));
         });
 
-        dispatch(updateProduct(params.id, formData));
+        dispatch(updateAdminProduct(params.id, formData));
     }
 
     const productId = params.id;
@@ -151,7 +151,10 @@ const UpdateProduct = () => {
 
         if (product && product._id !== productId) {
             dispatch(getProductDetails(productId));
-        } else {
+        } else if (!product) {
+            navigate('/admin/products');
+        }
+        else {
             setName(product.name);
             setDescription(product.description);
             setPrice(product.price);
@@ -175,7 +178,7 @@ const UpdateProduct = () => {
         }
         if (isUpdated) {
             enqueueSnackbar("Product Updated Successfully", { variant: "success" });
-            dispatch({ type: UPDATE_PRODUCT_RESET });
+            dispatch({ type: ADMIN_UPDATE_PRODUCTS_RESET });
             dispatch({ type: REMOVE_PRODUCT_DETAILS });
             navigate('/admin/products');
         }
