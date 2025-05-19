@@ -277,6 +277,10 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
             phone: req.body.phone,
         }
 
+        if (!/^\d{10}$/.test(newUserData.phone)) {
+            return next(new ErrorHandler("Phone number must be exactly 10 digits", 400));
+        }
+
         if (req.body.avatar !== "") {
             const user = await User.findById(req.user.id);
 

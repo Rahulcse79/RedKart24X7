@@ -28,6 +28,11 @@ const UpdateProfile = () => {
     const updateProfileHandler = (e) => {
         e.preventDefault();
 
+        if (!phone || !/^\d{10}$/.test(phone)) {
+            enqueueSnackbar("Phone number must be exactly 10 digits", { variant: "error" });
+            return;
+        }
+        
         const formData = new FormData();
         formData.set("name", name);
         formData.set("email", email);
