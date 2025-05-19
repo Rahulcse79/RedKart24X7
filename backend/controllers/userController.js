@@ -308,3 +308,66 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Update user profile failed", 500));
     }
 });
+ 
+// Delete request controller
+exports.deleteRequestAccount = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const existingUser = await User.findById(req.user.id);
+
+        if (!existingUser) {
+            return res.status(404).json({
+                success: false,
+                message: "No user found with the provided ID.",
+            });
+        }
+
+        if (existingUser.isDeleteRequest) {
+            return res.status(200).json({
+                success: true,
+                message: "Delete request already submitted.",
+            });
+        }
+
+        existingUser.isDeleteRequest = true;
+        await existingUser.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Delete request submitted successfully.",
+        });
+    } catch (error) {
+        return next(new ErrorHandler(error.message || "Failed to submit delete request", 500));
+    }
+});
+
+// Deactivate account controller 
+exports.deactivateAccount = asyncErrorHandler(async (req, res, next) => {
+    try {
+        
+        const existingUser = await User.findById(req.user.id);
+
+        if (!existingUser) {
+            return res.status(404).json({
+                success: false,
+                message: "No user found with the provided email.",
+            });
+        }
+
+        if (existingUser.isDeactivate) {
+            return res.status(200).json({
+                success: true,
+                message: "Account is already deactivated.",
+            });
+        }
+
+        existingUser.isDeactivate = true;
+        await existingUser.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "User account has been deactivated successfully.",
+        });
+    } catch (error) {
+        return next(new ErrorHandler(error.message || "Failed to deactivate account", 500));
+    }
+});

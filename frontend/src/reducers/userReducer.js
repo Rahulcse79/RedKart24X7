@@ -60,6 +60,14 @@ import {
     GET_ALL_OFFER_USER_RESET,
     GET_ALL_OFFER_USER_FAIL,
     REMOVE_USER_DETAILS,
+    DELETE_REQUEST_USER_REQUEST_REQUEST,
+    DELETE_REQUEST_USER_REQUEST_SUCCESS,
+    DELETE_REQUEST_USER_REQUEST_FAIL,
+    DELETE_REQUEST_USER_REQUEST_RESET,
+    DEACTIVATE_REQUEST_USER__REQUEST,
+    DEACTIVATE_REQUEST_USER__SUCCESS,
+    DEACTIVATE_REQUEST_USER__FAIL,
+    DEACTIVATE_REQUEST_USER__RESET,
     
 } from '../constants/userConstants';
 
@@ -448,6 +456,74 @@ export const getAllOfferReducer = (state = initialState, { type, payload }) => {
                 success: false,
                 offers: [],
             };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+export const deleteRequestUserReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case DELETE_REQUEST_USER_REQUEST_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case DELETE_REQUEST_USER_REQUEST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeleted: payload,
+            };
+        case DELETE_REQUEST_USER_REQUEST_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case DELETE_REQUEST_USER_REQUEST_RESET:
+            return {
+                ...state,
+                isDeleted: false,
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+}; 
+
+export const deactivateUserReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case DEACTIVATE_REQUEST_USER__REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case DEACTIVATE_REQUEST_USER__SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeactivate: payload,
+            };
+        case DEACTIVATE_REQUEST_USER__FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case DEACTIVATE_REQUEST_USER__RESET:
+            return {
+                ...state,
+                isDeactivate: false,
+            }
         case CLEAR_ERRORS:
             return {
                 ...state,

@@ -51,6 +51,18 @@ const userSchema = new mongoose.Schema({
         minLength: [8, "Password should have atleast 8 chars"],
         select: false,
     },
+    isDeleteRequest: {
+        type: Boolean,
+        default: false, 
+    },
+    isDeactivate: {
+        type: Boolean,
+        default: false,
+    },
+    mobileNumber: {
+        type: String,
+        match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"]
+    },
     avatar: {
         public_id: {
             type: String,

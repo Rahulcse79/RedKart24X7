@@ -46,7 +46,8 @@ import {
     OTP_SEND_FAIL,
     OTP_BASED_LOGIN_SELLER_FAIL,
     OTP_BASED_LOGIN_SELLER_REQUEST,
-    OTP_BASED_LOGIN_SELLER_SUCCESS
+    OTP_BASED_LOGIN_SELLER_SUCCESS,
+
 } from '../constants/SellerConstants';
 import axios from 'axios';
 
@@ -441,7 +442,7 @@ export const deleteRequestSeller = () => async (dispatch) => {
     try {
 
         dispatch({ type: DELETE_REQUEST_SELLER_REQUEST });
-        const { data } = await axios.get(`/api/v1/admin/request/delete`); 
+        const { data } = await axios.get(`/api/v1/seller/request/delete`); 
 
         dispatch({
             type: DELETE_REQUEST_SELLER_SUCCESS,
@@ -455,13 +456,13 @@ export const deleteRequestSeller = () => async (dispatch) => {
         });
     }
 };
-
-// Deactivate seller ---ADMIN
-export const deactivateSeller = (id) => async (dispatch) => {
+ 
+// Deactivate seller
+export const deactivateSeller = () => async (dispatch) => {
     try {
 
         dispatch({ type: DEACTIVATE_SELLER_REQUEST });
-        const { data } = await axios.get(`/api/v1/seller/deactivate/${id}`);
+        const { data } = await axios.get(`/api/v1/seller/deactivate`);
 
         dispatch({ 
             type: DEACTIVATE_SELLER_SUCCESS,

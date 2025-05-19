@@ -329,7 +329,7 @@ export const deleteRequestAccountReducer = (state = {}, { type, payload }) => {
         default:
             return state;
     }
-};
+}; 
 
 export const deactivateAccountReducer = (state = {}, { type, payload }) => {
     switch (type) {

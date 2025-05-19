@@ -56,8 +56,55 @@ import {
     GET_ALL_OFFER_USER_REQUEST,
     GET_ALL_OFFER_USER_SUCCESS,
     GET_ALL_OFFER_USER_FAIL,
+    DELETE_REQUEST_USER_REQUEST_REQUEST,
+    DELETE_REQUEST_USER_REQUEST_SUCCESS,
+    DELETE_REQUEST_USER_REQUEST_FAIL,
+    DEACTIVATE_REQUEST_USER__REQUEST,
+    DEACTIVATE_REQUEST_USER__SUCCESS,
+    DEACTIVATE_REQUEST_USER__FAIL
+
 } from '../constants/userConstants';
 import axios from 'axios';
+
+// Delete request 
+export const deleteRequestUser = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: DELETE_REQUEST_USER_REQUEST_REQUEST });
+        const { data } = await axios.get(`/api/v1/request/delete`);
+
+        dispatch({
+            type: DELETE_REQUEST_USER_REQUEST_SUCCESS,
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_REQUEST_USER_REQUEST_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// Deactivate user
+export const deactivateUser = () => async (dispatch) => { 
+    try {
+
+        dispatch({ type: DEACTIVATE_REQUEST_USER__REQUEST });
+        const { data } = await axios.get(`/api/v1/deactivate`);
+
+        dispatch({
+            type: DEACTIVATE_REQUEST_USER__SUCCESS,
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: DEACTIVATE_REQUEST_USER__FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
 
 // OTP send 
 export const OTPSend = (email, onSuccess, onError) => async (dispatch) => {
@@ -537,7 +584,7 @@ export const getAllOfferUsers = () => async (dispatch) => {
 
         dispatch({
             type: GET_ALL_OFFER_USER_SUCCESS,
-            payload: data, 
+            payload: data,
         });
     } catch (error) {
         dispatch({
