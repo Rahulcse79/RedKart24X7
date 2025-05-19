@@ -29,18 +29,19 @@ const MyOrders = () => {
     const { orders, loading, error } = useSelector((state) => state.myOrders);
 
     useEffect(() => {
-        if (error) {
-            enqueueSnackbar(error, { variant: "error" });
-            dispatch(clearErrors());
-        }
         dispatch(myOrders());
-    }, [dispatch, error, enqueueSnackbar]);
+    }, [dispatch]);
 
+    
     useEffect(() => {
         if (loading === false) {
             setFilteredOrders(orders);
         }
-    }, [loading, orders]);
+        if (error) {
+            enqueueSnackbar(error, { variant: "error" });
+            dispatch(clearErrors());
+        }
+    }, [loading, orders, error, enqueueSnackbar]);
 
 
     useEffect(() => {
