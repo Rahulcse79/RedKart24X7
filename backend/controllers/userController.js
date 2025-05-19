@@ -9,9 +9,9 @@ const cloudinary = require('cloudinary');
 // Register User
 exports.registerUser = asyncErrorHandler(async (req, res, next) => {
     try {
-        const { name, email, gender, password, avatar } = req.body;
+        const { name, email, gender, password, phone, avatar } = req.body;
 
-        if (!name || !email || !gender || !password || !avatar) {
+        if (!name || !email || !gender || !password || !avatar || !phone ) {
             console.warn("[REGISTER] Missing required fields");
             return next(new ErrorHandler("All fields are required", 400));
         }
@@ -30,6 +30,7 @@ exports.registerUser = asyncErrorHandler(async (req, res, next) => {
             name,
             email,
             gender,
+            phone,
             password,
             avatar: {
                 public_id: myCloud.public_id,
@@ -273,6 +274,7 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
         const newUserData = {
             name: req.body.name,
             email: req.body.email,
+            phone: req.body.phone,
         }
 
         if (req.body.avatar !== "") {

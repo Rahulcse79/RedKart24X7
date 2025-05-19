@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    mobileNumber: {
+    phone: {
         type: String,
         match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"]
     },

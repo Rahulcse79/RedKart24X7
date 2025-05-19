@@ -73,7 +73,7 @@ const Dashboard = () => {
                                 <div className="flex-1 overflow-hidden shadow bg-white">
                                     <div className="flex flex-col gap-12 m-4 sm:mx-8 sm:my-6">
                                         <div className="flex flex-col gap-5 items-start">
-                                            <span className="font-medium text-lg">Personal Information <Link to="/seller/dashboard/update" className="text-sm text-primary-blue font-medium ml-8 cursor-pointer">Edit</Link></span>
+                                            <span className="font-medium text-lg">Personal Information <Link to="/seller/d2/update" className="text-sm text-primary-blue font-medium ml-8 cursor-pointer">Edit</Link></span>
 
                                             <div className="flex flex-col sm:flex-row items-center gap-3" id="personalInputs">
                                                 <div className="flex flex-col gap-0.5 w-64 px-3 py-1.5 rounded-sm border inputs cursor-not-allowed bg-gray-100 focus-within:border-primary-blue">

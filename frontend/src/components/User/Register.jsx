@@ -23,12 +23,13 @@ const Register = () => {
     const [user, setUser] = useState({
         name: "",
         email: "",
+        phone: "",
         gender: "",
         password: "",
         cpassword: "",
     });
 
-    const { name, email, gender, password, cpassword } = user;
+    const { name, email, gender, phone, password, cpassword } = user;
 
     const [avatar, setAvatar] = useState(null);
     const [avatarPreview, setAvatarPreview] = useState("preview.png");
@@ -47,10 +48,15 @@ const Register = () => {
             enqueueSnackbar("Select Avatar", { variant: "error" });
             return;
         }
+        if (!phone || phone.length !== 10) {
+            enqueueSnackbar("Enter a valid 10-digit phone number", { variant: "error" });
+            return;
+        }        
 
         const formData = new FormData();
         formData.set("name", name);
         formData.set("email", email);
+        formData.set("phone", phone);
         formData.set("gender", gender);
         formData.set("password", password);
         formData.set("avatar", avatar);
@@ -133,10 +139,18 @@ const Register = () => {
                                         onChange={handleDataChange}
                                         required
                                     />
+                                    <TextField
+                                        fullWidth
+                                        id="phone"
+                                        label="Phone"
+                                        type="number"
+                                        name="phone"
+                                        value={phone}
+                                        onChange={handleDataChange}
+                                        required
+                                    />
                                 </div>
-                                {/* <!-- input container column --> */}
 
-                                {/* <!-- gender input --> */}
                                 <div className="flex gap-4 items-center">
                                     <h2 className="text-md">Your Gender :</h2>
                                     <div className="flex items-center gap-6" id="radioInput">

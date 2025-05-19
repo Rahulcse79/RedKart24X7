@@ -32,6 +32,7 @@ const UpdateProfile = () => {
         formData.set("name", name);
         formData.set("email", email);
         formData.set("gender", gender);
+        formData.set("phone", phone);
         formData.set("avatar", avatar);
 
         dispatch(updateProfile(formData));
@@ -55,6 +56,7 @@ const UpdateProfile = () => {
             setName(user.name);
             setEmail(user.email);
             setGender(user.gender);
+            setPhone(user.phone);
             setAvatarPreview(user.avatar.url);
         }
         if (error) {
@@ -76,29 +78,20 @@ const UpdateProfile = () => {
 
             {loading && <BackdropLoader />}
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">
-
-                {/* <!-- row --> */}
                 <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-lg">
-                    {/* <!-- sidebar column  --> */}
                     <div className="loginSidebar bg-primary-blue px-9 py-10 hidden sm:flex flex-col gap-4 w-2/5">
                         <h1 className="font-medium text-white text-3xl">Update Profile !</h1>
                         <p className="text-gray-200 text-lg pr-2">Your journey starts with you — update your profile and let the world see your best version !</p>
                     </div>
-                    {/* <!-- sidebar column  --> */}
-
-                    {/* <!-- signup column --> */}
                     <div className="flex-1 overflow-hidden">
 
                         <h2 className="text-center text-2xl font-medium mt-6 text-gray-800">Update Profile</h2>
-                        {/* <!-- personal info procedure container --> */}
                         <form
                             onSubmit={updateProfileHandler}
                             encType="multipart/form-data"
                             className="p-5 sm:p-10"
                         >
                             <div className="flex flex-col gap-4 items-start">
-
-                                {/* <!-- input container column --> */}
                                 <div className="flex flex-col w-full justify-between sm:flex-col gap-3 items-center">
                                     <TextField
                                         fullWidth
@@ -117,10 +110,17 @@ const UpdateProfile = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
+                                     <TextField
+                                        fullWidth
+                                        label="phone"
+                                        type="Number"
+                                        name="Phone"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        required
+                                    />
                                 </div>
-                                {/* <!-- input container column --> */}
 
-                                {/* <!-- gender input --> */}
                                 <div className="flex gap-4 items-center">
                                     <h2 className="text-md">Your Gender :</h2>
                                     <div className="flex items-center gap-6" id="radioInput">
