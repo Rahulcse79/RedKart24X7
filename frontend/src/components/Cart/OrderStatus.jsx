@@ -9,7 +9,7 @@ import Loader from '../Layouts/Loader';
 const OrderStatus = () => {  
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     const { enqueueSnackbar } = useSnackbar();
     const params = useParams();
 
