@@ -6,50 +6,46 @@ const sendEmail = require('../utils/sendEmail');
 
 // Create New Order
 exports.newOrder = asyncErrorHandler(async (req, res, next) => {
-    try {
-        const {
-            shippingInfo,
-            orderItems,
-            paymentInfo,
-            totalPrice,
-        } = req.body;
+    const {
+        shippingInfo,
+        orderItems,
+        paymentInfo,
+        totalPrice,
+    } = req.body;
 
-        const orderExist = await Order.findOne({ paymentInfo });
+    const orderExist = await Order.findOne({ paymentInfo });
 
-        if (orderExist) {
-            return next(new ErrorHandler("Order Already Placed", 400));
-        }
-
-        const order = await Order.create({
-            shippingInfo,
-            orderItems,
-            paymentInfo,
-            totalPrice,
-            paidAt: Date.now(),
-            user: req.user._id,
-        });
-
-        await sendEmail({
-            email: req.user.email,
-            templateId: process.env.SENDGRID_ORDER_TEMPLATEID,
-            data: {
-                name: req.user.name,
-                shippingInfo,
-                orderItems,
-                totalPrice,
-                oid: order._id,
-            }
-        });
-
-        res.status(201).json({
-            success: true,
-            order,
-        });
-    } catch (error) {
-        console.error("[NEW_ORDER] Error:", error);
-        return next(new ErrorHandler("Failed to create new order", 500));
+    if (orderExist) {
+        return next(new ErrorHandler("Order Already Placed", 400));
     }
+
+    const order = await Order.create({
+        shippingInfo,
+        orderItems,
+        paymentInfo,
+        totalPrice,
+        paidAt: Date.now(),
+        user: req.user._id,
+    });
+
+    await sendEmail({
+        email: req.user.email,
+        templateId: process.env.SENDGRID_ORDER_TEMPLATEID,
+        data: {
+            name: req.user.name,
+            shippingInfo,
+            orderItems,
+            totalPrice,
+            oid: order._id,
+        }
+    });
+
+    res.status(201).json({
+        success: true,
+        order,
+    });
 });
+
 
 // Get All Orders
 exports.getAllOrders = asyncErrorHandler(async (req, res, next) => {

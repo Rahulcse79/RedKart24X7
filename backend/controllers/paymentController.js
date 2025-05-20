@@ -1,9 +1,6 @@
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
-const paytm = require('paytmchecksum');
-const https = require('https');
 const Payment = require('../models/paymentModel');
 const ErrorHandler = require('../utils/errorHandler');
-const { v4: uuidv4 } = require('uuid');
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 require('dotenv').config();
@@ -16,141 +13,51 @@ const razorpayInstance = new Razorpay({
     key_secret: RAZORPAY_KEY_SECRET,
 });
 
-// Process Payment
-exports.processPayment = asyncErrorHandler(async (req, res, next) => {
+const savePayment = async ({ orderId, paymentId }) => {
+    try {
+        await Payment.create({
+            orderId,
+            paymentId,
+            status: "success",
+        });
+    } catch (error) {
+        console.error("Failed to save payment", error);
+    }
+};
 
-    const { amount, email, phoneNo } = req.body;
-    var params = {};
+exports.getPaymentStatus = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const payment = await Payment.findOne({ orderId: req.params.id });
 
-    params["MID"] = process.env.PAYTM_MID;
-    params["WEBSITE"] = process.env.PAYTM_WEBSITE;
-    params["CHANNEL_ID"] = process.env.PAYTM_CHANNEL_ID;
-    params["INDUSTRY_TYPE_ID"] = process.env.PAYTM_INDUSTRY_TYPE;
-    params["ORDER_ID"] = "oid" + uuidv4();
-    params["CUST_ID"] = process.env.PAYTM_CUST_ID;
-    params["TXN_AMOUNT"] = JSON.stringify(amount);
-    // params["CALLBACK_URL"] = `${req.protocol}://${req.get("host")}/api/v1/callback`;
-    params["CALLBACK_URL"] = `https://${req.get("host")}/api/v1/callback`;
-    params["EMAIL"] = email;
-    params["MOBILE_NO"] = phoneNo;
+        if (!payment) {
+            return res.status(404).json({ success: false, message: "Payment Details Not Found" });
+        }
 
-    let paytmChecksum = paytm.generateSignature(params, process.env.PAYTM_MERCHANT_KEY);
-    paytmChecksum.then(function (checksum) {
-
-        let paytmParams = {
-            ...params,
-            "CHECKSUMHASH": checksum,
+        const txn = {
+            id: payment.paymentId || payment.txnId || null,
+            status: payment.status || (payment.resultInfo ? payment.resultInfo.resultStatus : null),
         };
 
         res.status(200).json({
-            paytmParams
+            success: true,
+            txn,
         });
-
-    }).catch(function (error) {
-        console.log(error);
-    });
-});
-
-// Paytm Callback
-exports.paytmResponse = (req, res, next) => {
-
-    let paytmChecksum = req.body.CHECKSUMHASH;
-    delete req.body.CHECKSUMHASH;
-
-    let isVerifySignature = paytm.verifySignature(req.body, process.env.PAYTM_MERCHANT_KEY, paytmChecksum);
-    if (isVerifySignature) {
-
-        var paytmParams = {};
-
-        paytmParams.body = {
-            "mid": req.body.MID,
-            "orderId": req.body.ORDERID,
-        };
-
-        paytm.generateSignature(JSON.stringify(paytmParams.body), process.env.PAYTM_MERCHANT_KEY).then(function (checksum) {
-
-            paytmParams.head = {
-                "signature": checksum
-            };
-
-            /* prepare JSON string for request */
-            var post_data = JSON.stringify(paytmParams);
-
-            var options = {
-                /* for Staging */
-                hostname: 'securegw-stage.paytm.in',
-                /* for Production */
-                // hostname: 'securegw.paytm.in',
-                port: 443,
-                path: '/v3/order/status',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': post_data.length
-                }
-            };
-
-            // Set up the request
-            var response = "";
-            var post_req = https.request(options, function (post_res) {
-                post_res.on('data', function (chunk) {
-                    response += chunk;
-                });
-
-                post_res.on('end', function () {
-                    let { body } = JSON.parse(response);
-                    // let status = body.resultInfo.resultStatus;
-                    // res.json(body);
-                    addPayment(body);
-                    // res.redirect(`${req.protocol}://${req.get("host")}/order/${body.orderId}`)
-                    res.redirect(`https://${req.get("host")}/order/${body.orderId}`)
-                });
-            });
-
-            // post the data
-            post_req.write(post_data);
-            post_req.end();
-        });
-
-    } else {
-        console.log("Checksum Mismatched");
-    }
-}
-
-const addPayment = async (data) => {
-    try {
-        await Payment.create(data);
     } catch (error) {
-        console.log("Payment Failed!");
+        console.error("Error fetching payment status:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
     }
-}
-
-exports.getPaymentStatus = asyncErrorHandler(async (req, res, next) => {
-
-    const payment = await Payment.findOne({ orderId: req.params.id });
-
-    if (!payment) {
-        return next(new ErrorHandler("Payment Details Not Found", 404));
-    }
-
-    const txn = {
-        id: payment.txnId,
-        status: payment.resultInfo.resultStatus,
-    }
-
-    res.status(200).json({
-        success: true,
-        txn,
-    });
 });
 
 // payment init.
-exports.createOrder = async (req, res, next) => {
+exports.makePayment = async (req, res, next) => {
     try {
         const { amount, currency = "INR", receipt } = req.body;
 
         const options = {
-            amount: amount * 1000,
+            amount: amount * 100,
             currency,
             receipt: receipt || `receipt_order_${Date.now()}`,
             payment_capture: 1,
@@ -172,17 +79,23 @@ exports.createOrder = async (req, res, next) => {
 }; 
 
 // payment verify
-exports.verifyPayment = (req, res, next) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+exports.verifyPayment = async (req, res, next) => {
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-    const generated_signature = crypto
-        .createHmac("sha256", RAZORPAY_KEY_SECRET)
-        .update(razorpay_order_id + "|" + razorpay_payment_id)
-        .digest("hex");
+        const generated_signature = crypto
+            .createHmac("sha256", RAZORPAY_KEY_SECRET)
+            .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+            .digest("hex");
 
-    if (generated_signature === razorpay_signature) {
-        res.status(200).json({ success: true, message: "Payment verified successfully" });
-    } else {
-        res.status(400).json({ success: false, message: "Payment verification failed" });
+        if (generated_signature === razorpay_signature) {
+            await savePayment({ orderId: razorpay_order_id, paymentId: razorpay_payment_id });
+            return res.status(200).json({ success: true, message: "Payment verified successfully" });
+        } else {
+            return res.status(400).json({ success: false, message: "Payment verification failed" });
+        }
+    } catch (error) {
+        console.error("Error in verifyPayment:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };

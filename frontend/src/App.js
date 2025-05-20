@@ -176,16 +176,11 @@ function App() {
 
         <Imports.Route path="/process/payment" element={
           <Imports.ProtectedRoute>
-            {/* // stripeApiKey && ( */}
-            {/* // <Elements stripe={loadStripe(stripeApiKey)}> */}
             <Imports.Payment />
-            {/* // </Elements> */}
-            {/* ) */}
           </Imports.ProtectedRoute>
         } ></Imports.Route>
 
         <Imports.Route path="/orders/success" element={<Imports.OrderSuccess success={true} />} />
-        {/* order process */}
 
         <Imports.Route path="/order/:id" element={
           <Imports.ProtectedRoute>
