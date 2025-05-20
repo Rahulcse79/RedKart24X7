@@ -117,7 +117,6 @@ const ProductDetails = () => {
             dispatch({ type: NEW_REVIEW_RESET });
         }
         dispatch(getProductDetails(productId));
-        // eslint-disable-next-line
     }, [dispatch, productId, error, reviewError, success, enqueueSnackbar]);
 
     useEffect(() => {
@@ -176,12 +175,10 @@ const ProductDetails = () => {
                                         <span className="text-red-500 text-sm font-medium">Hurry, Only {product.stock} left!</span>
                                     )}
                                     <p className="text-md font-medium">Available offers</p>
-                                    {/* {Array(3).fill("").map((el, i) => ( */}
-                                        <p className="text-sm flex items-center gap-1">
-                                            <span className="text-primary-lightGreen"><LocalOfferIcon sx={{ fontSize: "20px" }} /></span>
-                                            <span className="font-medium ml-2">Bank Offer</span> 15% Instant discount on first RedKart24X7 Pay Later order of 500 and above <Link className="text-primary-blue font-medium" to="/">T&C</Link>
-                                        </p>
-                                    {/* ))} */}
+                                    <p className="text-sm flex items-center gap-1">
+                                        <span className="text-primary-lightGreen"><LocalOfferIcon sx={{ fontSize: "20px" }} /></span>
+                                        <span className="font-medium ml-2">Bank Offer</span> 15% Instant discount on first RedKart24X7 Pay Later order of 500 and above <Link className="text-primary-blue font-medium" to="/">T&C</Link>
+                                    </p>
                                     <div className="flex gap-8 mt-2 items-center text-sm">
                                         <img draggable="false" className="w-20 h-8 p-0.5 border object-contain" src={product.brand?.logo.url} alt={product.brand && product.brand.name} />
                                         <span>{product.warranty} Year Warranty <Link className="font-medium text-primary-blue" to="/">Know More</Link></span>
@@ -191,7 +188,6 @@ const ProductDetails = () => {
                                         <span>Delivery by {getDeliveryDate()}</span>
                                     </div>
                                     <div className="flex flex-col sm:flex-row justify-between">
-                                        {/* <!-- highlights details --> */}
                                         <div className="flex gap-16 mt-4 items-stretch text-sm">
                                             <p className="text-gray-500 font-medium">Highlights</p>
 
@@ -203,9 +199,6 @@ const ProductDetails = () => {
                                                 ))}
                                             </ul>
                                         </div>
-                                        {/* <!-- highlights details --> */}
-
-                                        {/* <!-- services details --> */}
                                         <div className="flex gap-16 mt-4 mr-6 items-stretch text-sm">
                                             <p className="text-gray-500 font-medium">Services</p>
                                             <ul className="flex flex-col gap-2">
@@ -220,57 +213,35 @@ const ProductDetails = () => {
                                                 </li>
                                             </ul>
                                         </div>
-                                        {/* <!-- services details --> */}
                                     </div>
-                                    {/* <!-- highlights & services details --> */}
-
-                                    {/* <!-- seller details --> */}
                                     <div className="flex gap-16 mt-4 items-center text-sm font-medium">
                                         <p className="text-gray-500">Seller</p>
                                         <Link className="font-medium text-primary-blue ml-3" to="/">{product.brand && product.brand.name}</Link>
                                     </div>
-                                    {/* <!-- seller details --> */}
 
-                                    {/* <!-- RedKart24X7 plus banner --> */}
-                                    <div className="sm:w-1/2 mt-4 border">
-                                        <img draggable="false" className="w-full h-full object-contain" src="https://rukminim1.flixcart.com/lockin/763/305/images/promotion_banner_v2_active.png" alt="" />
-                                    </div>
-                                    {/* <!-- RedKart24X7 plus banner --> */}
-
-                                    {/* <!-- description details --> */}
                                     <div className="flex flex-col sm:flex-row gap-1 sm:gap-14 mt-4 items-stretch text-sm">
                                         <p className="text-gray-500 font-medium">Description</p>
                                         <span>{product.description}</span>
                                     </div>
-                                    {/* <!-- description details --> */}
 
-                                    {/* <!-- border box --> */}
                                     <div className="w-full mt-6 rounded-sm border flex flex-col">
                                         <h1 className="px-6 py-4 border-b text-2xl font-medium">Product Description</h1>
                                         <div className="p-6">
                                             <p className="text-sm">{product.description}</p>
                                         </div>
                                     </div>
-                                    {/* <!-- border box --> */}
 
-                                    {/* <!-- specifications border box --> */}
                                     <div className="w-full mt-4 pb-4 rounded-sm border flex flex-col">
                                         <h1 className="px-6 py-4 border-b text-2xl font-medium">Specifications</h1>
                                         <h1 className="px-6 py-3 text-lg">General</h1>
-
-                                        {/* <!-- specs list --> */}
                                         {product.specifications?.map((spec, i) => (
                                             <div className="px-6 py-2 flex items-center text-sm" key={i}>
                                                 <p className="text-gray-500 w-3/12">{spec.title}</p>
                                                 <p className="flex-1">{spec.description}</p>
                                             </div>
                                         ))}
-                                        {/* <!-- specs list --> */}
-
                                     </div>
-                                    {/* <!-- specifications border box --> */}
 
-                                    {/* <!-- reviews border box --> */}
                                     <div className="w-full mt-4 rounded-sm border flex flex-col">
                                         <div className="flex justify-between items-center border-b px-6 py-4">
                                             <h1 className="text-2xl font-medium">Ratings & Reviews</h1>
@@ -333,17 +304,10 @@ const ProductDetails = () => {
                                             <button onClick={() => setViewAll(!viewAll)} className="w-1/3 m-2 rounded-sm shadow hover:shadow-lg py-2 bg-primary-blue text-white">{viewAll ? "View Less" : "View All"}</button>
                                         }
                                     </div>
-                                    {/* <!-- reviews border box --> */}
-
                                 </div>
-
                             </div>
-                            {/* <!-- product desc wrapper --> */}
-
                         </div>
-                        {/* <!-- product image & description container --> */}
 
-                        {/* Sliders */}
                         <div className="flex flex-col gap-3 mt-6">
                             <ProductSlider title={"Similar Products"} tagline={"Based on the category"} />
                         </div>

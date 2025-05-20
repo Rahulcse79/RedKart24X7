@@ -94,7 +94,7 @@ export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-        const { data } = await axios.get(`/api/v1/seller/d2/product/${id}`);
+        const { data } = await axios.get(`/api/v1/product/${id}`);
 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,

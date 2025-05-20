@@ -58,7 +58,6 @@ const reducer = combineReducers({
     productAdminAction: productAdminReducer,
     deleteRequestUser: deleteRequestUserReducer,
     deactivateUser: deactivateUserReducer,
-
 });
 
 let initialState = {

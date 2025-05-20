@@ -3,16 +3,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PriceSidebar from './PriceSidebar';
 import Stepper from './Stepper';
-// import {
-//     CardNumberElement,
-//     CardCvcElement,
-//     CardExpiryElement,
-//     useStripe,
-//     useElements,
-// } from '@stripe/react-stripe-js';
-import { clearErrors } from '../../actions/orderAction';
+import { SiRazorpay } from "react-icons/si";
+import CashOnDelivery from "../../assets/images/cashOnDelivery.jpeg";
+import { clearErrors, getPaymentRazorpayStatus, getPaymentRazorpayVerifyStatus } from '../../actions/orderAction';
 import { useSnackbar } from 'notistack';
-import { post } from '../../utils/paytmForm';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
@@ -20,66 +14,100 @@ import RadioGroup from '@mui/material/RadioGroup';
 import MetaData from '../Layouts/MetaData';
 
 const Payment = () => {
-
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
-    // const stripe = useStripe();
-    // const elements = useElements();
-    // const paymentBtn = useRef(null);
-
     const [payDisable, setPayDisable] = useState(false);
+    const [selectedPayment, setSelectedPayment] = useState("razorpay");
 
     const { shippingInfo, cartItems } = useSelector((state) => state.cart);
     const { user } = useSelector((state) => state.user);
     const { error } = useSelector((state) => state.newOrder);
 
-    const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    const paymentData = {
-        amount: Math.round(totalPrice),
-        email: user.email,
-        phoneNo: shippingInfo.phoneNo,
+    const handlePaymentChange = (event) => {
+        setSelectedPayment(event.target.value);
     };
-
-    // const order = {
-    //     shippingInfo,
-    //     orderItems: cartItems,
-    //     totalPrice,
-    // }
 
     const submitHandler = async (e) => {
         e.preventDefault();
-    
         setPayDisable(true);
-    
+
+        if (selectedPayment !== "razorpay") {
+            enqueueSnackbar("Only razorpay are supported in this flow", { variant: "error" });
+            setPayDisable(false);
+            return;
+        }
+
         try {
-            const config = {
-                headers: {
-                    "Content-Type": "application/json",
+            const paymentData = {
+                amount: Math.round(totalPrice),
+                email: user.email,
+                phoneNo: shippingInfo.phoneNo,
+            };
+            const createRes = await dispatch(getPaymentRazorpayStatus(paymentData));
+            if (!createRes || !createRes.payload) {
+                throw new Error("Something went wrong while creating the Razorpay order");
+            }
+
+            const order = createRes.payload.order;
+            if (!order?.id) {
+                throw new Error("Failed to create Razorpay order");
+            }
+
+            const options = {
+                key: "rzp_test_A9ARY3IyT4zsWe",
+                amount: order.amount,
+                currency: order.currency,
+                name: "My Shop",
+                description: "Order Payment",
+                image: "/logo.png",
+                order_id: order.id,
+                handler: async function (response) {
+                    try {
+                        const verifyData = {
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature,
+                        };
+
+                        const verifyRes = await dispatch(getPaymentRazorpayVerifyStatus(verifyData));
+
+                        if (verifyRes?.success) {
+                            enqueueSnackbar("Payment successful!", { variant: "success" });
+                        } else {
+                            enqueueSnackbar("Payment verification failed", { variant: "error" });
+                        }
+                    } catch (error) {
+                        enqueueSnackbar("Error verifying payment", { variant: "error" });
+                    }
+                },
+                prefill: {
+                    name: user?.name,
+                    email: user?.email,
+                    contact: shippingInfo?.phoneNo,
+                },
+                notes: {
+                    address: `${shippingInfo?.address}, ${shippingInfo?.city}, ${shippingInfo?.state}`,
+                },
+                theme: {
+                    color: "#3399cc",
                 },
             };
-    
-            const { data } = await axios.post(
-                '/api/v1/payment/process',
-                paymentData,
-                config,
-            );
-    
-            let info = {
-                action: "https://securegw-stage.paytm.in/order/process",
-                params: data.paytmParams
+
+            if (window.Razorpay) {
+                const rzp = new window.Razorpay(options);
+                rzp.open();
+            } else {
+                enqueueSnackbar("Razorpay SDK not loaded", { variant: "error" });
             }
-    
-            post(info);
-    
-        } catch (error) {
+
+        } catch (err) {
+            enqueueSnackbar("Something went wrong with payment", { variant: "error" });
+        } finally {
             setPayDisable(false);
-            const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
-            enqueueSnackbar(errorMessage, { variant: "error" });
         }
     };
-    
 
     useEffect(() => {
         if (error) {
@@ -88,61 +116,64 @@ const Payment = () => {
         }
     }, [dispatch, error, enqueueSnackbar]);
 
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.async = true;
+        document.body.appendChild(script);
+    }, []);
 
     return (
         <>
             <MetaData title="RedKart24X7: Secure Payment | Paytm" />
-
             <main className="w-full mt-20">
-
-                {/* <!-- row --> */}
                 <div className="flex flex-col sm:flex-row gap-3.5 w-full sm:w-11/12 mt-0 sm:mt-4 m-auto sm:mb-7">
-
-                    {/* <!-- cart column --> */}
                     <div className="flex-1">
-
                         <Stepper activeStep={3}>
                             <div className="w-full bg-white">
-
-                                <form onSubmit={(e) => submitHandler(e)} autoComplete="off" className="flex flex-col justify-start gap-2 w-full mx-8 my-4 overflow-hidden">
+                                <form onSubmit={submitHandler} className="flex flex-col justify-start gap-2 w-full mx-8 my-4">
                                     <FormControl>
                                         <RadioGroup
                                             aria-labelledby="payment-radio-group"
-                                            defaultValue="paytm"
                                             name="payment-radio-button"
+                                            value={selectedPayment}
+                                            onChange={handlePaymentChange}
                                         >
-                                            <FormControlLabel
-                                                value="paytm"
-                                                control={<Radio />}
-                                                label={
-                                                    <div className="flex items-center gap-4">
-                                                        <img draggable="false" className="h-6 w-6 object-contain" src="https://rukminim1.flixcart.com/www/96/96/promos/01/09/2020/a07396d4-0543-4b19-8406-b9fcbf5fd735.png" alt="Paytm Logo" />
-                                                        <span>Paytm</span>
-                                                    </div>
-                                                }
-                                            />
+                                            <div className="flex gap-8 flex-col sm:flex-row">
+                                                <FormControlLabel
+                                                    value="razorpay"
+                                                    control={<Radio />}
+                                                    label={
+                                                        <div className="flex items-center gap-4">
+                                                            <SiRazorpay className="text-blue-400 text-lg" />
+                                                            <span>Razorpay</span>
+                                                        </div>
+                                                    }
+                                                />
+                                                <FormControlLabel
+                                                    value="cashOnDelivery"
+                                                    control={<Radio />}
+                                                    label={
+                                                        <div className="flex items-center gap-4">
+                                                            <img className="h-6 w-6" src={CashOnDelivery} alt="COD" />
+                                                            <span>Cash on delivery</span>
+                                                        </div>
+                                                    }
+                                                    disabled
+                                                />
+                                            </div>
                                         </RadioGroup>
                                     </FormControl>
-
-                                    <input type="submit" value={`Pay ₹${totalPrice.toLocaleString()}`} disabled={payDisable ? true : false} className={`${payDisable ? "bg-primary-grey cursor-not-allowed" : "bg-primary-orange cursor-pointer"} w-1/2 sm:w-1/4 my-2 py-3 font-medium text-white shadow hover:shadow-lg rounded-sm uppercase outline-none`} />
-
+                                    <input
+                                        type="submit"
+                                        value={`Pay ₹${totalPrice.toLocaleString()}`}
+                                        disabled={payDisable}
+                                        className={`w-1/2 sm:w-1/4 my-2 py-3 font-medium text-white shadow hover:shadow-lg rounded-sm uppercase outline-none ${payDisable
+                                            ? "bg-gray-400 cursor-not-allowed"
+                                            : "bg-red-600 hover:bg-red-700 cursor-pointer"
+                                            }`}
+                                    />
                                 </form>
-
-                                {/* stripe form */}
-                                {/* <form onSubmit={(e) => submitHandler(e)} autoComplete="off" className="flex flex-col justify-start gap-3 w-full sm:w-3/4 mx-8 my-4">
-                                <div>
-                                    <CardNumberElement />
-                                </div>
-                                <div>
-                                    <CardExpiryElement />
-                                </div>
-                                <div>
-                                    <CardCvcElement />
-                                </div>
-                                <input ref={paymentBtn} type="submit" value="Pay" className="bg-primary-orange w-full sm:w-1/3 my-2 py-3.5 text-sm font-medium text-white shadow hover:shadow-lg rounded-sm uppercase outline-none cursor-pointer" />
-                            </form> */}
-                                {/* stripe form */}
-
                             </div>
                         </Stepper>
                     </div>

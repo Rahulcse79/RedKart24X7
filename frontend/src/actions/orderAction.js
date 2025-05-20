@@ -1,5 +1,11 @@
 import axios from "axios";
-import { ALL_ORDERS_FAIL, ALL_ORDERS_REQUEST, ALL_ORDERS_SUCCESS, CLEAR_ERRORS, DELETE_ORDER_FAIL, DELETE_ORDER_REQUEST, DELETE_ORDER_SUCCESS, MY_ORDERS_FAIL, MY_ORDERS_REQUEST, MY_ORDERS_SUCCESS, NEW_ORDER_FAIL, NEW_ORDER_REQUEST, NEW_ORDER_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, PAYMENT_STATUS_FAIL, PAYMENT_STATUS_REQUEST, PAYMENT_STATUS_SUCCESS, UPDATE_ORDER_FAIL, UPDATE_ORDER_REQUEST, UPDATE_ORDER_SUCCESS } from "../constants/orderConstants";
+import {
+    ALL_ORDERS_FAIL, ALL_ORDERS_REQUEST, ALL_ORDERS_SUCCESS,
+    CLEAR_ERRORS, DELETE_ORDER_FAIL, DELETE_ORDER_REQUEST, DELETE_ORDER_SUCCESS, MY_ORDERS_FAIL,
+    MY_ORDERS_REQUEST, MY_ORDERS_SUCCESS, NEW_ORDER_FAIL, NEW_ORDER_REQUEST, NEW_ORDER_SUCCESS,
+    ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, PAYMENT_STATUS_FAIL, PAYMENT_STATUS_REQUEST,
+    PAYMENT_STATUS_SUCCESS, PAYMENT_RAZORPAY_VERIFY_STATUS_REQUEST, PAYMENT_RAZORPAY_VERIFY_STATUS_SUCCESS, PAYMENT_RAZORPAY_VERIFY_STATUS_FAIL, PAYMENT_RAZORPAY_STATUS_FAIL, PAYMENT_RAZORPAY_STATUS_SUCCESS, PAYMENT_RAZORPAY_STATUS_REQUEST, UPDATE_ORDER_FAIL, UPDATE_ORDER_REQUEST, UPDATE_ORDER_SUCCESS
+} from "../constants/orderConstants";
 
 // New Order
 export const newOrder = (order) => async (dispatch) => {
@@ -64,6 +70,51 @@ export const getOrderDetails = (id) => async (dispatch) => {
             type: ORDER_DETAILS_FAIL,
             payload: error.response.data.message,
         });
+    }
+};
+
+// Post payment razorpay status
+export const getPaymentRazorpayStatus = (paymentDetails) => async (dispatch) => {
+    try {
+        dispatch({ type: PAYMENT_RAZORPAY_STATUS_REQUEST });
+
+        const config = { headers: { "Content-Type": "application/json" } };
+
+        const { data } = await axios.post('/api/v1/payment/razorpay', paymentDetails, config);
+
+        dispatch({ type: PAYMENT_RAZORPAY_STATUS_SUCCESS, payload: data });
+
+        return { payload: data };
+    } catch (error) {
+        dispatch({
+            type: PAYMENT_RAZORPAY_STATUS_FAIL,
+            payload: error.response?.data?.message || error.message,
+        });
+        return null;
+    }
+};
+
+// Post payment razorpay verify status
+export const getPaymentRazorpayVerifyStatus = (paymentDetails) => async (dispatch) => {
+    try {
+        dispatch({ type: PAYMENT_RAZORPAY_VERIFY_STATUS_REQUEST });
+
+        const config = { headers: { "Content-Type": "application/json" } };
+        const { data } = await axios.post('/api/v1/payment/razorpay/verify', paymentDetails, config);
+
+        dispatch({
+            type: PAYMENT_RAZORPAY_VERIFY_STATUS_SUCCESS,
+            payload: data,
+        });
+
+        return data; 
+    } catch (error) {
+        dispatch({
+            type: PAYMENT_RAZORPAY_VERIFY_STATUS_FAIL,
+            payload: error.response?.data?.message || error.message,
+        });
+
+        throw error;
     }
 };
 

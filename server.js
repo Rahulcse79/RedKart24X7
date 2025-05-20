@@ -17,12 +17,6 @@ process.on('uncaughtException', (err) => {
 // Connect to database
 connectDatabase();
 
-// Log Cloudinary ENV vars for debugging
-console.log('Cloudinary ENV Vars:');
-console.log('CLOUDINARY_NAME:', process.env.CLOUDINARY_NAME);
-console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY);
-console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET ? '*****' : 'Not Set');
-
 // Cloudinary Config
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -30,7 +24,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-console.log('Cloudinary configured ✅');
+console.log('Cloudinary configured');
 
 // Deployment setup
 __dirname = path.resolve();

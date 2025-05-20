@@ -7,7 +7,7 @@ const router = express.Router();
 router.route('/order/new').post(isAuthenticatedUser, newOrder);
 router.route('/order/:id').get(isAuthenticatedUser, getSingleOrderDetails);
 router.route('/orders/me').get(isAuthenticatedUser, myOrders);
-router.route('/orders').get(isAuthenticatedSeller, getAllOrders);
+// router.route('/orders').get(isAuthenticatedSeller, getAllOrders);
 
 
 module.exports = router;

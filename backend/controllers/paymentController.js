@@ -1,36 +1,25 @@
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const paytm = require('paytmchecksum');
 const https = require('https');
 const Payment = require('../models/paymentModel');
 const ErrorHandler = require('../utils/errorHandler');
 const { v4: uuidv4 } = require('uuid');
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+require('dotenv').config();
 
-// exports.processPayment = asyncErrorHandler(async (req, res, next) => {
-//     const myPayment = await stripe.paymentIntents.create({
-//         amount: req.body.amount,
-//         currency: "inr",
-//         metadata: {
-//             company: "RedKart24X7",
-//         },
-//     });
+const RAZORPAY_KEY_ID = "rzp_test_A9ARY3IyT4zsWe";
+const RAZORPAY_KEY_SECRET = "WtzPcGKVL2GRuKPQXsy7hsyw";
 
-//     res.status(200).json({
-//         success: true,
-//         client_secret: myPayment.client_secret, 
-//     });
-// });
-
-// exports.sendStripeApiKey = asyncErrorHandler(async (req, res, next) => {
-//     res.status(200).json({ stripeApiKey: process.env.STRIPE_API_KEY });
-// });
+const razorpayInstance = new Razorpay({ 
+    key_id: RAZORPAY_KEY_ID,
+    key_secret: RAZORPAY_KEY_SECRET,
+});
 
 // Process Payment
 exports.processPayment = asyncErrorHandler(async (req, res, next) => {
 
     const { amount, email, phoneNo } = req.body;
-    console.log(req.body)
-
     var params = {};
 
     params["MID"] = process.env.PAYTM_MID;
@@ -65,14 +54,11 @@ exports.processPayment = asyncErrorHandler(async (req, res, next) => {
 // Paytm Callback
 exports.paytmResponse = (req, res, next) => {
 
-    // console.log(req.body);
-
     let paytmChecksum = req.body.CHECKSUMHASH;
     delete req.body.CHECKSUMHASH;
 
     let isVerifySignature = paytm.verifySignature(req.body, process.env.PAYTM_MERCHANT_KEY, paytmChecksum);
     if (isVerifySignature) {
-        // console.log("Checksum Matched");
 
         var paytmParams = {};
 
@@ -157,3 +143,46 @@ exports.getPaymentStatus = asyncErrorHandler(async (req, res, next) => {
         txn,
     });
 });
+
+// payment init.
+exports.createOrder = async (req, res, next) => {
+    try {
+        const { amount, currency = "INR", receipt } = req.body;
+
+        const options = {
+            amount: amount * 1000,
+            currency,
+            receipt: receipt || `receipt_order_${Date.now()}`,
+            payment_capture: 1,
+        };
+
+        const order = await razorpayInstance.orders.create(options);
+
+        if (!order) {
+            return res.status(500).json({ success: false, message: "Order creation failed" });
+        }
+
+        res.status(200).json({
+            success: true,
+            order,
+        });
+    } catch (error) {
+        next(error);
+    }
+}; 
+
+// payment verify
+exports.verifyPayment = (req, res, next) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    const generated_signature = crypto
+        .createHmac("sha256", RAZORPAY_KEY_SECRET)
+        .update(razorpay_order_id + "|" + razorpay_payment_id)
+        .digest("hex");
+
+    if (generated_signature === razorpay_signature) {
+        res.status(200).json({ success: true, message: "Payment verified successfully" });
+    } else {
+        res.status(400).json({ success: false, message: "Payment verification failed" });
+    }
+};

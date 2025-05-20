@@ -1,6 +1,7 @@
 const UserModel = require('../models/userModel');
 const SellerModel = require('../models/sellerModel');
 const ProductModel = require('../models/productModel');
+const OrderModel = require('../models/orderModel');
 const SellerDataModel = require('../models/sellerDataModel');
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
 const ErrorHandler = require('../utils/errorHandler');
@@ -580,3 +581,28 @@ async function updateStock(id, quantity) {
         throw error;
     }
 }
+
+// Get all orders
+exports.getAllOrders = asyncErrorHandler(async (req, res, next) => {
+    try {
+        const orders = await OrderModel.find();
+
+        if (!orders) {
+            return next(new ErrorHandler("Order Not Found", 404));
+        }
+
+        let totalAmount = 0;
+        orders.forEach((order) => {
+            totalAmount += order.totalPrice;
+        });
+
+        res.status(200).json({
+            success: true,
+            orders,
+            totalAmount,
+        });
+    } catch (error) {
+        console.error("[GET_ALL_ORDERS] Error:", error);
+        return next(new ErrorHandler("Failed to fetch orders", 500));
+    }
+});

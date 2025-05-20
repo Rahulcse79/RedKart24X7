@@ -214,7 +214,6 @@ export const loginSeller = (email, password) => async (dispatch) => {
             { email, password },
             config
         );
-        console.log(data)
         dispatch({
             type: LOGIN_SELLER_SUCCESS,
             payload: data.user,
