@@ -1,63 +1,31 @@
 const mongoose = require('mongoose');
 
 const paymentSchema = new mongoose.Schema({
-    resultInfo: {
-        resultStatus: {
-            type: String,
-            required: true
-        },
-        resultCode: {
-            type: String,
-            required: true
-        },
-        resultMsg: {
-            type: String,
-            required: true
-        },
-    },
-    txnId: {
-        type: String,
-        required: true
-    },
-    bankTxnId: {
-        type: String,
-        required: true
-    },
     orderId: {
         type: String,
         required: true
     },
-    txnAmount: {
+    paymentId: {
         type: String,
         required: true
     },
-    txnType: {
-        type: String,
-        required: true
+    signature: {
+        type: String
     },
-    gatewayName: {
+    status: {
         type: String,
-        required: true
+        enum: ["success", "failed", "pending"],
+        default: "success"
     },
-    bankName: {
-        type: String,
-        required: true
+    amount: {
+        type: Number
     },
-    mid: {
+    currency: {
         type: String,
-        required: true
+        default: "INR"
     },
-    paymentMode: {
-        type: String,
-        required: true
-    },
-    refundAmt: {
-        type: String,
-        required: true
-    },
-    txnDate: {
-        type: String,
-        required: true
+    receipt: {
+        type: String
     },
     createdAt: {
         type: Date,

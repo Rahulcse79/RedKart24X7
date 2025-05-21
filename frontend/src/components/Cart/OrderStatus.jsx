@@ -6,18 +6,16 @@ import { emptyCart } from '../../actions/cartAction';
 import { clearErrors, getPaymentStatus, newOrder } from '../../actions/orderAction';
 import Loader from '../Layouts/Loader';
 
-const OrderStatus = () => {
+const OrderStatus = () => {  
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     const { enqueueSnackbar } = useSnackbar();
     const params = useParams();
 
     const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-
     const { loading, txn, error } = useSelector((state) => state.paymentStatus);
     const { loading: orderLoading, order, error: orderError } = useSelector((state) => state.newOrder);
-
     const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
     const orderData = {
@@ -29,7 +27,7 @@ const OrderStatus = () => {
     useEffect(() => {
         if (loading === false) {
             if(txn) {
-                if (txn.status === "TXN_SUCCESS") {
+                if (txn.status === "success") { 
                     orderData.paymentInfo = {
                         id: txn.id,
                         status: txn.status,
@@ -45,7 +43,6 @@ const OrderStatus = () => {
                 navigate("/cart");
             }
         }
-        // eslint-disable-next-line
     }, [loading])
 
     useEffect(() => {

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PriceSidebar from './PriceSidebar';
@@ -12,9 +11,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import MetaData from '../Layouts/MetaData';
+import { useNavigate } from 'react-router-dom';
 
 const Payment = () => {
+
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
     const [payDisable, setPayDisable] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState("razorpay");
@@ -23,7 +25,7 @@ const Payment = () => {
     const { user } = useSelector((state) => state.user);
     const { error } = useSelector((state) => state.newOrder);
 
-    const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
     const handlePaymentChange = (event) => {
         setSelectedPayment(event.target.value);
@@ -74,7 +76,9 @@ const Payment = () => {
                         const verifyRes = await dispatch(getPaymentRazorpayVerifyStatus(verifyData));
 
                         if (verifyRes?.success) {
+                            console.log(verifyData.razorpay_order_id)
                             enqueueSnackbar("Payment successful!", { variant: "success" });
+                            navigate(`/order/${verifyData.razorpay_order_id}`);
                         } else {
                             enqueueSnackbar("Payment verification failed", { variant: "error" });
                         }

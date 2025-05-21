@@ -2,53 +2,59 @@ const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
 const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
 const ErrorHandler = require('../utils/errorHandler');
-const sendEmail = require('../utils/sendEmail');
+const { SendmailTootp } = require('../utils/sendEmail');
 
 // Create New Order
 exports.newOrder = asyncErrorHandler(async (req, res, next) => {
-    try {
-        const {
-            shippingInfo,
-            orderItems,
-            paymentInfo,
-            totalPrice,
-        } = req.body;
+    const {
+        shippingInfo,
+        orderItems,
+        paymentInfo,
+        totalPrice,
+    } = req.body;
 
-        const orderExist = await Order.findOne({ paymentInfo });
+    const orderExist = await Order.findOne({ paymentInfo });
 
-        if (orderExist) {
-            return next(new ErrorHandler("Order Already Placed", 400));
-        }
-
-        const order = await Order.create({
-            shippingInfo,
-            orderItems,
-            paymentInfo,
-            totalPrice,
-            paidAt: Date.now(),
-            user: req.user._id,
-        });
-
-        await sendEmail({
-            email: req.user.email,
-            templateId: process.env.SENDGRID_ORDER_TEMPLATEID,
-            data: {
-                name: req.user.name,
-                shippingInfo,
-                orderItems,
-                totalPrice,
-                oid: order._id,
-            }
-        });
-
-        res.status(201).json({
-            success: true,
-            order,
-        });
-    } catch (error) {
-        console.error("[NEW_ORDER] Error:", error);
-        return next(new ErrorHandler("Failed to create new order", 500));
+    if (orderExist) {
+        return next(new ErrorHandler("Order Already Placed", 400));
     }
+
+    const order = await Order.create({
+        shippingInfo,
+        orderItems,
+        paymentInfo,
+        totalPrice,
+        paidAt: Date.now(),
+        user: req.user._id,
+    });
+
+    // Email subject and text
+    const subject = `Order Confirmation - RedKart24X7`;
+    const text = `
+Dear ${req.user.name},
+
+Thank you for placing an order with RedKart24X7!
+
+Order ID: ${order._id}
+Total Price: ₹${totalPrice}
+
+We will notify you when your order ships.
+
+Best regards,  
+RedKart24X7 Team
+    `;
+
+    try {
+        await SendmailTootp(req.user.email, subject, text);
+    } catch (error) {
+        console.error("[EMAIL ERROR] Failed to send order confirmation:", error);
+        // Optionally: don't stop order creation just because email failed
+    }
+
+    res.status(201).json({
+        success: true,
+        order,
+    });
 });
 
 // Get All Orders

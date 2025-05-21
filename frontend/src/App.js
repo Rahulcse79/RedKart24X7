@@ -176,16 +176,11 @@ function App() {
 
         <Imports.Route path="/process/payment" element={
           <Imports.ProtectedRoute>
-            {/* // stripeApiKey && ( */}
-            {/* // <Elements stripe={loadStripe(stripeApiKey)}> */}
             <Imports.Payment />
-            {/* // </Elements> */}
-            {/* ) */}
           </Imports.ProtectedRoute>
         } ></Imports.Route>
 
         <Imports.Route path="/orders/success" element={<Imports.OrderSuccess success={true} />} />
-        {/* order process */}
 
         <Imports.Route path="/order/:id" element={
           <Imports.ProtectedRoute>
@@ -235,73 +230,79 @@ function App() {
           </Imports.ProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/admin/dashboard" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={0}>
-              <Imports.MainData />
-            </Imports.Dashboard>
+        <Imports.Route path="/chat-box" element={
+          <Imports.ProtectedRoute>
+            <Imports.ChatBox />
           </Imports.ProtectedRoute>
         } ></Imports.Route>
 
-        <Imports.Route path="/admin/orders" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={1}>
-              <Imports.OrderTable />
-            </Imports.Dashboard>
-          </Imports.ProtectedRoute>
-        } ></Imports.Route>
+      <Imports.Route path="/admin/dashboard" element={
+        <Imports.ProtectedRoute isAdmin={true}>
+          <Imports.Dashboard activeTab={0}>
+            <Imports.MainData />
+          </Imports.Dashboard>
+        </Imports.ProtectedRoute>
+      } ></Imports.Route>
 
-        <Imports.Route path="/admin/order/:id" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={1}>
-              <Imports.UpdateOrder />
-            </Imports.Dashboard>
-          </Imports.ProtectedRoute>
-        } ></Imports.Route>
+      <Imports.Route path="/admin/orders" element={
+        <Imports.ProtectedRoute isAdmin={true}>
+          <Imports.Dashboard activeTab={1}>
+            <Imports.OrderTable />
+          </Imports.Dashboard>
+        </Imports.ProtectedRoute>
+      } ></Imports.Route>
 
-        <Imports.Route path="/admin/products" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={2}>
-              <Imports.ProductTable />
-            </Imports.Dashboard>
-          </Imports.ProtectedRoute>
-        } ></Imports.Route>
+      <Imports.Route path="/admin/order/:id" element={
+        <Imports.ProtectedRoute isAdmin={true}>
+          <Imports.Dashboard activeTab={1}>
+            <Imports.UpdateOrder />
+          </Imports.Dashboard>
+        </Imports.ProtectedRoute>
+      } ></Imports.Route>
 
-        <Imports.Route path="/admin/accounts/product/:id" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={2}>
-              <Imports.UpdateProduct />
-            </Imports.Dashboard>
-          </Imports.ProtectedRoute>
-        } ></Imports.Route>
+      <Imports.Route path="/admin/products" element={
+        <Imports.ProtectedRoute isAdmin={true}>
+          <Imports.Dashboard activeTab={2}>
+            <Imports.ProductTable />
+          </Imports.Dashboard>
+        </Imports.ProtectedRoute>
+      } ></Imports.Route>
 
-        <Imports.Route path="/admin/accounts" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={3}>
-              <Imports.AccountsTable />
-            </Imports.Dashboard>
-          </Imports.ProtectedRoute>
-        } ></Imports.Route>
+      <Imports.Route path="/admin/accounts/product/:id" element={
+        <Imports.ProtectedRoute isAdmin={true}>
+          <Imports.Dashboard activeTab={2}>
+            <Imports.UpdateProduct />
+          </Imports.Dashboard>
+        </Imports.ProtectedRoute>
+      } ></Imports.Route>
 
-        <Imports.Route path="/admin/accounts/:account/:id" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={3}>
-              <Imports.UpdateUserAndSeller />
-            </Imports.Dashboard>
-          </Imports.ProtectedRoute>
-        } ></Imports.Route>
+      <Imports.Route path="/admin/accounts" element={
+        <Imports.ProtectedRoute isAdmin={true}>
+          <Imports.Dashboard activeTab={3}>
+            <Imports.AccountsTable />
+          </Imports.Dashboard>
+        </Imports.ProtectedRoute>
+      } ></Imports.Route>
 
-        <Imports.Route path="/admin/reviews" element={
-          <Imports.ProtectedRoute isAdmin={true}>
-            <Imports.Dashboard activeTab={4}>
-              <Imports.ReviewsTable />
-            </Imports.Dashboard>
-          </Imports.ProtectedRoute>
-        } ></Imports.Route>
+      <Imports.Route path="/admin/accounts/:account/:id" element={
+        <Imports.ProtectedRoute isAdmin={true}>
+          <Imports.Dashboard activeTab={3}>
+            <Imports.UpdateUserAndSeller />
+          </Imports.Dashboard>
+        </Imports.ProtectedRoute>
+      } ></Imports.Route>
 
-        <Imports.Route path="*" element={<Imports.NotFound />}></Imports.Route>
+      <Imports.Route path="/admin/reviews" element={
+        <Imports.ProtectedRoute isAdmin={true}>
+          <Imports.Dashboard activeTab={4}>
+            <Imports.ReviewsTable />
+          </Imports.Dashboard>
+        </Imports.ProtectedRoute>
+      } ></Imports.Route>
 
-      </Imports.Routes >
+      <Imports.Route path="*" element={<Imports.NotFound />}></Imports.Route>
+
+    </Imports.Routes >
       <Imports.Footer />
     </>
   );
