@@ -16,6 +16,8 @@ const ChatBox = () => {
     const [input, setInput] = useState("");
     const scrollRef = useRef(null);
 
+    
+
     const handleSend = () => {
         if (!input.trim()) return;
         setMessages((prev) => [

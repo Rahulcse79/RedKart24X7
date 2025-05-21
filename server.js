@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const cloudinary = require('cloudinary');
 const app = require('./backend/app');
+const { initWebSocketServer } = require('./backend/config/webSocket');
 const connectDatabase = require('./backend/config/database');
 const PORT = process.env.PORT || 4000;
 
@@ -44,6 +45,9 @@ if (process.env.NODE_ENV === 'production') {
 const server = app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Web socket 
+initWebSocketServer(server);
 
 // Unhandled Promise Rejection
 process.on('unhandledRejection', (err) => {
