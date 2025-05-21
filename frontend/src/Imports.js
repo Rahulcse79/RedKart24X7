@@ -12,6 +12,9 @@ export { loadSeller } from './actions/SellerAction';
 export { default as Header } from './components/Layouts/Header/Header';
 export { default as Footer } from './components/Layouts/Footer/Footer';
 
+// Chat box
+export { default as ChatBox } from './components/Chat/chatBox';
+
 // User Components
 export { default as Login } from './components/User/Login';
 export { default as Register } from './components/User/Register';
